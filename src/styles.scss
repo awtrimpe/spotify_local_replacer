@@ -1,0 +1,45 @@
+@import '../node_modules/primeflex/primeflex.css';
+@import 'primeicons/primeicons.css';
+
+body {
+  background-color: var(--p-gray-100);
+  min-height: 100vh;
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.playlist-container {
+  p-card {
+    width: 20em;
+
+    .p-card-title {
+      text-wrap: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  }
+}
+
+.full-height-card {
+  .p-card {
+    height: 100%;
+
+    .p-card-body {
+      height: 100%;
+
+      .p-card-content {
+        height: 100%;
+      }
+    }
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: var(--p-gray-700);
+  }
+}
