@@ -13,7 +13,6 @@ import SpotifyWebApi from 'spotify-web-api-js';
 import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
-  selector: 'home',
   imports: [
     AccordionModule,
     ButtonModule,
@@ -66,7 +65,6 @@ export class HomeComponent implements OnInit {
         .then((resp) => {
           this.playlists = resp;
           sessionStorage.setItem('playlists', JSON.stringify(resp));
-          const a = resp.items[0];
           this.loading = false;
         })
         .catch((err) => {
@@ -103,7 +101,7 @@ export class HomeComponent implements OnInit {
         this.selectedPlaylistTotal = resp.total;
         this.trackJumpOptions = [];
         for (
-          var i = 0;
+          let i = 0;
           i < Math.floor(this.selectedPlaylistTotal / 100) + 1;
           i++
         ) {

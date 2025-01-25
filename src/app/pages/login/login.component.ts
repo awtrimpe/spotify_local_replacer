@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 import { AuthService } from '../../services/auth/auth.service';
 
 /**  Create the component */
 @Component({
-  selector: 'login',
   template: `<h3>Redirecting to Spotify login</h3>`,
 })
 export class LoginComponent implements OnInit {
@@ -22,7 +22,9 @@ export class LoginComponent implements OnInit {
         '&response_type=token' +
         '&scope=playlist-modify-public playlist-modify-private playlist-read-private playlist-read-collaborative' +
         '&redirect_uri=' +
-        encodeURIComponent(window.location.origin + '/oauth-callback');
+        encodeURIComponent(
+          window.location.origin + environment.basepath + '/oauth-callback',
+        );
       window.location.replace(_endPoint);
     } else {
       this.router.navigate(['/oauth']);

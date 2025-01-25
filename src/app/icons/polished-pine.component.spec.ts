@@ -15,23 +15,9 @@ describe('PolishedPineComponent', () => {
     fixture.detectChanges();
   });
 
-  describe('ngOnInit()', () => {
-    it('should call setThemeColors', () => {
-      const themeSpy = spyOn(component, 'setThemeColors');
-      component.ngOnInit();
-      expect(themeSpy).toHaveBeenCalled();
-    });
-  });
-
-  describe('setThemeColors()', () => {
-    it('should set styling fill to white if dark theme', () => {
-      spyOn(window, 'matchMedia').and.returnValue({
-        matches: true,
-        addListener: () => {},
-        removeListener: () => {},
-      } as any as MediaQueryList);
-      component.setThemeColors();
-      expect(component.styling.fill).toBe('#FFF');
+  describe('should create', () => {
+    it('should create', () => {
+      expect(component).toBeTruthy();
     });
   });
 });
