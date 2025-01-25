@@ -6,3 +6,5 @@ fs.copyFile('docs/index.html', 'docs/404.html', (err) => {
     throw err;
   }
 });
+
+fs.writeFileSync('docs/.nojekyll', '');
