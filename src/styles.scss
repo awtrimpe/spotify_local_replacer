@@ -1,11 +1,46 @@
 @import '../node_modules/primeflex/primeflex.css';
 @import 'primeicons/primeicons.css';
 
+@font-face {
+  font-family: 'Poppins Bold';
+  src: url('/fonts/Poppins/Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins Regular';
+  src: url('/fonts/Poppins/Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins Extra Light';
+  src: url('/fonts/Poppins/ExtraLight.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins Extra Light Italic';
+  src: url('/fonts/Poppins/ExtraLightItalic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins Thin';
+  src: url('/fonts/Poppins/Thin.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins Thin Italic';
+  src: url('/fonts/Poppins/ThinItalic.ttf') format('truetype');
+}
+
 body {
   background-color: var(--p-gray-100);
+  font-family: 'Poppins Regular', sans-serif;
   margin: 0px;
   min-height: 100vh;
   padding: 1em;
+}
+
+h1 {
+  font-family: 'Poppins Bold', sans-serif;
 }
 
 app-root {
@@ -40,8 +75,40 @@ app-root {
   }
 }
 
+.thin-font {
+  font-family: 'Poppins Thin', sans-serif;
+}
+
+.thin-italic-font {
+  font-family: 'Poppins Thin Italic', sans-serif;
+}
+
+// PrimeNG Changes
+
+.p-menubar {
+  .p-menubar-end {
+    display: none;
+  }
+
+  &.p-menubar-mobile-active .p-menubar-root-list {
+    width: auto;
+    left: unset !important;
+    right: 0;
+  }
+}
+
+// Dark Theme
+
 @media (prefers-color-scheme: dark) {
   body {
     background-color: var(--p-gray-700);
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .p-menubar p-menubarsub {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
   }
 }
