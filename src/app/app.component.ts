@@ -21,6 +21,11 @@ export class AppComponent {
       routerLink: '/',
     },
     {
+      label: 'Playlists',
+      icon: 'pi pi-headphones',
+      routerLink: '/playlists',
+    },
+    {
       label: 'Guide',
       icon: 'pi pi-book',
       routerLink: '/guide',
