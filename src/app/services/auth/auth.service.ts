@@ -22,7 +22,7 @@ export class AuthService {
   setExpiration(time: number) {
     const t = new Date();
     t.setSeconds(t.getSeconds() + time);
-    localStorage.setItem('exp', t.toDateString());
+    localStorage.setItem('exp', t.toString());
   }
 
   isExpired(): boolean {

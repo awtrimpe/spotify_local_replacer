@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
+import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
+import { CoffeeComponent } from '../../icons/coffee.component';
+import { VenmoComponent } from '../../icons/venmo.component';
 
 @Component({
-  imports: [PanelModule],
+  imports: [CoffeeComponent, ButtonModule, PanelModule, VenmoComponent],
   template: `
     <h1>Welcome to Spotify Local Replacer</h1>
     <p>
@@ -42,6 +45,27 @@ import { PanelModule } from 'primeng/panel';
         performed very well.
       </p>
     </p-panel>
+
+    <h2>Support</h2>
+    <div class="flex gap-2">
+      <p-button href="https://www.buymeacoffee.com/awtrimpe" target="_blank">
+        <app-coffee></app-coffee> Buy Me a Coffee
+      </p-button>
+      <p-button
+        href="https://venmo.com/code?user_id=2183113648111616180&created=1737837195"
+        target="_blank"
+      >
+        <app-venmo style="width: 1.7rem;"></app-venmo>Venmo
+      </p-button>
+    </div>
+    <br />
+    <a href="https://cash.app/$AlexTrimpe" target="_blank">
+      <img
+        src="/cash_app.png"
+        alt="Cash App QR Code"
+        class="sm:w-15rem max-w-full"
+      />
+    </a>
   `,
 })
 export class GuideComponent {}
