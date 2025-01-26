@@ -62,22 +62,7 @@ export class PlaylistComponent implements OnInit {
       this.playlists = JSON.parse(playlists);
     } else {
       this.loading = true;
-      this.spotify
-        .getUserPlaylists()
-        .then((resp) => {
-          this.playlists = resp;
-          sessionStorage.setItem('playlists', JSON.stringify(resp));
-          this.loading = false;
-        })
-        .catch((err) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Unable to find any playlists',
-            detail: err.toString(),
-            life: 10000,
-          });
-          this.loading = false;
-        });
+      this.getUsersPlaylists();
     }
   }
 
@@ -88,6 +73,25 @@ export class PlaylistComponent implements OnInit {
       this.sessionExp = true;
       window.scrollTo(0, 0);
     }, timeout);
+  }
+
+  getUsersPlaylists() {
+    this.spotify
+      .getUserPlaylists()
+      .then((resp) => {
+        this.playlists = resp;
+        sessionStorage.setItem('playlists', JSON.stringify(resp));
+        this.loading = false;
+      })
+      .catch((err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Unable to find any playlists',
+          detail: err.toString(),
+          life: 10000,
+        });
+        this.loading = false;
+      });
   }
 
   setPlaylist(playlist: SpotifyApi.PlaylistObjectSimplified) {

@@ -61,7 +61,7 @@ import { VenmoComponent } from '../../icons/venmo.component';
     <br />
     <a href="https://cash.app/$AlexTrimpe" target="_blank">
       <img
-        src="/cash_app.png"
+        src="./cash_app.png"
         alt="Cash App QR Code"
         class="sm:w-15rem max-w-full"
       />

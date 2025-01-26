@@ -16,7 +16,18 @@
 <!-- Playlists -->
 <div
   *ngIf="playlists && !selectedPlaylist"
-  class="flex flex-wrap gap-2 justify-content-center playlist-container mt-4"
+  class="mt-4 w-full flex justify-content-end"
+>
+  <p-button
+    label="Refresh"
+    icon="pi pi-sync"
+    [rounded]="true"
+    severity="secondary"
+  />
+</div>
+<div
+  *ngIf="playlists && !selectedPlaylist"
+  class="flex flex-wrap gap-2 justify-content-center playlist-container mt-1"
 >
   <p-card *ngFor="let playlist of playlists.items" [header]="playlist.name">
     <div class="m-auto" style="width: 10em; height: 10em">
