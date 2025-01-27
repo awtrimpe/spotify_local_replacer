@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../services/auth/auth.service';
 
@@ -10,6 +10,7 @@ import { AuthService } from '../../services/auth/auth.service';
 export class LoginComponent implements OnInit {
   constructor(
     private authService: AuthService,
+    private route: ActivatedRoute,
     private router: Router,
   ) {}
 
@@ -26,6 +27,7 @@ export class LoginComponent implements OnInit {
           window.location.origin + environment.basepath + '/oauth-callback',
         );
       window.location.replace(_endPoint);
+      sessionStorage.setItem('redirect', this.route.snapshot.url.join('/'));
     } else {
       this.router.navigate(['/oauth']);
     }

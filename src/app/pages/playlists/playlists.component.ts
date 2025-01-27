@@ -8,6 +8,7 @@ import { CardModule } from 'primeng/card';
 import { MessageModule } from 'primeng/message';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import SpotifyWebApi from 'spotify-web-api-js';
+import { ExpirationComponent } from '../../components/expiration/expiration.component';
 import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
@@ -16,6 +17,7 @@ import { AuthService } from '../../services/auth/auth.service';
     ButtonModule,
     CardModule,
     CommonModule,
+    ExpirationComponent,
     MessageModule,
     ProgressSpinnerModule,
     RouterModule,

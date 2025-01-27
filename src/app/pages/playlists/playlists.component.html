@@ -1,9 +1,5 @@
 <div class="flex justify-content-center w-full">
-  <p-message *ngIf="sessionExp" severity="error">
-    <b>Session Expired:</b> Please login again. Your information will not be
-    carried over so take note of your current position if you are not finished.
-    <p-button routerLink="/login" label="Login" />
-  </p-message>
+  <app-expiration></app-expiration>
   <p-progress-spinner *ngIf="loading" ariaLabel="loading" />
 </div>
 
