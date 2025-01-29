@@ -1,13 +1,21 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterModule, RouterOutlet } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { MenubarModule } from 'primeng/menubar';
+import { ScrollTopModule } from 'primeng/scrolltop';
 import { ToastModule } from 'primeng/toast';
 import { PolishedPineComponent } from './icons/polished-pine.component';
 
 @Component({
   selector: 'app-root',
-  imports: [MenubarModule, PolishedPineComponent, RouterOutlet, ToastModule],
+  imports: [
+    MenubarModule,
+    PolishedPineComponent,
+    RouterModule,
+    RouterOutlet,
+    ScrollTopModule,
+    ToastModule,
+  ],
   providers: [MessageService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',

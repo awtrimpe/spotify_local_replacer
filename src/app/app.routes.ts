@@ -4,6 +4,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { OAuthCallbackComponent } from './pages/oauth-callback/oauth-callback.component';
 import { PlaylistComponent } from './pages/playlists/playlists.component';
+import { TracksComponent } from './pages/playlists/tracks/tracks.component';
 import { AuthGuard } from './services/auth/auth.guard';
 
 export const routes: Routes = [
@@ -25,8 +26,17 @@ export const routes: Routes = [
   },
   {
     path: 'playlists',
-    component: PlaylistComponent,
     canActivate: [AuthGuard],
+    children: [
+      {
+        path: '',
+        component: PlaylistComponent,
+      },
+      {
+        path: ':id/tracks',
+        component: TracksComponent,
+      },
+    ],
   },
   {
     path: '**',
