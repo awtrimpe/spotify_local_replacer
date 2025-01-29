@@ -5,6 +5,7 @@ import { AccordionModule } from 'primeng/accordion';
 import { MenuItem, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { DialogModule } from 'primeng/dialog';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
 import { MenuModule } from 'primeng/menu';
@@ -21,6 +22,7 @@ import { AuthService } from '../../../services/auth/auth.service';
     ButtonModule,
     CardModule,
     CommonModule,
+    DialogModule,
     ExpirationComponent,
     FloatLabelModule,
     InputTextModule,
@@ -42,6 +44,8 @@ export class TracksComponent implements OnInit {
   sessionExp = false;
   spotify = new SpotifyWebApi();
   loading = false;
+  // Dialog
+  showDialog = false;
   // Selected Playlist's info
   selectedPlaylist!: SpotifyApi.PlaylistObjectSimplified;
   selectedPlaylistTotal?: number;
@@ -104,7 +108,23 @@ export class TracksComponent implements OnInit {
           return item.is_local;
         });
         this.trackPos = 0;
-        this.findTrackMatches(this.tracks[this.trackPos]);
+        if (
+          this.tracks.length < 1 &&
+          this.allPosition + 100 < this.selectedPlaylistTotal
+        ) {
+          console.log('First');
+          this.trackOffset += 100;
+          this.setPlaylist(this.selectedPlaylist!);
+        } else if (
+          this.tracks.length < 1 &&
+          this.allPosition + 100 > this.selectedPlaylistTotal
+        ) {
+          console.log('Second');
+          this.showDialog = true;
+        } else {
+          console.log('Third');
+          this.findTrackMatches(this.tracks[this.trackPos]);
+        }
         this.loading = false;
       })
       .catch((err: XMLHttpRequest) => {
