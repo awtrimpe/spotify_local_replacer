@@ -48,15 +48,16 @@ import { VenmoComponent } from '../../icons/venmo.component';
 
     <h2>Support</h2>
     <div class="flex gap-2">
-      <p-button href="https://www.buymeacoffee.com/awtrimpe" target="_blank">
+      <a pButton href="https://www.buymeacoffee.com/awtrimpe" target="_blank">
         <app-coffee></app-coffee> Buy Me a Coffee
-      </p-button>
-      <p-button
+      </a>
+      <a
+        pButton
         href="https://venmo.com/code?user_id=2183113648111616180&created=1737837195"
         target="_blank"
       >
         <app-venmo style="width: 1.7rem;"></app-venmo>Venmo
-      </p-button>
+      </a>
     </div>
     <br />
     <a href="https://cash.app/$AlexTrimpe" target="_blank">

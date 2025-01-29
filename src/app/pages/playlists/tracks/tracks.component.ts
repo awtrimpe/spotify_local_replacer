@@ -65,6 +65,7 @@ export class TracksComponent implements OnInit {
 
   ngOnInit() {
     this.spotify.setAccessToken(this.authService.getToken());
+    this.setTokenTimer();
     const playlists: SpotifyApi.ListOfUsersPlaylistsResponse = JSON.parse(
       sessionStorage.getItem('playlists') as string,
     );
@@ -77,6 +78,15 @@ export class TracksComponent implements OnInit {
     });
   }
 
+  setTokenTimer() {
+    const exp_time = this.authService.getExpiration() as Date;
+    const timeout = exp_time.getTime() - new Date().getTime();
+    setTimeout(() => {
+      this.sessionExp = true;
+      window.scrollTo(0, 0);
+    }, timeout);
+  }
+
   setPlaylist(playlist: SpotifyApi.PlaylistObjectSimplified) {
     this.selectedPlaylist = playlist;
     this.loading = true;
@@ -87,7 +97,7 @@ export class TracksComponent implements OnInit {
       })
       .then((resp) => {
         this.allTracks = resp.items;
-        this.selectedPlaylistTotal = resp.total;
+        this.selectedPlaylistTotal = resp.total || this.selectedPlaylistTotal!;
         this.trackJumpOptions = [];
         for (
           let i = 0;
@@ -110,19 +120,16 @@ export class TracksComponent implements OnInit {
         this.trackPos = 0;
         if (
           this.tracks.length < 1 &&
-          this.allPosition + 100 < this.selectedPlaylistTotal
+          this.trackOffset + 100 < this.selectedPlaylistTotal
         ) {
-          console.log('First');
           this.trackOffset += 100;
           this.setPlaylist(this.selectedPlaylist!);
         } else if (
           this.tracks.length < 1 &&
-          this.allPosition + 100 > this.selectedPlaylistTotal
+          this.trackOffset + 100 > this.selectedPlaylistTotal
         ) {
-          console.log('Second');
           this.showDialog = true;
         } else {
-          console.log('Third');
           this.findTrackMatches(this.tracks[this.trackPos]);
         }
         this.loading = false;

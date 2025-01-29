@@ -46,15 +46,6 @@ export class PlaylistComponent implements OnInit {
     }
   }
 
-  setTokenTimer() {
-    const exp_time = this.authService.getExpiration() as Date;
-    const timeout = exp_time.getTime() - new Date().getTime();
-    setTimeout(() => {
-      this.sessionExp = true;
-      window.scrollTo(0, 0);
-    }, timeout);
-  }
-
   getUsersPlaylists() {
     this.spotify
       .getUserPlaylists()
