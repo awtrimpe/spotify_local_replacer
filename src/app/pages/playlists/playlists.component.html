@@ -10,10 +10,11 @@
     icon="pi pi-sync"
     [rounded]="true"
     severity="secondary"
+    (click)="getUsersPlaylists()"
   />
 </div>
 <div
-  *ngIf="playlists; else noPlaylists"
+  *ngIf="playlists && playlists.items && !loading; else noPlaylists"
   class="flex flex-wrap gap-2 justify-content-center playlist-container mt-1"
 >
   <p-card *ngFor="let playlist of playlists.items" [header]="playlist.name">

@@ -1,11 +1,18 @@
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
 import { CoffeeComponent } from '../../icons/coffee.component';
 import { VenmoComponent } from '../../icons/venmo.component';
 
 @Component({
-  imports: [CoffeeComponent, ButtonModule, PanelModule, VenmoComponent],
+  imports: [
+    CoffeeComponent,
+    ButtonModule,
+    PanelModule,
+    RouterModule,
+    VenmoComponent,
+  ],
   template: `
     <h1>Welcome to Spotify Local Replacer</h1>
     <p>
@@ -33,6 +40,14 @@ import { VenmoComponent } from '../../icons/venmo.component';
       This tool is great for people who want to have full control of their
       playlists and ensure that each track is paired correctly.
     </p>
+    <div class="w-full flex justify-content-center">
+      <p-button
+        label="Select Playlist"
+        [rounded]="true"
+        routerLink="/playlists"
+      />
+    </div>
+    <br />
     <p-panel header="More Automation">
       <p class="m-0">
         If you are looking for a more automated solution, I recommend taking a

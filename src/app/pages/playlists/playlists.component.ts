@@ -47,6 +47,7 @@ export class PlaylistComponent implements OnInit {
   }
 
   getUsersPlaylists() {
+    this.loading = true;
     this.spotify
       .getUserPlaylists()
       .then((resp) => {

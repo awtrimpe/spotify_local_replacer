@@ -21,7 +21,8 @@ export class OAuthCallbackComponent implements OnInit {
     if (id) {
       this.authService.setToken(id);
       this.authService.setExpiration(Number(exp));
-      this.router.navigateByUrl(sessionStorage.getItem('redirect') || '');
+      const prevUrl = localStorage.getItem('redirect');
+      this.router.navigateByUrl(prevUrl ? prevUrl : '/');
     } else {
       this.router.navigateByUrl('/login');
     }

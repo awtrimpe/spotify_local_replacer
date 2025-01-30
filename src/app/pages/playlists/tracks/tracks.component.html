@@ -19,25 +19,30 @@
     <span class="p-text-secondary block mb-8"
       >Congratulations! You have reached the end of the playlist.</span
     >
-    <div class="flex justify-end gap-2">
+    <div class="flex justify-content-center gap-2">
       <p-button
         label="Restart Playlist"
         severity="secondary"
+        rounded="true"
         (click)="
           trackPos = trackOffset = 0;
           setPlaylist(selectedPlaylist);
           showDialog = false
         "
       />
-      <p-button label="Select New Playlist" routerLink="/playlists" />
+      <p-button
+        label="Select New Playlist"
+        rounded="true"
+        routerLink="/playlists"
+      />
     </div>
     <p>
-      If this application has helped save you time (and I really hope it has
-      helped you), please consider donating at one of the links in the
+      If this application has helped save you time (and I really hope it has),
+      please consider donating at one of the links in the
       <a routerLink="/guide">Guide</a>
     </p>
     <div class="flex justify-content-center">
-      <p-button label="Donate" routerLink="/guide" />
+      <p-button label="Donate" severity="info" routerLink="/guide" />
     </div>
   </p-dialog>
 </div>
