@@ -2,15 +2,19 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { SpotifyComponent } from '../../icons/spotify.component';
 
 @Component({
   selector: 'app-track-card',
-  imports: [ButtonModule, CardModule, CommonModule],
+  imports: [ButtonModule, CardModule, CommonModule, SpotifyComponent],
   template: `
-    <p-card
-      [header]="track.name"
-      class="w-20rem align-items-stretch full-height-card"
-    >
+    <p-card class="w-20rem align-items-stretch full-height-card">
+      <ng-template #header>
+        <div class="w-4 mt-3 m-auto">
+          <app-spotify />
+        </div>
+        <div class="p-card-title mx-3">{{ track.name }}</div>
+      </ng-template>
       <div class="flex justify-content-between flex-column h-full">
         <div>
           <div

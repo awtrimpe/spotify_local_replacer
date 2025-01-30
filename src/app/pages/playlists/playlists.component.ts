@@ -9,6 +9,7 @@ import { MessageModule } from 'primeng/message';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import SpotifyWebApi from 'spotify-web-api-js';
 import { ExpirationComponent } from '../../components/expiration/expiration.component';
+import { SpotifyComponent } from '../../icons/spotify.component';
 import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
@@ -21,6 +22,7 @@ import { AuthService } from '../../services/auth/auth.service';
     MessageModule,
     ProgressSpinnerModule,
     RouterModule,
+    SpotifyComponent,
   ],
   templateUrl: `./playlists.component.html`,
 })

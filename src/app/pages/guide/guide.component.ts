@@ -14,15 +14,15 @@ import { VenmoComponent } from '../../icons/venmo.component';
     VenmoComponent,
   ],
   template: `
-    <h1>Welcome to Spotify Local Replacer</h1>
+    <h1>Welcome to Local Track Replacer</h1>
     <p>
       This tool is designed to give full control to you in finding and replacing
-      local tracks added to Spotify with a relevant match of your choosing. This
-      application works as follows:
+      a playlist's local tracks within Spotify with a relevant match of your
+      choosing. This application works as follows:
     </p>
     <ol>
       <li>
-        Login to the application and grant permission to Spotify Local Replacer
+        Login to the application and grant permission to Local Spotify Replacer
       </li>
       <li>
         Select the playlist you would like to replace the local tracks inside

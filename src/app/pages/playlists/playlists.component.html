@@ -17,7 +17,13 @@
   *ngIf="playlists && playlists.items && !loading; else noPlaylists"
   class="flex flex-wrap gap-2 justify-content-center playlist-container mt-1"
 >
-  <p-card *ngFor="let playlist of playlists.items" [header]="playlist.name">
+  <p-card *ngFor="let playlist of playlists.items">
+    <ng-template #header>
+      <div class="w-4 mt-3 m-auto">
+        <app-spotify />
+      </div>
+      <div class="p-card-title mx-3">{{ playlist.name }}</div>
+    </ng-template>
     <div class="m-auto" style="width: 10em; height: 10em">
       <img
         [src]="playlist.images[0].url"
