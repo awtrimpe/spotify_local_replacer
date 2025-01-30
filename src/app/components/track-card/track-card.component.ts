@@ -13,7 +13,15 @@ import { SpotifyComponent } from '../../icons/spotify.component';
         <div class="w-4 mt-3 m-auto">
           <app-spotify />
         </div>
-        <div class="p-card-title mx-3">{{ track.name }}</div>
+        <a
+          class="p-card-title mx-3 text-primary"
+          [ngClass]="{
+            disabledLink: !track.external_urls.spotify,
+          }"
+          [href]="track.external_urls.spotify"
+          target="_blank"
+          >{{ track.name }}</a
+        >
       </ng-template>
       <div class="flex justify-content-between flex-column h-full">
         <div>
@@ -29,7 +37,16 @@ import { SpotifyComponent } from '../../icons/spotify.component';
             />
           </div>
           <p>
-            <b>Artist:</b> {{ track.artists[0].name }}
+            <b>Artist:</b>
+            <a
+              class="text-primary"
+              [ngClass]="{
+                disabledLink: !track.artists[0].external_urls.spotify,
+              }"
+              [href]="track.artists[0].external_urls.spotify"
+              target="_blank"
+              >{{ track.artists[0].name }}</a
+            >
             <ng-container *ngIf="track.artists.length > 1">
               ft.
               <ng-container
@@ -41,7 +58,19 @@ import { SpotifyComponent } from '../../icons/spotify.component';
               </ng-container>
             </ng-container>
           </p>
-          <p><b>Album:</b> {{ track.album.name }}</p>
+          <p>
+            <b>Album:</b
+            ><a
+              class="text-primary"
+              [ngClass]="{
+                disabledLink: !track.album.external_urls.spotify,
+              }"
+              [href]="track.album.external_urls.spotify"
+              target="_blank"
+            >
+              {{ track.album.name }}</a
+            >
+          </p>
           <p><b>Year:</b> {{ $any(track.album).release_date }}</p>
           <p><b>Explicit:</b> {{ $any(track).explicit }}</p>
         </div>

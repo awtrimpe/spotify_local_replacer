@@ -22,7 +22,12 @@
       <div class="w-4 mt-3 m-auto">
         <app-spotify />
       </div>
-      <div class="p-card-title mx-3">{{ playlist.name }}</div>
+      <a
+        class="p-card-title mx-3 text-primary"
+        [href]="playlist.external_urls.spotify"
+        target="_blank"
+        >{{ playlist.name }}</a
+      >
     </ng-template>
     <div class="m-auto" style="width: 10em; height: 10em">
       <img

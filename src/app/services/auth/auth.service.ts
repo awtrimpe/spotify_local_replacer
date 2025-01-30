@@ -11,7 +11,7 @@ export class AuthService {
     if (storedToken && !this.isExpired()) {
       this.token = storedToken;
     }
-    return this.token !== undefined;
+    return this.token !== undefined && !this.isExpired();
   }
 
   setToken(val: string) {
