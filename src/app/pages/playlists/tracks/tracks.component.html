@@ -75,7 +75,7 @@
       (click)="trackPos = trackPos - 1; findTrackMatches(tracks[trackPos])"
       label="Back"
     ></p-button>
-    <p>{{ allPosition }} / {{ selectedPlaylistTotal }}</p>
+    <p>{{ allPosition + 1 }} / {{ selectedPlaylistTotal }}</p>
     <p-button
       (click)="trackPos = trackPos + 1; findTrackMatches(tracks[trackPos])"
       label="Next"
