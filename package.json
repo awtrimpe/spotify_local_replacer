@@ -13,6 +13,7 @@
     "git-add": "git add ."
   },
   "pre-commit": [
+    "build-prod",
     "format",
     "lint",
     "git-add"

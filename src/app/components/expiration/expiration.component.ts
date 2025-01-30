@@ -24,7 +24,9 @@ export class ExpirationComponent implements OnInit {
 
   ngOnInit() {
     const exp_time = this.authService.getExpiration() as Date;
-    const timeout = exp_time.getTime() - new Date().getTime();
+    const timeout = Math.floor(
+      (exp_time.getTime() - new Date().getTime()) / 1000,
+    );
     setTimeout(() => {
       this.sessionExp = true;
       window.scrollTo(0, 0);
