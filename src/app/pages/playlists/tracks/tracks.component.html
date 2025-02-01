@@ -68,11 +68,10 @@
     />
   </div>
   <div class="flex justify-content-evenly align-items-center gap-1 mb-1">
-    <!-- TODO: Back will have an issue on 100 edges -->
     <p-button
-      [disabled]="trackPos === 0"
+      [disabled]="allPosition < 1"
       severity="secondary"
-      (click)="trackPos = trackPos - 1; findTrackMatches(tracks[trackPos])"
+      (click)="back()"
       label="Back"
     ></p-button>
     <p>{{ allPosition + 1 }} / {{ selectedPlaylistTotal }}</p>

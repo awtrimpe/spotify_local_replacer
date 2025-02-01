@@ -21,7 +21,6 @@ import { PolishedPineComponent } from './icons/polished-pine.component';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  title = 'Local File Replacer';
   menuItems = [
     {
       label: 'Home',

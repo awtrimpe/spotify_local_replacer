@@ -14,7 +14,7 @@
   />
 </div>
 <div
-  *ngIf="playlists && playlists.items && !loading; else noPlaylists"
+  *ngIf="playlists && playlists.items; else noPlaylists"
   class="flex flex-wrap gap-2 justify-content-center playlist-container mt-1"
 >
   <p-card *ngFor="let playlist of playlists.items">
@@ -60,7 +60,7 @@
 </div>
 
 <ng-template #noPlaylists>
-  <div class="flex align-items-center">
+  <div *ngIf="!loading" class="flex align-items-center">
     <p-message severity="info">No Playlists Found</p-message>
   </div>
 </ng-template>

@@ -7,7 +7,7 @@ describe('PolishedPineComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PolishedPineComponent],
+      imports: [PolishedPineComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PolishedPineComponent);
@@ -18,6 +18,13 @@ describe('PolishedPineComponent', () => {
   describe('should create', () => {
     it('should create', () => {
       expect(component).toBeTruthy();
+    });
+
+    it('should set styling', () => {
+      const compiled = fixture.nativeElement as HTMLElement;
+      expect(
+        getComputedStyle(compiled.querySelector('svg') as SVGSVGElement).fill,
+      ).toBe('rgb(255, 163, 62)');
     });
   });
 });

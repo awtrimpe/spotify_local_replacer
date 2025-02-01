@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AccordionModule } from 'primeng/accordion';
 import { MenuItem, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -39,6 +39,7 @@ export class TracksComponent implements OnInit {
     private authService: AuthService,
     private messageService: MessageService,
     private route: ActivatedRoute,
+    private router: Router,
   ) {}
 
   sessionExp = false;
@@ -69,13 +70,17 @@ export class TracksComponent implements OnInit {
     const playlists: SpotifyApi.ListOfUsersPlaylistsResponse = JSON.parse(
       sessionStorage.getItem('playlists') as string,
     );
-    this.route.params.subscribe((params) => {
-      const id = params['id'];
-      this.selectedPlaylist = playlists.items.find((playlist) => {
-        return playlist.id === id;
-      }) as SpotifyApi.PlaylistObjectSimplified;
-      this.setPlaylist(this.selectedPlaylist);
-    });
+    if (!playlists) {
+      this.router.navigate(['/playlists']);
+    } else {
+      this.route.params.subscribe((params) => {
+        const id = params['id'];
+        this.selectedPlaylist = playlists.items.find((playlist) => {
+          return playlist.id === id;
+        }) as SpotifyApi.PlaylistObjectSimplified;
+        this.setPlaylist(this.selectedPlaylist);
+      });
+    }
   }
 
   setTokenTimer() {
@@ -175,6 +180,14 @@ export class TracksComponent implements OnInit {
       this.trackOffset += 100;
       this.setPlaylist(this.selectedPlaylist!);
     }
+  }
+
+  back() {
+    // TODO Update to stop if no fewer tracks
+    this.trackPos = this.allPosition % 100 === 0 ? 99 : this.trackPos - 1;
+    this.findTrackMatches(
+      (this.tracks as SpotifyApi.PlaylistTrackObject[])[this.trackPos],
+    );
   }
 
   search(search: string) {
