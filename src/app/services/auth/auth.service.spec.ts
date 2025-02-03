@@ -55,20 +55,41 @@ describe('AuthService', () => {
     it('should return true if the expiration is in the past', () => {
       const t = new Date();
       t.setSeconds(t.getSeconds() - 1000);
-      spyOn(window.localStorage, 'getItem').and.returnValue(t.toString());
+      spyOn(service, 'getExpiration').and.returnValue(t);
       expect(service.isExpired()).toBeTrue();
     });
 
     it('should return false if the expiration is in the future', () => {
       const t = new Date();
       t.setSeconds(t.getSeconds() + 1000);
-      spyOn(window.localStorage, 'getItem').and.returnValue(t.toString());
+      spyOn(service, 'getExpiration').and.returnValue(t);
       expect(service.isExpired()).toBeFalse();
     });
 
     it('should return true if no value set', () => {
-      spyOn(window.localStorage, 'getItem').and.returnValue(null);
+      spyOn(service, 'getExpiration').and.returnValue(null);
       expect(service.isExpired()).toBeTrue();
+    });
+  });
+
+  describe('getExpiration()', () => {
+    it('should return the expiration date if set', () => {
+      const t = new Date();
+      spyOn(window.localStorage, 'getItem').and.returnValue(t.toString());
+      expect(service.getExpiration()?.toString()).toEqual(t.toString());
+    });
+
+    it('should return null if no date set', () => {
+      spyOn(window.localStorage, 'getItem').and.returnValue(null);
+      expect(service.getExpiration()).toBeNull();
+    });
+  });
+
+  describe('getToken()', () => {
+    it('should return the global variable token', () => {
+      const token = 'abc123';
+      service['token'] = token;
+      expect(service.getToken()).toBe(token);
     });
   });
 });

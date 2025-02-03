@@ -26,9 +26,9 @@ export class AuthService {
   }
 
   isExpired(): boolean {
-    const exp = localStorage.getItem('exp');
+    const exp = this.getExpiration();
     if (exp) {
-      return new Date() > new Date(exp);
+      return new Date() > exp;
     }
     return true;
   }
