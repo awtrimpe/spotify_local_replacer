@@ -75,10 +75,7 @@
       label="Back"
     ></p-button>
     <p>{{ allPosition + 1 }} / {{ selectedPlaylistTotal }}</p>
-    <p-button
-      (click)="trackPos = trackPos + 1; findTrackMatches(tracks[trackPos])"
-      label="Next"
-    ></p-button>
+    <p-button (click)="next()" label="Next"></p-button>
   </div>
   <div
     class="flex gap-1 flex-column align-items-center md:flex-row md:justify-content-around md:align-items-start"

@@ -39,7 +39,7 @@ export class PlaylistComponent implements OnInit {
 
   ngOnInit() {
     this.spotify.setAccessToken(this.authService.getToken());
-    const playlists = sessionStorage.getItem('playlists'); // TODO: Add refresh playlists option
+    const playlists = sessionStorage.getItem('playlists');
     if (playlists) {
       this.playlists = JSON.parse(playlists);
     } else {
