@@ -7,6 +7,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { of } from 'rxjs';
+import { searchResp } from '../../../../test/tracks.spec';
 import { AuthService } from '../../../services/auth/auth.service';
 import { TracksComponent } from './tracks.component';
 
@@ -132,5 +133,44 @@ describe('TracksComponent', () => {
       expect(findTrackMatchesSpy).toHaveBeenCalledWith(component.tracks![0]);
       expect(component.trackPos).toBe(0);
     });
+  });
+
+  describe('search()', () => {
+    it('should clear exiting timeout if exists and call searchTracks', fakeAsync(() => {
+      component.searchTimeout = setTimeout(() => {}, 100);
+      let searched = '';
+      let lim: unknown = undefined;
+      component.spotify = {
+        searchTracks: (str: string, limit: unknown) => {
+          searched = str;
+          lim = limit;
+          return Promise.resolve(searchResp);
+        },
+      } as any;
+      component.search('All Time Low ');
+      tick(2100);
+      expect(searched).toBe('All Time Low');
+      expect(lim).toEqual({ limit: 5 });
+      expect(component.searchMatches).toEqual(searchResp.tracks as any);
+      expect(component.searchLoading).toBeFalse();
+    }));
+
+    it('should open error message on failure', fakeAsync(() => {
+      const msgSpy = spyOn(component['messageService'], 'add');
+      component.spotify = {
+        searchTracks: (_str: string, _limit: unknown) => {
+          return Promise.reject({ response: 'error' });
+        },
+      } as any;
+      component.search('All Time Low ');
+      tick(2100);
+      expect(msgSpy).toHaveBeenCalledWith({
+        severity: 'error',
+        summary: 'Unable to complete search tracks',
+        detail: 'error',
+        life: 10000,
+      });
+      expect(component.searchLoading).toBeFalse();
+    }));
   });
 });

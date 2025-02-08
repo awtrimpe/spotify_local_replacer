@@ -321,3 +321,437 @@ export const tracks: SpotifyApi.PlaylistTrackResponse = {
   previous: null,
   total: 3549,
 } as any;
+
+export const searchResp = {
+  tracks: {
+    href: 'https://api.spotify.com/v1/search?offset=0&limit=5&query=All%20Time%20Low&type=track&locale=en-US,en;q%3D0.5',
+    limit: 5,
+    next: 'https://api.spotify.com/v1/search?offset=5&limit=5&query=All%20Time%20Low&type=track&locale=en-US,en;q%3D0.5',
+    offset: 0,
+    previous: null,
+    total: 1000,
+    items: [
+      {
+        album: {
+          album_type: 'album',
+          artists: [
+            {
+              external_urls: {
+                spotify:
+                  'https://open.spotify.com/artist/50JJSqHUf2RQ9xsHs0KMHg',
+              },
+              href: 'https://api.spotify.com/v1/artists/50JJSqHUf2RQ9xsHs0KMHg',
+              id: '50JJSqHUf2RQ9xsHs0KMHg',
+              name: 'Jon Bellion',
+              type: 'artist',
+              uri: 'spotify:artist:50JJSqHUf2RQ9xsHs0KMHg',
+            },
+          ],
+          available_markets: ['CA', 'MX', 'US'],
+          external_urls: {
+            spotify: 'https://open.spotify.com/album/2jJReDZqTuAxr4R0ItimZc',
+          },
+          href: 'https://api.spotify.com/v1/albums/2jJReDZqTuAxr4R0ItimZc',
+          id: '2jJReDZqTuAxr4R0ItimZc',
+          images: [
+            {
+              height: 640,
+              width: 640,
+              url: 'https://i.scdn.co/image/ab67616d0000b273804533fa6608d1c8d420dbeb',
+            },
+            {
+              height: 300,
+              width: 300,
+              url: 'https://i.scdn.co/image/ab67616d00001e02804533fa6608d1c8d420dbeb',
+            },
+            {
+              height: 64,
+              width: 64,
+              url: 'https://i.scdn.co/image/ab67616d00004851804533fa6608d1c8d420dbeb',
+            },
+          ],
+          is_playable: true,
+          name: 'The Human Condition',
+          release_date: '2016-06-10',
+          release_date_precision: 'day',
+          total_tracks: 14,
+          type: 'album',
+          uri: 'spotify:album:2jJReDZqTuAxr4R0ItimZc',
+        },
+        artists: [
+          {
+            external_urls: {
+              spotify: 'https://open.spotify.com/artist/50JJSqHUf2RQ9xsHs0KMHg',
+            },
+            href: 'https://api.spotify.com/v1/artists/50JJSqHUf2RQ9xsHs0KMHg',
+            id: '50JJSqHUf2RQ9xsHs0KMHg',
+            name: 'Jon Bellion',
+            type: 'artist',
+            uri: 'spotify:artist:50JJSqHUf2RQ9xsHs0KMHg',
+          },
+        ],
+        available_markets: ['CA', 'MX', 'US'],
+        disc_number: 1,
+        duration_ms: 217603,
+        explicit: true,
+        external_ids: { isrc: 'USUM71603666' },
+        external_urls: {
+          spotify: 'https://open.spotify.com/track/0SuLAslEMFZAXf0SwY7syi',
+        },
+        href: 'https://api.spotify.com/v1/tracks/0SuLAslEMFZAXf0SwY7syi',
+        id: '0SuLAslEMFZAXf0SwY7syi',
+        is_local: false,
+        is_playable: true,
+        name: 'All Time Low',
+        popularity: 65,
+        preview_url: null,
+        track_number: 3,
+        type: 'track',
+        uri: 'spotify:track:0SuLAslEMFZAXf0SwY7syi',
+      },
+      {
+        album: {
+          album_type: 'single',
+          artists: [
+            {
+              external_urls: {
+                spotify:
+                  'https://open.spotify.com/artist/50JJSqHUf2RQ9xsHs0KMHg',
+              },
+              href: 'https://api.spotify.com/v1/artists/50JJSqHUf2RQ9xsHs0KMHg',
+              id: '50JJSqHUf2RQ9xsHs0KMHg',
+              name: 'Jon Bellion',
+              type: 'artist',
+              uri: 'spotify:artist:50JJSqHUf2RQ9xsHs0KMHg',
+            },
+          ],
+          available_markets: ['AR', 'AU', 'AT', 'BE', 'BO'],
+          external_urls: {
+            spotify: 'https://open.spotify.com/album/3HV9EG2SOmJX7PKvKUCst6',
+          },
+          href: 'https://api.spotify.com/v1/albums/3HV9EG2SOmJX7PKvKUCst6',
+          id: '3HV9EG2SOmJX7PKvKUCst6',
+          images: [
+            {
+              height: 640,
+              width: 640,
+              url: 'https://i.scdn.co/image/ab67616d0000b2738519af1fdbf5ea0e702a8bd2',
+            },
+            {
+              height: 300,
+              width: 300,
+              url: 'https://i.scdn.co/image/ab67616d00001e028519af1fdbf5ea0e702a8bd2',
+            },
+            {
+              height: 64,
+              width: 64,
+              url: 'https://i.scdn.co/image/ab67616d000048518519af1fdbf5ea0e702a8bd2',
+            },
+          ],
+          is_playable: true,
+          name: 'All Time Low',
+          release_date: '2017-03-10',
+          release_date_precision: 'day',
+          total_tracks: 1,
+          type: 'album',
+          uri: 'spotify:album:3HV9EG2SOmJX7PKvKUCst6',
+        },
+        artists: [
+          {
+            external_urls: {
+              spotify: 'https://open.spotify.com/artist/50JJSqHUf2RQ9xsHs0KMHg',
+            },
+            href: 'https://api.spotify.com/v1/artists/50JJSqHUf2RQ9xsHs0KMHg',
+            id: '50JJSqHUf2RQ9xsHs0KMHg',
+            name: 'Jon Bellion',
+            type: 'artist',
+            uri: 'spotify:artist:50JJSqHUf2RQ9xsHs0KMHg',
+          },
+          {
+            external_urls: {
+              spotify: 'https://open.spotify.com/artist/2SrSdSvpminqmStGELCSNd',
+            },
+            href: 'https://api.spotify.com/v1/artists/2SrSdSvpminqmStGELCSNd',
+            id: '2SrSdSvpminqmStGELCSNd',
+            name: 'Stormzy',
+            type: 'artist',
+            uri: 'spotify:artist:2SrSdSvpminqmStGELCSNd',
+          },
+        ],
+        available_markets: ['AR', 'AU', 'AT', 'BE'],
+        disc_number: 1,
+        duration_ms: 219460,
+        explicit: true,
+        external_ids: { isrc: 'USUM71701923' },
+        external_urls: {
+          spotify: 'https://open.spotify.com/track/7qVjoGvjdOFfk3uKVhvZU9',
+        },
+        href: 'https://api.spotify.com/v1/tracks/7qVjoGvjdOFfk3uKVhvZU9',
+        id: '7qVjoGvjdOFfk3uKVhvZU9',
+        is_local: false,
+        is_playable: true,
+        name: 'All Time Low',
+        popularity: 48,
+        preview_url: null,
+        track_number: 1,
+        type: 'track',
+        uri: 'spotify:track:7qVjoGvjdOFfk3uKVhvZU9',
+      },
+      {
+        album: {
+          album_type: 'album',
+          artists: [
+            {
+              external_urls: {
+                spotify:
+                  'https://open.spotify.com/artist/46gyXjRIvN1NL1eCB8GBxo',
+              },
+              href: 'https://api.spotify.com/v1/artists/46gyXjRIvN1NL1eCB8GBxo',
+              id: '46gyXjRIvN1NL1eCB8GBxo',
+              name: 'All Time Low',
+              type: 'artist',
+              uri: 'spotify:artist:46gyXjRIvN1NL1eCB8GBxo',
+            },
+          ],
+          available_markets: ['AR', 'AU', 'AT', 'BE'],
+          external_urls: {
+            spotify: 'https://open.spotify.com/album/0H4ELcHequ3OligrjWfrZP',
+          },
+          href: 'https://api.spotify.com/v1/albums/0H4ELcHequ3OligrjWfrZP',
+          id: '0H4ELcHequ3OligrjWfrZP',
+          images: [
+            {
+              height: 640,
+              width: 640,
+              url: 'https://i.scdn.co/image/ab67616d0000b273c8913cd7b91bb7f6bbbec305',
+            },
+            {
+              height: 300,
+              width: 300,
+              url: 'https://i.scdn.co/image/ab67616d00001e02c8913cd7b91bb7f6bbbec305',
+            },
+            {
+              height: 64,
+              width: 64,
+              url: 'https://i.scdn.co/image/ab67616d00004851c8913cd7b91bb7f6bbbec305',
+            },
+          ],
+          is_playable: true,
+          name: "So Wrong, It's Right",
+          release_date: '2007-09-25',
+          release_date_precision: 'day',
+          total_tracks: 12,
+          type: 'album',
+          uri: 'spotify:album:0H4ELcHequ3OligrjWfrZP',
+        },
+        artists: [
+          {
+            external_urls: {
+              spotify: 'https://open.spotify.com/artist/46gyXjRIvN1NL1eCB8GBxo',
+            },
+            href: 'https://api.spotify.com/v1/artists/46gyXjRIvN1NL1eCB8GBxo',
+            id: '46gyXjRIvN1NL1eCB8GBxo',
+            name: 'All Time Low',
+            type: 'artist',
+            uri: 'spotify:artist:46gyXjRIvN1NL1eCB8GBxo',
+          },
+        ],
+        available_markets: ['AR', 'AU', 'AT', 'BE'],
+        disc_number: 1,
+        duration_ms: 182826,
+        explicit: false,
+        external_ids: { isrc: 'USHR20747017' },
+        external_urls: {
+          spotify: 'https://open.spotify.com/track/0JJP0IS4w0fJx01EcrfkDe',
+        },
+        href: 'https://api.spotify.com/v1/tracks/0JJP0IS4w0fJx01EcrfkDe',
+        id: '0JJP0IS4w0fJx01EcrfkDe',
+        is_local: false,
+        is_playable: true,
+        name: 'Dear Maria, Count Me In',
+        popularity: 75,
+        preview_url: null,
+        track_number: 6,
+        type: 'track',
+        uri: 'spotify:track:0JJP0IS4w0fJx01EcrfkDe',
+      },
+      {
+        album: {
+          album_type: 'single',
+          artists: [
+            {
+              external_urls: {
+                spotify:
+                  'https://open.spotify.com/artist/46gyXjRIvN1NL1eCB8GBxo',
+              },
+              href: 'https://api.spotify.com/v1/artists/46gyXjRIvN1NL1eCB8GBxo',
+              id: '46gyXjRIvN1NL1eCB8GBxo',
+              name: 'All Time Low',
+              type: 'artist',
+              uri: 'spotify:artist:46gyXjRIvN1NL1eCB8GBxo',
+            },
+            {
+              external_urls: {
+                spotify:
+                  'https://open.spotify.com/artist/3Uobr6LgQpBbk6k4QGAb3V',
+              },
+              href: 'https://api.spotify.com/v1/artists/3Uobr6LgQpBbk6k4QGAb3V',
+              id: '3Uobr6LgQpBbk6k4QGAb3V',
+              name: 'I Prevail',
+              type: 'artist',
+              uri: 'spotify:artist:3Uobr6LgQpBbk6k4QGAb3V',
+            },
+          ],
+          available_markets: ['AR', 'AU', 'AT', 'BE', 'BO'],
+          external_urls: {
+            spotify: 'https://open.spotify.com/album/2aq4k4OA1jfupRu9eWYRMA',
+          },
+          href: 'https://api.spotify.com/v1/albums/2aq4k4OA1jfupRu9eWYRMA',
+          id: '2aq4k4OA1jfupRu9eWYRMA',
+          images: [
+            {
+              height: 640,
+              width: 640,
+              url: 'https://i.scdn.co/image/ab67616d0000b27337babbaa644b7e93f261f1bb',
+            },
+            {
+              height: 300,
+              width: 300,
+              url: 'https://i.scdn.co/image/ab67616d00001e0237babbaa644b7e93f261f1bb',
+            },
+            {
+              height: 64,
+              width: 64,
+              url: 'https://i.scdn.co/image/ab67616d0000485137babbaa644b7e93f261f1bb',
+            },
+          ],
+          is_playable: true,
+          name: 'Hate This Song',
+          release_date: '2024-09-17',
+          release_date_precision: 'day',
+          total_tracks: 1,
+          type: 'album',
+          uri: 'spotify:album:2aq4k4OA1jfupRu9eWYRMA',
+        },
+        artists: [
+          {
+            external_urls: {
+              spotify: 'https://open.spotify.com/artist/46gyXjRIvN1NL1eCB8GBxo',
+            },
+            href: 'https://api.spotify.com/v1/artists/46gyXjRIvN1NL1eCB8GBxo',
+            id: '46gyXjRIvN1NL1eCB8GBxo',
+            name: 'All Time Low',
+            type: 'artist',
+            uri: 'spotify:artist:46gyXjRIvN1NL1eCB8GBxo',
+          },
+          {
+            external_urls: {
+              spotify: 'https://open.spotify.com/artist/3Uobr6LgQpBbk6k4QGAb3V',
+            },
+            href: 'https://api.spotify.com/v1/artists/3Uobr6LgQpBbk6k4QGAb3V',
+            id: '3Uobr6LgQpBbk6k4QGAb3V',
+            name: 'I Prevail',
+            type: 'artist',
+            uri: 'spotify:artist:3Uobr6LgQpBbk6k4QGAb3V',
+          },
+        ],
+        available_markets: ['AR', 'AU', 'AT', 'BE', 'BO'],
+        disc_number: 1,
+        duration_ms: 175693,
+        explicit: true,
+        external_ids: { isrc: 'US5262426747' },
+        external_urls: {
+          spotify: 'https://open.spotify.com/track/3keius8Oa84Xwul5LdvO1c',
+        },
+        href: 'https://api.spotify.com/v1/tracks/3keius8Oa84Xwul5LdvO1c',
+        id: '3keius8Oa84Xwul5LdvO1c',
+        is_local: false,
+        is_playable: true,
+        name: 'Hate This Song',
+        popularity: 60,
+        preview_url: null,
+        track_number: 1,
+        type: 'track',
+        uri: 'spotify:track:3keius8Oa84Xwul5LdvO1c',
+      },
+      {
+        album: {
+          album_type: 'album',
+          artists: [
+            {
+              external_urls: {
+                spotify:
+                  'https://open.spotify.com/artist/4E2rKHVDssGJm2SCDOMMJB',
+              },
+              href: 'https://api.spotify.com/v1/artists/4E2rKHVDssGJm2SCDOMMJB',
+              id: '4E2rKHVDssGJm2SCDOMMJB',
+              name: 'Doechii',
+              type: 'artist',
+              uri: 'spotify:artist:4E2rKHVDssGJm2SCDOMMJB',
+            },
+          ],
+          available_markets: ['AR', 'AU', 'AT', 'BE'],
+          external_urls: {
+            spotify: 'https://open.spotify.com/album/60UzB8mOCMpc7xkuJE6Bwc',
+          },
+          href: 'https://api.spotify.com/v1/albums/60UzB8mOCMpc7xkuJE6Bwc',
+          id: '60UzB8mOCMpc7xkuJE6Bwc',
+          images: [
+            {
+              height: 640,
+              width: 640,
+              url: 'https://i.scdn.co/image/ab67616d0000b273b245099fe26319344ddf6054',
+            },
+            {
+              height: 300,
+              width: 300,
+              url: 'https://i.scdn.co/image/ab67616d00001e02b245099fe26319344ddf6054',
+            },
+            {
+              height: 64,
+              width: 64,
+              url: 'https://i.scdn.co/image/ab67616d00004851b245099fe26319344ddf6054',
+            },
+          ],
+          is_playable: true,
+          name: 'Alligator Bites Never Heal',
+          release_date: '2024-08-30',
+          release_date_precision: 'day',
+          total_tracks: 19,
+          type: 'album',
+          uri: 'spotify:album:60UzB8mOCMpc7xkuJE6Bwc',
+        },
+        artists: [
+          {
+            external_urls: {
+              spotify: 'https://open.spotify.com/artist/4E2rKHVDssGJm2SCDOMMJB',
+            },
+            href: 'https://api.spotify.com/v1/artists/4E2rKHVDssGJm2SCDOMMJB',
+            id: '4E2rKHVDssGJm2SCDOMMJB',
+            name: 'Doechii',
+            type: 'artist',
+            uri: 'spotify:artist:4E2rKHVDssGJm2SCDOMMJB',
+          },
+        ],
+        available_markets: ['AR', 'AU', 'AT', 'BE'],
+        disc_number: 1,
+        duration_ms: 159586,
+        explicit: true,
+        external_ids: { isrc: 'USUG12405664' },
+        external_urls: {
+          spotify: 'https://open.spotify.com/track/1eTaznNW4Xxtx9za2SMTXB',
+        },
+        href: 'https://api.spotify.com/v1/tracks/1eTaznNW4Xxtx9za2SMTXB',
+        id: '1eTaznNW4Xxtx9za2SMTXB',
+        is_local: false,
+        is_playable: true,
+        name: 'DENIAL IS A RIVER',
+        popularity: 87,
+        preview_url: null,
+        track_number: 4,
+        type: 'track',
+        uri: 'spotify:track:1eTaznNW4Xxtx9za2SMTXB',
+      },
+    ],
+  },
+};
