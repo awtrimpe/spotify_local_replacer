@@ -1,24 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
-import { HomeComponent } from './home.component';
+import { GuideComponent } from './guide.component';
 
 class FakeAuthService {
   getToken() {
     return '';
   }
-  isLoggedIn() {
-    return true;
-  }
 }
 
-describe('HomeComponent', () => {
-  let component: HomeComponent;
-  let fixture: ComponentFixture<HomeComponent>;
+describe('GuideComponent', () => {
+  let component: GuideComponent;
+  let fixture: ComponentFixture<GuideComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HomeComponent],
+      imports: [BrowserAnimationsModule, GuideComponent],
       providers: [
         { provide: AuthService, useClass: FakeAuthService },
         {
@@ -32,16 +30,17 @@ describe('HomeComponent', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(HomeComponent);
+    fixture = TestBed.createComponent(GuideComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  describe('ngOnInit()', () => {
-    it('should should set loggedIn boolean', () => {
-      component.loggedIn = false;
-      component.ngOnInit();
-      expect(component.loggedIn).toBe(true);
+  describe('template tests()', () => {
+    it('should should include a router link to the playlists page', () => {
+      const compiled = fixture.nativeElement;
+      expect(compiled.querySelector('button').textContent).toContain(
+        'Select Playlist',
+      );
     });
   });
 });

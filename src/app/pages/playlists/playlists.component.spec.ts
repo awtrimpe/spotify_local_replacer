@@ -1,8 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { AuthService } from '../../../services/auth/auth.service';
-import { TracksComponent } from './tracks.component';
+import { AuthService } from '../../services/auth/auth.service';
+import { PlaylistComponent } from './playlists.component';
 
 class FakeAuthService {
   getToken() {
@@ -13,28 +12,20 @@ class FakeAuthService {
   }
 }
 
-describe('TracksComponent', () => {
-  let component: TracksComponent;
-  let fixture: ComponentFixture<TracksComponent>;
+describe('PlaylistComponent', () => {
+  let component: PlaylistComponent;
+  let fixture: ComponentFixture<PlaylistComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TracksComponent],
+      imports: [PlaylistComponent],
       providers: [
         { provide: AuthService, useClass: FakeAuthService },
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            snapshot: {
-              params: { id: '123' },
-            },
-          },
-        },
         MessageService,
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(TracksComponent);
+    fixture = TestBed.createComponent(PlaylistComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
