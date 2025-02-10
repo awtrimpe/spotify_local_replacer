@@ -4,10 +4,12 @@ import {
   TestBed,
   tick,
 } from '@angular/core/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { of } from 'rxjs';
-import { searchResp } from '../../../../test/tracks.spec';
+import { playlists } from '../../../../test/playlist.spec';
+import { searchResp, tracks } from '../../../../test/tracks.spec';
 import { AuthService } from '../../../services/auth/auth.service';
 import { TracksComponent } from './tracks.component';
 
@@ -26,7 +28,7 @@ describe('TracksComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TracksComponent],
+      imports: [BrowserAnimationsModule, TracksComponent],
       providers: [
         { provide: AuthService, useClass: FakeAuthService },
         {
@@ -100,6 +102,98 @@ describe('TracksComponent', () => {
       tick(timeout);
       expect(scrollToSpy).toHaveBeenCalled();
       expect(component.sessionExp).toBeTrue();
+    }));
+  });
+
+  describe('setPlaylist()', () => {
+    it('should call getPlaylistTracks and set playlist', fakeAsync(() => {
+      component.spotify = {
+        getPlaylistTracks: () => Promise.resolve(tracks),
+      } as any;
+      component.setPlaylist(playlists.items[0]);
+      tick(1000);
+      expect(component.selectedPlaylist).toEqual(playlists.items[0]);
+      expect(component.allTracks).toEqual(tracks.items);
+      expect(component.selectedPlaylistTotal).toBe(tracks.total);
+      expect(component.trackJumpOptions!.length).toBe(
+        Math.floor(tracks.total / 100 + 1),
+      );
+    }));
+
+    it('should call setPlaylist when command triggered', fakeAsync(() => {
+      component.spotify = {
+        getPlaylistTracks: () => Promise.resolve(tracks),
+      } as any;
+      component.setPlaylist(playlists.items[0]);
+      const setPlaylistSpy = spyOn(component, 'setPlaylist');
+      tick(1000);
+      fixture.detectChanges();
+      expect(component.trackJumpOptions!.length).toBe(
+        Math.floor(tracks.total / 100 + 1),
+      );
+      (component.trackJumpOptions![0].command as any)('' as any);
+      expect(setPlaylistSpy).toHaveBeenCalledWith(component.selectedPlaylist);
+      expect(component.trackOffset).toBe(0);
+      expect(component.trackPos).toBe(0);
+    }));
+
+    it('should increase track offset and call setPlaylist if no tracks to show and still room to jump', fakeAsync(() => {
+      component.tracks = [];
+      component.selectedPlaylistTotal = 1000;
+      component.trackOffset = 0;
+      component.spotify = {
+        getPlaylistTracks: () => Promise.resolve(tracks),
+      } as any;
+      component.setPlaylist(playlists.items[0]);
+      const setPlaylistSpy = spyOn(component, 'setPlaylist');
+      tick(1000);
+      expect(component.trackOffset).toBe(100);
+      expect(setPlaylistSpy).toHaveBeenCalled();
+    }));
+
+    it('should open dialog if no tracks left', fakeAsync(() => {
+      component.tracks = [];
+      component.selectedPlaylistTotal = 1000;
+      component.trackOffset = 1000;
+      component.spotify = {
+        getPlaylistTracks: () => Promise.resolve(tracks),
+      } as any;
+      component.setPlaylist(playlists.items[0]);
+      tick(1000);
+      expect(component.showDialog).toBeTrue();
+    }));
+
+    it('should call findTrackMatches', fakeAsync(() => {
+      component.selectedPlaylistTotal = tracks.items.length;
+      component.trackOffset = 0;
+      component.trackPos = 1;
+      const tracksCopy = JSON.parse(JSON.stringify(tracks));
+      for (const track of tracksCopy.items) {
+        track.is_local = true;
+      }
+      component.spotify = {
+        getPlaylistTracks: () => Promise.resolve(tracksCopy),
+      } as any;
+      const matchSpy = spyOn(component, 'findTrackMatches');
+      component.setPlaylist(playlists.items[0]);
+      tick(1000);
+      expect(matchSpy).toHaveBeenCalledWith(tracksCopy.items[0]);
+    }));
+
+    it('should open message on error', fakeAsync(() => {
+      const msgSpy = spyOn(component['messageService'], 'add');
+      component.spotify = {
+        getPlaylistTracks: () =>
+          Promise.reject({ response: 'My Error Message' }),
+      } as any;
+      component.setPlaylist(playlists.items[0]);
+      tick(1000);
+      expect(msgSpy).toHaveBeenCalledWith({
+        severity: 'error',
+        summary: 'Unable to find playlist tracks',
+        detail: 'My Error Message',
+        life: 10000,
+      });
     }));
   });
 
