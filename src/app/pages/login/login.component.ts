@@ -13,6 +13,8 @@ export class LoginComponent implements OnInit {
     private router: Router,
   ) {}
 
+  window = window;
+
   /** The function executed on initialization */
   ngOnInit() {
     if (!this.authService.isLoggedIn()) {
@@ -23,9 +25,11 @@ export class LoginComponent implements OnInit {
         '&scope=playlist-modify-public playlist-modify-private playlist-read-private playlist-read-collaborative' +
         '&redirect_uri=' +
         encodeURIComponent(
-          window.location.origin + environment.basepath + '/oauth-callback',
+          this.window.location.origin +
+            environment.basepath +
+            '/oauth-callback',
         );
-      window.location.replace(_endPoint);
+      this.window.location.replace(_endPoint);
     } else {
       this.router.navigate(['/oauth']);
     }

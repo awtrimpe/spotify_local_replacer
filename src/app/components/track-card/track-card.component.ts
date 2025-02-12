@@ -8,7 +8,7 @@ import { SpotifyComponent } from '../../icons/spotify.component';
   selector: 'app-track-card',
   imports: [ButtonModule, CardModule, CommonModule, SpotifyComponent],
   template: `
-    <p-card class="w-20rem align-items-stretch full-height-card">
+    <p-card class="w-20rem align-items-stretch full-height-card" *ngIf="track">
       <ng-template #header>
         <div class="w-4 mt-3 m-auto">
           <app-spotify />
@@ -79,9 +79,9 @@ import { SpotifyComponent } from '../../icons/spotify.component';
           *ngIf="replaceable"
         >
           <hr class="w-full" />
-          <p-button [rounded]="true" (click)="selectedTrack.next(track)"
-            >Select</p-button
-          >
+          <p-button [rounded]="true" (click)="selectedTrack.next(track)">
+            Select
+          </p-button>
         </div>
       </div>
     </p-card>

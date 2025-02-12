@@ -182,6 +182,11 @@ export class TracksComponent implements OnInit {
     }
   }
 
+  next() {
+    this.trackPos = this.trackPos + 1;
+    this.findTrackMatches(this.tracks![this.trackPos]);
+  }
+
   back() {
     // TODO Update to stop if no fewer tracks
     this.trackPos = this.allPosition % 100 === 0 ? 99 : this.trackPos - 1;

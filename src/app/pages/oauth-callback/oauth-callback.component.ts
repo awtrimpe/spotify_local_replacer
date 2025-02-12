@@ -18,7 +18,7 @@ export class OAuthCallbackComponent implements OnInit {
     const exp = new URLSearchParams(this.route.snapshot.fragment as string).get(
       'expires_in',
     );
-    if (id) {
+    if (id && exp) {
       this.authService.setToken(id);
       this.authService.setExpiration(Number(exp));
       const prevUrl = localStorage.getItem('redirect');
