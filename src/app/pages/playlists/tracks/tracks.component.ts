@@ -11,14 +11,17 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MenuModule } from 'primeng/menu';
 import { MessageModule } from 'primeng/message';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { TabsModule } from 'primeng/tabs';
 import SpotifyWebApi from 'spotify-web-api-js';
 import { ExpirationComponent } from '../../../components/expiration/expiration.component';
 import { TrackCardComponent } from '../../../components/track-card/track-card.component';
 import { AuthService } from '../../../services/auth/auth.service';
+import { AllTracksComponent } from './all/all.component';
 
 @Component({
   imports: [
     AccordionModule,
+    AllTracksComponent,
     ButtonModule,
     CardModule,
     CommonModule,
@@ -30,6 +33,7 @@ import { AuthService } from '../../../services/auth/auth.service';
     MessageModule,
     ProgressSpinnerModule,
     RouterModule,
+    TabsModule,
     TrackCardComponent,
   ],
   templateUrl: `./tracks.component.html`,
@@ -63,10 +67,13 @@ export class TracksComponent implements OnInit {
   searchMatches?: SpotifyApi.PagingObject<SpotifyApi.TrackObjectFull>;
   searchTimeout?: NodeJS.Timeout;
   searchLoading = false;
+  // Tab
+  tabSelected = 0;
 
   ngOnInit() {
     this.spotify.setAccessToken(this.authService.getToken());
     this.setTokenTimer();
+    this.getSelectedTab();
     const playlists: SpotifyApi.ListOfUsersPlaylistsResponse = JSON.parse(
       sessionStorage.getItem('playlists') as string,
     );
@@ -90,6 +97,18 @@ export class TracksComponent implements OnInit {
       this.sessionExp = true;
       window.scrollTo(0, 0);
     }, timeout);
+  }
+
+  getSelectedTab() {
+    const tab = sessionStorage.getItem('selectedTab');
+    if (tab) {
+      this.tabSelected = Number(tab);
+    }
+  }
+
+  setTabSelected(num: number) {
+    this.tabSelected = num;
+    sessionStorage.setItem('selectedTab', num.toString());
   }
 
   setPlaylist(playlist: SpotifyApi.PlaylistObjectSimplified) {
@@ -133,7 +152,9 @@ export class TracksComponent implements OnInit {
           this.tracks.length < 1 &&
           this.trackOffset + 100 > this.selectedPlaylistTotal
         ) {
-          this.showDialog = true;
+          if (this.tabSelected != 1) {
+            this.showDialog = true;
+          }
         } else {
           this.findTrackMatches(this.tracks[this.trackPos]);
         }
