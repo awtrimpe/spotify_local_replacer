@@ -10,6 +10,7 @@ import { MessageService } from 'primeng/api';
 import { of } from 'rxjs';
 import { playlists } from '../../../../test/playlist.spec';
 import { searchResp, tracks } from '../../../../test/tracks.spec';
+import { SearchComponent } from '../../../components/search/search.component';
 import { AuthService } from '../../../services/auth/auth.service';
 import { TracksComponent } from './tracks.component';
 
@@ -28,7 +29,7 @@ describe('TracksComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, TracksComponent],
+      imports: [BrowserAnimationsModule, SearchComponent, TracksComponent],
       providers: [
         { provide: AuthService, useClass: FakeAuthService },
         {
@@ -46,6 +47,7 @@ describe('TracksComponent', () => {
 
     fixture = TestBed.createComponent(TracksComponent);
     component = fixture.componentInstance;
+    component.selectedPlaylist = playlists.items[0];
     fixture.detectChanges();
   });
 
@@ -77,17 +79,26 @@ describe('TracksComponent', () => {
       expect(routerSpy).toHaveBeenCalledWith(['/playlists']);
     });
 
-    it('should use the playlist ID in the URL and call setPlaylist', () => {
-      const id = '123';
-      const playlists = {
-        items: [{ id: '123' }],
-      };
+    it('should set playlist from playlists retrieved from sessionStorage', () => {
       spyOn(sessionStorage, 'getItem').and.returnValue(
         JSON.stringify(playlists),
       );
-      const setPlaylistSpy = spyOn(component, 'setPlaylist');
+      component['route'] = {
+        params: of({
+          id: playlists.items[0].id,
+        }),
+      } as any;
       component.ngOnInit();
-      expect(setPlaylistSpy).toHaveBeenCalledWith(playlists.items[0] as any);
+      expect(component.selectedPlaylist).toEqual(playlists.items[0]);
+    });
+  });
+
+  describe('ngAfterViewInit()', () => {
+    it('should call setPlaylist with selectedPlaylist and detectChanges', () => {
+      component.selectedPlaylist = playlists.items[0];
+      const setPlaylistSpy = spyOn(component, 'setPlaylist');
+      component.ngAfterViewInit();
+      expect(setPlaylistSpy).toHaveBeenCalledWith(playlists.items[0]);
     });
   });
 
@@ -211,13 +222,26 @@ describe('TracksComponent', () => {
   });
 
   describe('findTrackMatches()', () => {
+    beforeEach(() => {
+      component['searchComp'] = {
+        nativeElement: {
+          clear: () => {},
+        },
+      } as any;
+    });
+
     it('should set the all position to the index of the provided track', () => {
       component.tracks = component.allTracks = tracks.items;
       component.trackPos = 2;
       component.trackOffset = 0;
+      const searchCompSpy = spyOn(
+        component['searchComp'].nativeElement,
+        'clear',
+      );
       component.findTrackMatches(tracks.items[2]);
       expect(component.allPosition).toBe(2);
       expect(component.loading).toBeTrue();
+      expect(searchCompSpy).toHaveBeenCalled();
     });
 
     it('should set track matches to the response of search', fakeAsync(() => {
@@ -303,69 +327,34 @@ describe('TracksComponent', () => {
     });
   });
 
-  describe('search()', () => {
-    it('should clear exiting timeout if exists and call searchTracks', fakeAsync(() => {
-      component.searchTimeout = setTimeout(() => {}, 100);
-      let searched = '';
-      let lim: unknown = undefined;
-      component.spotify = {
-        searchTracks: (str: string, limit: unknown) => {
-          searched = str;
-          lim = limit;
-          return Promise.resolve(searchResp);
-        },
-      } as any;
-      component.search('All Time Low ');
-      tick(2100);
-      expect(searched).toBe('All Time Low');
-      expect(lim).toEqual({ limit: 5 });
-      expect(component.searchMatches).toEqual(searchResp.tracks as any);
-      expect(component.searchLoading).toBeFalse();
-    }));
-
-    it('should open error message on failure', fakeAsync(() => {
-      const msgSpy = spyOn(component['messageService'], 'add');
-      component.spotify = {
-        searchTracks: (_str: string, _limit: unknown) => {
-          return Promise.reject({ response: 'error' });
-        },
-      } as any;
-      component.search('All Time Low ');
-      tick(2100);
-      expect(msgSpy).toHaveBeenCalledWith({
-        severity: 'error',
-        summary: 'Unable to complete search tracks',
-        detail: 'error',
-        life: 10000,
-      });
-      expect(component.searchLoading).toBeFalse();
-    }));
-  });
-
   describe('replaceTrack()', () => {
-    it('should clear the search box value and reset the search results', () => {
-      component.trackMatches = component.searchMatches = searchResp.tracks
-        .items[0] as any;
-      component.selectedPlaylist = playlists.items[0];
-      component.searchBox = {
+    beforeEach(() => {
+      component['searchComp'] = {
         nativeElement: {
-          value: 'All Time Low',
-        } as any,
-      };
-      component.replaceTrack(searchResp.tracks.items[0] as any);
+          clear: () => {},
+        },
+      } as any;
+    });
+
+    it('should call to clear search box', () => {
+      component.trackMatches = searchResp.tracks.items[0] as any;
+      component.selectedPlaylist = playlists.items[0];
       spyOn(component, 'findTrackMatches');
+      const searchCompSpy = spyOn(
+        component['searchComp'].nativeElement,
+        'clear',
+      );
       component.spotify = {
         removeTracksFromPlaylistInPositions: () => Promise.resolve(),
       } as any;
+      component.replaceTrack(searchResp.tracks.items[0] as any);
       expect(component.trackMatches).toBeUndefined();
-      expect(component.searchMatches).toBeUndefined();
-      expect(component.searchBox.nativeElement.value).toBe('');
       expect(component.loading).toBeTrue();
+      expect(searchCompSpy).toHaveBeenCalled();
     });
 
     it('should call to remove and add track', fakeAsync(() => {
-      component.trackMatches = component.searchMatches = searchResp.tracks
-        .items[0] as any;
+      component.trackMatches = searchResp.tracks.items[0] as any;
       component.selectedPlaylist = playlists.items[0];
       component.allPosition = 0;
       component.tracks = tracks.items;
@@ -418,8 +407,7 @@ describe('TracksComponent', () => {
     }));
 
     it('should open error message if add tracks fails', fakeAsync(() => {
-      component.trackMatches = component.searchMatches = searchResp.tracks
-        .items[0] as any;
+      component.trackMatches = searchResp.tracks.items[0] as any;
       component.selectedPlaylist = playlists.items[0];
       component.allPosition = 0;
       component.tracks = tracks.items;
@@ -440,7 +428,6 @@ describe('TracksComponent', () => {
         detail: 'My Error',
         life: 10000,
       });
-      expect(component.searchLoading).toBeFalse();
     }));
 
     it('should open message on removal error', fakeAsync(() => {
@@ -460,7 +447,6 @@ describe('TracksComponent', () => {
         detail: 'My Error',
         life: 10000,
       });
-      expect(component.searchLoading).toBeFalse();
     }));
   });
 });
