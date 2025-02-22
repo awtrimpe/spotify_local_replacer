@@ -4,7 +4,7 @@
 
 This application allows you to edit your Spotify playlists that contain local tracks, and replace those tracks with Spotify's version.You can use this app to create a copy of your local tracks in a playlist and be able to take those tracks with you on the go. It puts you in control, allowing you to hand select each pair to ensure you have the perfect match to your preferences.
 
-![Screenshot](/images/screenshot.png)
+![Home Screenshot](/images/screenshot_home.png)
 
 ## Features
 
@@ -19,8 +19,12 @@ You are able to take a playlist that contains local tracks and procedurally clic
 > 1. Created a new playlist and pasted all tracks (CTRL + P on Windows/Linux, CMD + P on Mac)
 > 1. Used Local Track Replacer to complete the work!
 
+![Local Tracks Screenshot](/images/screenshot_local.png)
+
 ### Replacing Any Playlist Track
 
 _Does not include Liked Songs at the moment_
 
 This application can also replace any song in a playlist. This feature is designed for times when you accidentally saved the clean version instead of the explicit version, added the single but now want the album release, or actually prefer the remix to the original, and you want to preserve the order of addition.
+
+![All Tracks Screenshot](/images/screenshot_all.png)
