@@ -22,5 +22,6 @@ export class AllTracksComponent {
   @Input() tracks!: SpotifyApi.PlaylistTrackObject[];
   @Input() offset!: number;
   @Input() totalLength!: number;
+  // @Output() // TODO: out put for all pos in tracks component
   selectedTrackID?: string;
 }
