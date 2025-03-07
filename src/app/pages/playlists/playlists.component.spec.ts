@@ -18,6 +18,9 @@ class FakeAuthService {
   getExpiration() {
     return new Date();
   }
+  setUserDisplay() {
+    return Promise.resolve({ id: 'ABC' });
+  }
 }
 
 describe('PlaylistComponent', () => {
@@ -56,11 +59,13 @@ describe('PlaylistComponent', () => {
       const value = 'myToken';
       spyOn(component['authService'], 'getToken').and.returnValue(value);
       spyOn(component, 'getUsersPlaylists');
+      const getUserInfoSpy = spyOn(component, 'getUserInfo');
       component.spotify = {
         setAccessToken: (t: string) => (token = t),
       } as any;
       component.ngOnInit();
       expect(token).toBe(value);
+      expect(getUserInfoSpy).toHaveBeenCalled();
     });
 
     it('should call getUsersPlaylists if no playlists in session memory', () => {
@@ -110,6 +115,85 @@ describe('PlaylistComponent', () => {
         detail: 'error',
         life: 10000,
       });
+    }));
+  });
+
+  describe('getUserInfo()', () => {
+    it('should call setUserDisplay with displayName', fakeAsync(() => {
+      const userInfo = {
+        display_name: 'SWONDER',
+        external_urls: {
+          spotify: 'https://open.spotify.com/user/SWONDER',
+        },
+        followers: {
+          href: null,
+          total: 10,
+        },
+        href: 'https://api.spotify.com/v1/users/SWONDER',
+        id: 'SWONDER',
+        images: [
+          {
+            height: 300,
+            url: 'https://i.scdn.co/image/fake123',
+            width: 300,
+          },
+          {
+            height: 64,
+            url: 'https://i.scdn.co/image/fake123',
+            width: 64,
+          },
+        ],
+        type: 'user',
+        uri: 'spotify:user:SWONDER',
+      };
+      const setUserDisplaySpy = spyOn(
+        component['authService'],
+        'setUserDisplay',
+      );
+      component.spotify = {
+        getMe: () => Promise.resolve(userInfo),
+      } as any;
+      component.getUserInfo();
+      tick(1000);
+      expect(setUserDisplaySpy).toHaveBeenCalledWith(userInfo.display_name);
+    }));
+
+    it('should call setUserDisplay with id', fakeAsync(() => {
+      const userInfo = {
+        external_urls: {
+          spotify: 'https://open.spotify.com/user/SWONDER',
+        },
+        followers: {
+          href: null,
+          total: 10,
+        },
+        href: 'https://api.spotify.com/v1/users/SWONDER',
+        id: 'SWONDER',
+        images: [
+          {
+            height: 300,
+            url: 'https://i.scdn.co/image/fake123',
+            width: 300,
+          },
+          {
+            height: 64,
+            url: 'https://i.scdn.co/image/fake123',
+            width: 64,
+          },
+        ],
+        type: 'user',
+        uri: 'spotify:user:SWONDER',
+      };
+      const setUserDisplaySpy = spyOn(
+        component['authService'],
+        'setUserDisplay',
+      );
+      component.spotify = {
+        getMe: () => Promise.resolve(userInfo),
+      } as any;
+      component.getUserInfo();
+      tick(1000);
+      expect(setUserDisplaySpy).toHaveBeenCalledWith(userInfo.id);
     }));
   });
 });

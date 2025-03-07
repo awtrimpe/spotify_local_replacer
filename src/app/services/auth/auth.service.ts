@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private token!: string;
+  userDisplay: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   isLoggedIn(): boolean {
     const storedToken = localStorage.getItem('token');
@@ -43,5 +45,9 @@ export class AuthService {
 
   getToken(): string {
     return this.token;
+  }
+
+  setUserDisplay(display_val: string) {
+    this.userDisplay.next(display_val);
   }
 }

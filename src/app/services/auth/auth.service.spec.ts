@@ -92,4 +92,13 @@ describe('AuthService', () => {
       expect(service.getToken()).toBe(token);
     });
   });
+
+  describe('setUserDisplay()', () => {
+    it('should call next on userDisplay with passed value', () => {
+      spyOn(service.userDisplay, 'next');
+      const userDisplay = 'SWONDER';
+      service.setUserDisplay(userDisplay);
+      expect(service.userDisplay.next).toHaveBeenCalledWith(userDisplay);
+    });
+  });
 });

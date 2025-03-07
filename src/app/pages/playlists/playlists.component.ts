@@ -46,6 +46,7 @@ export class PlaylistComponent implements OnInit {
       this.loading = true;
       this.getUsersPlaylists();
     }
+    this.getUserInfo();
   }
 
   getUsersPlaylists() {
@@ -66,5 +67,11 @@ export class PlaylistComponent implements OnInit {
         });
         this.loading = false;
       });
+  }
+
+  getUserInfo() {
+    this.spotify.getMe().then((usr) => {
+      this.authService.setUserDisplay(usr.display_name || usr.id);
+    });
   }
 }
