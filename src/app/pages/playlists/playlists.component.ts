@@ -70,8 +70,10 @@ export class PlaylistComponent implements OnInit {
   }
 
   getUserInfo() {
-    this.spotify.getMe().then((usr) => {
-      this.authService.setUserDisplay(usr.display_name || usr.id);
-    });
+    if (!this.authService.userDisplay.value) {
+      this.spotify.getMe().then((usr) => {
+        this.authService.setUserDisplay(usr.display_name || usr.id);
+      });
+    }
   }
 }

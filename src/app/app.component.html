@@ -3,7 +3,11 @@
     <app-polished-pine routerLink="/"></app-polished-pine>
     <p-toast position="top-center"></p-toast>
   </div>
-  <p-menubar #menuBar class="lg:w-full" [model]="menuItems" />
+  <p-menubar #menuBar class="lg:w-full" [model]="menuItems">
+    <ng-template #end>
+      <p class="m-0">{{ userDisplay }}</p>
+    </ng-template>
+  </p-menubar>
 </div>
 <br />
 <div class="sm:mx-6 my-2 m-1">

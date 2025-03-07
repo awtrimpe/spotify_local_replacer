@@ -1,10 +1,17 @@
-import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { MenubarModule } from 'primeng/menubar';
 import { ScrollTopModule } from 'primeng/scrolltop';
 import { ToastModule } from 'primeng/toast';
 import { PolishedPineComponent } from './icons/polished-pine.component';
+import { AuthService } from './services/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +27,9 @@ import { PolishedPineComponent } from './icons/polished-pine.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  constructor(private authService: AuthService) {}
+
   menuItems = [
     {
       label: 'Home',
@@ -40,6 +49,7 @@ export class AppComponent {
   ];
   year = new Date().getFullYear();
   @ViewChild('menuBar', { read: ElementRef }) menuBarRef!: ElementRef;
+  userDisplay = '';
 
   @HostListener('document:click', ['$event.target'])
   onClick(targetElement: HTMLElement) {
@@ -54,5 +64,11 @@ export class AppComponent {
     ) {
       this.menuBarRef.nativeElement.children[0].children[0].click();
     }
+  }
+
+  ngOnInit() {
+    this.authService.userDisplay.subscribe((val) => {
+      this.userDisplay = val;
+    });
   }
 }

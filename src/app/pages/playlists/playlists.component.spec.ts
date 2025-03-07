@@ -7,11 +7,13 @@ import {
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { BehaviorSubject } from 'rxjs';
 import { playlists } from '../../../test/playlist.spec';
 import { AuthService } from '../../services/auth/auth.service';
 import { PlaylistComponent } from './playlists.component';
 
 class FakeAuthService {
+  userDisplay = new BehaviorSubject('');
   getToken() {
     return '';
   }
@@ -120,6 +122,7 @@ describe('PlaylistComponent', () => {
 
   describe('getUserInfo()', () => {
     it('should call setUserDisplay with displayName', fakeAsync(() => {
+      component['authService'].userDisplay = new BehaviorSubject('');
       const userInfo = {
         display_name: 'SWONDER',
         external_urls: {
@@ -159,6 +162,7 @@ describe('PlaylistComponent', () => {
     }));
 
     it('should call setUserDisplay with id', fakeAsync(() => {
+      component['authService'].userDisplay = new BehaviorSubject('');
       const userInfo = {
         external_urls: {
           spotify: 'https://open.spotify.com/user/SWONDER',
@@ -194,6 +198,14 @@ describe('PlaylistComponent', () => {
       component.getUserInfo();
       tick(1000);
       expect(setUserDisplaySpy).toHaveBeenCalledWith(userInfo.id);
+    }));
+
+    it('should not call to get user info is display value already present', fakeAsync(() => {
+      component['authService'].userDisplay = new BehaviorSubject('SWONDER');
+      const getMeSpy = spyOn(component['spotify'], 'getMe');
+      component.getUserInfo();
+      tick(1000);
+      expect(getMeSpy).not.toHaveBeenCalled();
     }));
   });
 });

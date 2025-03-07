@@ -1,6 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 import { AppComponent } from './app.component';
+import { AuthService } from './services/auth/auth.service';
+
+class FakeAuthService {
+  userDisplay = new BehaviorSubject('');
+}
 
 const fakeActivatedRoute = {
   snapshot: {
@@ -19,7 +25,10 @@ describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AppComponent],
-      providers: [{ provide: ActivatedRoute, useValue: fakeActivatedRoute }],
+      providers: [
+        { provide: ActivatedRoute, useValue: fakeActivatedRoute },
+        { provide: AuthService, useClass: FakeAuthService },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AppComponent);
@@ -59,6 +68,15 @@ describe('AppComponent', () => {
     );
     document.dispatchEvent(event);
     expect(spy).toHaveBeenCalled();
+  });
+
+  describe('ngOnInit()', () => {
+    it('should subscribe to userDisplay value changes and set userDisplay to the returned value', () => {
+      component.ngOnInit();
+      const userDisplay = 'SWONDER';
+      component['authService'].userDisplay.next(userDisplay);
+      expect(component.userDisplay).toBe(userDisplay);
+    });
   });
 
   describe('template tests', () => {

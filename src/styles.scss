@@ -92,10 +92,6 @@ app-root {
 // PrimeNG Changes
 
 .p-menubar {
-  .p-menubar-end {
-    display: none;
-  }
-
   &.p-menubar-mobile-active .p-menubar-root-list {
     width: auto;
     left: unset !important;
