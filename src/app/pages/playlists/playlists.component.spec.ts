@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { BehaviorSubject } from 'rxjs';
 import { playlists } from '../../../test/playlist.spec';
+import { userInfo } from '../../../test/user.spec';
 import { AuthService } from '../../services/auth/auth.service';
 import { PlaylistComponent } from './playlists.component';
 
@@ -121,34 +122,10 @@ describe('PlaylistComponent', () => {
   });
 
   describe('getUserInfo()', () => {
-    it('should call setUserDisplay with displayName', fakeAsync(() => {
-      component['authService'].userDisplay = new BehaviorSubject('');
-      const userInfo = {
-        display_name: 'SWONDER',
-        external_urls: {
-          spotify: 'https://open.spotify.com/user/SWONDER',
-        },
-        followers: {
-          href: null,
-          total: 10,
-        },
-        href: 'https://api.spotify.com/v1/users/SWONDER',
-        id: 'SWONDER',
-        images: [
-          {
-            height: 300,
-            url: 'https://i.scdn.co/image/fake123',
-            width: 300,
-          },
-          {
-            height: 64,
-            url: 'https://i.scdn.co/image/fake123',
-            width: 64,
-          },
-        ],
-        type: 'user',
-        uri: 'spotify:user:SWONDER',
-      };
+    it('should call setUserDisplay with new value', fakeAsync(() => {
+      component['authService'].userDisplay = new BehaviorSubject<
+        SpotifyApi.CurrentUsersProfileResponse | undefined
+      >(undefined);
       const setUserDisplaySpy = spyOn(
         component['authService'],
         'setUserDisplay',
@@ -158,50 +135,13 @@ describe('PlaylistComponent', () => {
       } as any;
       component.getUserInfo();
       tick(1000);
-      expect(setUserDisplaySpy).toHaveBeenCalledWith(userInfo.display_name);
-    }));
-
-    it('should call setUserDisplay with id', fakeAsync(() => {
-      component['authService'].userDisplay = new BehaviorSubject('');
-      const userInfo = {
-        external_urls: {
-          spotify: 'https://open.spotify.com/user/SWONDER',
-        },
-        followers: {
-          href: null,
-          total: 10,
-        },
-        href: 'https://api.spotify.com/v1/users/SWONDER',
-        id: 'SWONDER',
-        images: [
-          {
-            height: 300,
-            url: 'https://i.scdn.co/image/fake123',
-            width: 300,
-          },
-          {
-            height: 64,
-            url: 'https://i.scdn.co/image/fake123',
-            width: 64,
-          },
-        ],
-        type: 'user',
-        uri: 'spotify:user:SWONDER',
-      };
-      const setUserDisplaySpy = spyOn(
-        component['authService'],
-        'setUserDisplay',
-      );
-      component.spotify = {
-        getMe: () => Promise.resolve(userInfo),
-      } as any;
-      component.getUserInfo();
-      tick(1000);
-      expect(setUserDisplaySpy).toHaveBeenCalledWith(userInfo.id);
+      expect(setUserDisplaySpy).toHaveBeenCalledWith(userInfo);
     }));
 
     it('should not call to get user info is display value already present', fakeAsync(() => {
-      component['authService'].userDisplay = new BehaviorSubject('SWONDER');
+      component['authService'].userDisplay = new BehaviorSubject<
+        SpotifyApi.CurrentUsersProfileResponse | undefined
+      >(userInfo);
       const getMeSpy = spyOn(component['spotify'], 'getMe');
       component.getUserInfo();
       tick(1000);

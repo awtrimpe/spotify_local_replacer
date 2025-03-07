@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { userInfo } from '../test/user.spec';
 import { AppComponent } from './app.component';
 import { AuthService } from './services/auth/auth.service';
 
@@ -73,9 +74,8 @@ describe('AppComponent', () => {
   describe('ngOnInit()', () => {
     it('should subscribe to userDisplay value changes and set userDisplay to the returned value', () => {
       component.ngOnInit();
-      const userDisplay = 'SWONDER';
-      component['authService'].userDisplay.next(userDisplay);
-      expect(component.userDisplay).toBe(userDisplay);
+      component['authService'].userDisplay.next(userInfo);
+      expect(component.userDisplay).toBe(userInfo);
     });
   });
 

@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -16,6 +17,7 @@ import { AuthService } from './services/auth/auth.service';
 @Component({
   selector: 'app-root',
   imports: [
+    CommonModule,
     MenubarModule,
     PolishedPineComponent,
     RouterModule,
@@ -49,7 +51,7 @@ export class AppComponent implements OnInit {
   ];
   year = new Date().getFullYear();
   @ViewChild('menuBar', { read: ElementRef }) menuBarRef!: ElementRef;
-  userDisplay = '';
+  userDisplay: SpotifyApi.CurrentUsersProfileResponse | undefined = undefined;
 
   @HostListener('document:click', ['$event.target'])
   onClick(targetElement: HTMLElement) {

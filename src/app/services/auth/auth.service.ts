@@ -6,7 +6,9 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class AuthService {
   private token!: string;
-  userDisplay: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  userDisplay = new BehaviorSubject<
+    SpotifyApi.CurrentUsersProfileResponse | undefined
+  >(undefined);
 
   isLoggedIn(): boolean {
     const storedToken = localStorage.getItem('token');
@@ -47,7 +49,7 @@ export class AuthService {
     return this.token;
   }
 
-  setUserDisplay(display_val: string) {
+  setUserDisplay(display_val: SpotifyApi.CurrentUsersProfileResponse) {
     this.userDisplay.next(display_val);
   }
 }

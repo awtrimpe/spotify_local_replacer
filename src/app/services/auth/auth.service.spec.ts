@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { userInfo } from '../../../test/user.spec';
 import { AuthService } from './auth.service';
 
 describe('AuthService', () => {
@@ -96,9 +97,8 @@ describe('AuthService', () => {
   describe('setUserDisplay()', () => {
     it('should call next on userDisplay with passed value', () => {
       spyOn(service.userDisplay, 'next');
-      const userDisplay = 'SWONDER';
-      service.setUserDisplay(userDisplay);
-      expect(service.userDisplay.next).toHaveBeenCalledWith(userDisplay);
+      service.setUserDisplay(userInfo);
+      expect(service.userDisplay.next).toHaveBeenCalledWith(userInfo);
     });
   });
 });

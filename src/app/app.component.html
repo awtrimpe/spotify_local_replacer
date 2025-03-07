@@ -5,7 +5,15 @@
   </div>
   <p-menubar #menuBar class="lg:w-full" [model]="menuItems">
     <ng-template #end>
-      <p class="m-0">{{ userDisplay }}</p>
+      <div class="flex align-items-center" *ngIf="userDisplay">
+        <img
+          *ngIf="userDisplay.images && userDisplay.images.length > 0"
+          [src]="userDisplay.images[0].url"
+          alt="User profile picture"
+          class="h-2rem"
+        />
+        <p class="m-0">{{ userDisplay.display_name || userDisplay.id }}</p>
+      </div>
     </ng-template>
   </p-menubar>
 </div>
