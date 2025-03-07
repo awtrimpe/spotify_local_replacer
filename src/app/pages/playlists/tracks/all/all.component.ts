@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -22,6 +22,14 @@ export class AllTracksComponent {
   @Input() tracks!: SpotifyApi.PlaylistTrackObject[];
   @Input() offset!: number;
   @Input() totalLength!: number;
-  // @Output() // TODO: out put for all pos in tracks component
+  @Output() onSelect: EventEmitter<number> = new EventEmitter();
   selectedTrackID?: string;
+
+  findSelectedIndex(
+    track: SpotifyApi.TrackObjectFull | SpotifyApi.EpisodeObjectFull,
+  ) {
+    this.onSelect.emit(
+      this.tracks.findIndex((trackA) => trackA.track === track) + this.offset,
+    );
+  }
 }

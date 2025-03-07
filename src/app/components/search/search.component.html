@@ -1,19 +1,8 @@
 <div class="flex justify-content-center gap-1 mt-1">
-  <p-button
-    (click)="searchBox.value = ''; searchMatches = undefined"
-    icon="pi pi-undo"
-    severity="primary"
-    variant="outlined"
-    [rounded]="true"
-  />
+  <p-button (click)="searchBox.value = ''; searchMatches = undefined" icon="pi pi-undo" severity="primary"
+    variant="outlined" [rounded]="true" />
   <p-floatlabel>
-    <input
-      #searchBox
-      pInputText
-      id="search"
-      (keyup)="search(searchBox.value)"
-      (keydown)="searchMatches = undefined"
-    />
+    <input #searchBox pInputText id="search" (keyup)="search(searchBox.value)" (keydown)="searchMatches = undefined" />
     <label for="search">Search Spotify</label>
   </p-floatlabel>
 </div>
@@ -21,32 +10,21 @@
   <p-progress-spinner *ngIf="searchLoading" ariaLabel="loading" />
 </div>
 <br />
-<div
-  class="flex flex-wrap justify-content-center gap-2"
-  *ngIf="
+<div class="flex flex-wrap justify-content-center gap-2" *ngIf="
     searchMatches && searchMatches.items && searchMatches.items.length > 0;
     else noSearchMatches
-  "
->
-  <app-track-card
-    *ngFor="let match of searchMatches.items"
-    [track]="match"
-    [replaceable]="true"
-    (selectedTrack)="replaceTrack(match)"
-    class="w-20rem"
-  ></app-track-card>
+  ">
+  <app-track-card *ngFor="let match of searchMatches.items" [track]="match" [replaceable]="true"
+    (selectedTrack)="replaceTrack(match, allPosition)" class="w-20rem"></app-track-card>
 </div>
 <ng-template #noSearchMatches>
-  <div
-    class="flex align-items-center w-full"
-    *ngIf="
+  <div class="flex align-items-center w-full" *ngIf="
       searchBox.value.trim() &&
       !searchLoading &&
       searchMatches &&
       searchMatches.items &&
       searchMatches.items.length < 1
-    "
-  >
+    ">
     <p-message severity="info">No Search Matches Found</p-message>
   </div>
 </ng-template>

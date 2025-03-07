@@ -3,7 +3,6 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
-  ElementRef,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -69,10 +68,7 @@ export class TracksComponent implements OnInit, AfterViewInit {
   trackJumpOptions?: MenuItem[];
   trackMatches?: SpotifyApi.PagingObject<SpotifyApi.TrackObjectFull>;
   // Search
-  private searchComp!: ElementRef<SearchComponent>;
-  @ViewChild('searchComp') set assetInput(elRef: ElementRef) {
-    this.searchComp = elRef;
-  }
+  @ViewChild('searchComp') private searchComp!: SearchComponent;
   // Tab
   tabSelected = 0;
 
@@ -96,7 +92,9 @@ export class TracksComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.setPlaylist(this.selectedPlaylist);
+    if (this.selectedPlaylist) {
+      this.setPlaylist(this.selectedPlaylist);
+    }
     this.cdr.detectChanges();
   }
 
@@ -117,8 +115,10 @@ export class TracksComponent implements OnInit, AfterViewInit {
   }
 
   setTabSelected(num: number) {
-    this.tabSelected = num;
-    sessionStorage.setItem('selectedTab', num.toString());
+    if (num !== this.tabSelected) {
+      this.tabSelected = num;
+      sessionStorage.setItem('selectedTab', num.toString());
+    }
   }
 
   setPlaylist(playlist: SpotifyApi.PlaylistObjectSimplified) {
@@ -171,7 +171,6 @@ export class TracksComponent implements OnInit, AfterViewInit {
         this.loading = false;
       })
       .catch((err: XMLHttpRequest) => {
-        console.log(err);
         this.messageService.add({
           severity: 'error',
           summary: 'Unable to find playlist tracks',
@@ -183,8 +182,13 @@ export class TracksComponent implements OnInit, AfterViewInit {
   }
 
   findTrackMatches(track: SpotifyApi.PlaylistTrackObject) {
-    if (this.searchComp && this.searchComp.nativeElement) {
-      this.searchComp.nativeElement.clear();
+    if (
+      this.searchComp &&
+      this.searchComp.searchBox &&
+      this.searchComp.searchBox.nativeElement
+    ) {
+      // TODO: Make this a common method. Maybe add to search component?
+      this.searchComp.searchBox.nativeElement.value = '';
     }
     if (track) {
       this.allPosition =
@@ -229,27 +233,41 @@ export class TracksComponent implements OnInit, AfterViewInit {
     );
   }
 
-  replaceTrack(track: SpotifyApi.TrackObjectFull) {
+  replaceTrack(track: SpotifyApi.TrackObjectFull, position: number) {
     this.loading = true;
     this.trackMatches = undefined;
-    if (this.searchComp) {
-      this.searchComp.nativeElement.clear();
+    if (
+      this.searchComp &&
+      this.searchComp.searchBox &&
+      this.searchComp.searchBox.nativeElement
+    ) {
+      // TODO: Not resetting value now
+      this.searchComp.searchBox.nativeElement.value = '';
     }
     this.spotify
       .removeTracksFromPlaylistInPositions(
         this.selectedPlaylist!.id,
-        [this.allPosition],
+        [position],
         this.selectedPlaylist!.snapshot_id,
       )
       .then(() => {
         this.spotify
           .addTracksToPlaylist(this.selectedPlaylist!.id, [track.uri], {
-            position: this.allPosition,
+            position,
           })
           .then(() => {
-            this.trackPos++;
-            this.findTrackMatches(this.tracks![this.trackPos]);
-            this.loading = false;
+            if (this.tabSelected < 1) {
+              this.trackPos++;
+              this.findTrackMatches(this.tracks![this.trackPos]);
+              this.loading = false;
+            } else {
+              this.loading = false;
+              this.messageService.add({
+                severity: 'info',
+                summary: 'Track successfully replaced.',
+                detail: `${track.name} has replaced the previous track at position ${position} in the playlist`,
+              });
+            }
           })
           .catch((err: XMLHttpRequest) => {
             this.messageService.add({

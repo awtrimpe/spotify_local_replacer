@@ -25,7 +25,11 @@ import { TrackCardComponent } from '../track-card/track-card.component';
 export class SearchComponent {
   constructor(private messageService: MessageService) {}
 
-  @Input() replaceTrack!: (match: SpotifyApi.TrackObjectFull) => void;
+  @Input() replaceTrack!: (
+    match: SpotifyApi.TrackObjectFull,
+    pos: number,
+  ) => void;
+  @Input() allPosition!: number;
   spotify = new SpotifyWebApi();
   @ViewChild('searchBox') searchBox!: ElementRef<HTMLInputElement>;
   searchMatches?: SpotifyApi.PagingObject<SpotifyApi.TrackObjectFull>;
