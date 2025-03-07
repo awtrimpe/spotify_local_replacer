@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { userInfo } from '../../../test/user.spec';
 import { AuthService } from './auth.service';
 
 describe('AuthService', () => {
@@ -90,6 +91,14 @@ describe('AuthService', () => {
       const token = 'abc123';
       service['token'] = token;
       expect(service.getToken()).toBe(token);
+    });
+  });
+
+  describe('setUserDisplay()', () => {
+    it('should call next on userDisplay with passed value', () => {
+      spyOn(service.userDisplay, 'next');
+      service.setUserDisplay(userInfo);
+      expect(service.userDisplay.next).toHaveBeenCalledWith(userInfo);
     });
   });
 });
