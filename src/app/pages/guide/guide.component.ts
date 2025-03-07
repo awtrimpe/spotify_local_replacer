@@ -82,6 +82,18 @@ import { VenmoComponent } from '../../icons/venmo.component';
         class="sm:w-15rem max-w-full"
       />
     </a>
+
+    <h2>Disconnecting from Local Track Replacer</h2>
+    If you would like, you can disconnect your Spotify account from Local Track
+    Replacer at any time by visiting
+    <a target="_blank" href="https://www.spotify.com/us/account/apps/"
+      >https://www.spotify.com/us/account/apps/</a
+    >
+    and selecting "Remove Access" from the Local Track Replacer app. Since we do
+    not store any information about you on our servers, there is no further
+    action required to disconnect. You may revisit our application and
+    re-authorize the access permission at any time if you wish to use the
+    application again.
   `,
 })
 export class GuideComponent {}

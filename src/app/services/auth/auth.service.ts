@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private token!: string;
+  userDisplay = new BehaviorSubject<
+    SpotifyApi.CurrentUsersProfileResponse | undefined
+  >(undefined);
 
   isLoggedIn(): boolean {
     const storedToken = localStorage.getItem('token');
@@ -43,5 +47,9 @@ export class AuthService {
 
   getToken(): string {
     return this.token;
+  }
+
+  setUserDisplay(display_val: SpotifyApi.CurrentUsersProfileResponse) {
+    this.userDisplay.next(display_val);
   }
 }

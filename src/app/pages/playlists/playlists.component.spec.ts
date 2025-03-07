@@ -7,16 +7,22 @@ import {
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { BehaviorSubject } from 'rxjs';
 import { playlists } from '../../../test/playlist.spec';
+import { userInfo } from '../../../test/user.spec';
 import { AuthService } from '../../services/auth/auth.service';
 import { PlaylistComponent } from './playlists.component';
 
 class FakeAuthService {
+  userDisplay = new BehaviorSubject('');
   getToken() {
     return '';
   }
   getExpiration() {
     return new Date();
+  }
+  setUserDisplay() {
+    return Promise.resolve({ id: 'ABC' });
   }
 }
 
@@ -56,11 +62,13 @@ describe('PlaylistComponent', () => {
       const value = 'myToken';
       spyOn(component['authService'], 'getToken').and.returnValue(value);
       spyOn(component, 'getUsersPlaylists');
+      const getUserInfoSpy = spyOn(component, 'getUserInfo');
       component.spotify = {
         setAccessToken: (t: string) => (token = t),
       } as any;
       component.ngOnInit();
       expect(token).toBe(value);
+      expect(getUserInfoSpy).toHaveBeenCalled();
     });
 
     it('should call getUsersPlaylists if no playlists in session memory', () => {
@@ -110,6 +118,34 @@ describe('PlaylistComponent', () => {
         detail: 'error',
         life: 10000,
       });
+    }));
+  });
+
+  describe('getUserInfo()', () => {
+    it('should call setUserDisplay with new value', fakeAsync(() => {
+      component['authService'].userDisplay = new BehaviorSubject<
+        SpotifyApi.CurrentUsersProfileResponse | undefined
+      >(undefined);
+      const setUserDisplaySpy = spyOn(
+        component['authService'],
+        'setUserDisplay',
+      );
+      component.spotify = {
+        getMe: () => Promise.resolve(userInfo),
+      } as any;
+      component.getUserInfo();
+      tick(1000);
+      expect(setUserDisplaySpy).toHaveBeenCalledWith(userInfo);
+    }));
+
+    it('should not call to get user info is display value already present', fakeAsync(() => {
+      component['authService'].userDisplay = new BehaviorSubject<
+        SpotifyApi.CurrentUsersProfileResponse | undefined
+      >(userInfo);
+      const getMeSpy = spyOn(component['spotify'], 'getMe');
+      component.getUserInfo();
+      tick(1000);
+      expect(getMeSpy).not.toHaveBeenCalled();
     }));
   });
 });

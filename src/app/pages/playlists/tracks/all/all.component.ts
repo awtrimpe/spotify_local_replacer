@@ -22,13 +22,13 @@ export class AllTracksComponent {
   @Input() tracks!: SpotifyApi.PlaylistTrackObject[];
   @Input() offset!: number;
   @Input() totalLength!: number;
-  @Output() onSelect: EventEmitter<number> = new EventEmitter();
+  @Output() trackSelected = new EventEmitter<number>();
   selectedTrackID?: string;
 
   findSelectedIndex(
     track: SpotifyApi.TrackObjectFull | SpotifyApi.EpisodeObjectFull,
   ) {
-    this.onSelect.emit(
+    this.trackSelected.emit(
       this.tracks.findIndex((trackA) => trackA.track === track) + this.offset,
     );
   }

@@ -4,15 +4,31 @@
 </div>
 
 <div class="card flex justify-center">
-  <p-dialog header="All Done!" [modal]="true" [closable]="false" [(visible)]="showDialog">
-    <span class="p-text-secondary block mb-8">Congratulations! You have reached the end of the playlist.</span>
+  <p-dialog
+    header="All Done!"
+    [modal]="true"
+    [closable]="false"
+    [(visible)]="showDialog"
+  >
+    <span class="p-text-secondary block mb-8"
+      >Congratulations! You have reached the end of the playlist.</span
+    >
     <div class="flex justify-content-center gap-2">
-      <p-button label="Restart Playlist" severity="secondary" rounded="true" (click)="
+      <p-button
+        label="Restart Playlist"
+        severity="secondary"
+        rounded="true"
+        (click)="
           trackPos = trackOffset = 0;
           setPlaylist(selectedPlaylist);
           showDialog = false
-        " />
-      <p-button label="Select New Playlist" rounded="true" routerLink="/playlists" />
+        "
+      />
+      <p-button
+        label="Select New Playlist"
+        rounded="true"
+        routerLink="/playlists"
+      />
     </div>
     <p>
       If this application has helped save you time (and I really hope it has),
@@ -27,9 +43,19 @@
 
 <!-- Jump Menu -->
 <div class="flex align-items-center">
-  <p-menu #menu [model]="trackJumpOptions" [popup]="true" styleClass="max-h-10rem overflow-x-scroll" />
+  <p-menu
+    #menu
+    [model]="trackJumpOptions"
+    [popup]="true"
+    styleClass="max-h-10rem overflow-x-scroll"
+  />
   Jump To &nbsp;
-  <p-button variant="outlined" severity="contrast" (click)="menu.toggle($event)" icon="pi pi-angle-double-right" />
+  <p-button
+    variant="outlined"
+    severity="contrast"
+    (click)="menu.toggle($event)"
+    icon="pi pi-angle-double-right"
+  />
 </div>
 
 <!-- Tabs -->
@@ -38,15 +64,28 @@
     <p-tab (click)="setTabSelected(0)">Local Tracks</p-tab>
     <p-tab (click)="setTabSelected(1)">All Tracks</p-tab>
   </p-tablist>
-  <p-tabpanels class="shared-background border-left-1 border-right-1 border-bottom-1 border-200">
+  <p-tabpanels
+    class="shared-background border-left-1 border-right-1 border-bottom-1 border-200"
+  >
     <p-tabpanel value="0">
       <div *ngIf="!loading && tracks && tracks.length < 1">
-        <p-message severity="info">No Local Tracks Found. Select a different playlist.</p-message>
+        <p-message severity="info"
+          >No Local Tracks Found. Select a different playlist.</p-message
+        >
       </div>
       <!-- Local Songs -->
-      <div *ngIf="selectedPlaylist && tracks && tracks.length > 0 && !loading" class="mt-4">
+      <div
+        *ngIf="selectedPlaylist && tracks && tracks.length > 0 && !loading"
+        class="mt-4"
+      >
         <div class="flex justify-content-center align-items-center mb-3">
-          <p-button [disabled]="allPosition < 1" severity="secondary" (click)="back()" label="Back" class="mr-3">
+          <p-button
+            [disabled]="allPosition < 1"
+            severity="secondary"
+            (click)="back()"
+            label="Back"
+            class="mr-3"
+          >
           </p-button>
           <p>{{ allPosition + 1 }} / {{ selectedPlaylistTotal }}</p>
           <p-button (click)="next()" label="Next" class="ml-3"></p-button>
@@ -54,31 +93,48 @@
         <hr />
         <div class="w-20rem m-auto">
           <h5 class="text-center mx-0 my-1 my-1 thin-font">Local Track</h5>
-          <app-track-card [track]="$any(tracks[trackPos].track)"></app-track-card>
+          <app-track-card
+            [track]="$any(tracks[trackPos].track)"
+          ></app-track-card>
         </div>
         <div>
           <h5 class="text-center mx-0 my-1 my-1 thin-font">Recommendations</h5>
-          <div class="flex justify-content-center align-items-center gap-2 w-full flex-column lg:flex-row" *ngIf="
+          <div
+            class="flex justify-content-center align-items-center gap-2 w-full flex-column lg:flex-row"
+            *ngIf="
               trackMatches &&
                 trackMatches.items &&
                 trackMatches.items.length > 0;
               else noMatches
-            ">
-            <app-track-card *ngFor="let match of trackMatches.items" [track]="match" [replaceable]="true"
-              (selectedTrack)="replaceTrack(match, allPosition)" class="w-20rem"></app-track-card>
+            "
+          >
+            <app-track-card
+              *ngFor="let match of trackMatches.items"
+              [track]="match"
+              [replaceable]="true"
+              (selectedTrack)="replaceTrack(match, allPosition)"
+              class="w-20rem"
+            ></app-track-card>
           </div>
         </div>
         <ng-template #noMatches>
           <div class="flex align-items-center">
-            <p-message severity="info" class="m-auto">No Matches Found</p-message>
+            <p-message severity="info" class="m-auto"
+              >No Matches Found</p-message
+            >
           </div>
         </ng-template>
       </div>
     </p-tabpanel>
     <p-tabpanel value="1">
       <!-- All Tracks -->
-      <app-all-tracks *ngIf="allTracks && selectedPlaylistTotal" [tracks]="allTracks" [offset]="trackOffset"
-        [totalLength]="selectedPlaylistTotal" (onSelect)="allPosition = $event"></app-all-tracks>
+      <app-all-tracks
+        *ngIf="allTracks && selectedPlaylistTotal"
+        [tracks]="allTracks"
+        [offset]="trackOffset"
+        [totalLength]="selectedPlaylistTotal"
+        (trackSelected)="allPosition = $event"
+      ></app-all-tracks>
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>
@@ -86,4 +142,8 @@
 <!-- Search -->
 <hr />
 <br />
-<app-search #searchComp [replaceTrack]="replaceTrack.bind(this)" [allPosition]="allPosition"></app-search>
+<app-search
+  #searchComp
+  [replaceTrack]="replaceTrack.bind(this)"
+  [allPosition]="allPosition"
+></app-search>
