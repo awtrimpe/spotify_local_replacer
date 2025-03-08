@@ -1,42 +1,51 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AccordionModule } from 'primeng/accordion';
 import { MenuItem, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { DialogModule } from 'primeng/dialog';
-import { FloatLabelModule } from 'primeng/floatlabel';
-import { InputTextModule } from 'primeng/inputtext';
 import { MenuModule } from 'primeng/menu';
 import { MessageModule } from 'primeng/message';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { TabsModule } from 'primeng/tabs';
 import SpotifyWebApi from 'spotify-web-api-js';
 import { ExpirationComponent } from '../../../components/expiration/expiration.component';
+import { SearchComponent } from '../../../components/search/search.component';
 import { TrackCardComponent } from '../../../components/track-card/track-card.component';
 import { AuthService } from '../../../services/auth/auth.service';
+import { AllTracksComponent } from './all/all.component';
 
 @Component({
   imports: [
     AccordionModule,
+    AllTracksComponent,
     ButtonModule,
     CardModule,
     CommonModule,
     DialogModule,
     ExpirationComponent,
-    FloatLabelModule,
-    InputTextModule,
     MenuModule,
     MessageModule,
     ProgressSpinnerModule,
     RouterModule,
+    SearchComponent,
+    TabsModule,
     TrackCardComponent,
   ],
   templateUrl: `./tracks.component.html`,
 })
-export class TracksComponent implements OnInit {
+export class TracksComponent implements OnInit, AfterViewInit {
   constructor(
     private authService: AuthService,
+    private cdr: ChangeDetectorRef,
     private messageService: MessageService,
     private route: ActivatedRoute,
     private router: Router,
@@ -57,19 +66,19 @@ export class TracksComponent implements OnInit {
   trackPos = 0;
   trackOffset = 0;
   trackJumpOptions?: MenuItem[];
-  // Search info
   trackMatches?: SpotifyApi.PagingObject<SpotifyApi.TrackObjectFull>;
-  @ViewChild('searchBox') searchBox!: ElementRef<HTMLInputElement>;
-  searchMatches?: SpotifyApi.PagingObject<SpotifyApi.TrackObjectFull>;
-  searchTimeout?: NodeJS.Timeout;
-  searchLoading = false;
+  // Search
+  @ViewChild('searchComp') private searchComp!: SearchComponent;
+  // Tab
+  tabSelected = 0;
 
   ngOnInit() {
     this.spotify.setAccessToken(this.authService.getToken());
     this.setTokenTimer();
+    this.getSelectedTab();
     const playlists: SpotifyApi.ListOfUsersPlaylistsResponse = JSON.parse(
       sessionStorage.getItem('playlists') as string,
-    );
+    ); // TODO: Make this pull from sessionStorage only if not passed from playlist component
     if (!playlists) {
       this.router.navigate(['/playlists']);
     } else {
@@ -78,9 +87,15 @@ export class TracksComponent implements OnInit {
         this.selectedPlaylist = playlists.items.find((playlist) => {
           return playlist.id === id;
         }) as SpotifyApi.PlaylistObjectSimplified;
-        this.setPlaylist(this.selectedPlaylist);
       });
     }
+  }
+
+  ngAfterViewInit(): void {
+    if (this.selectedPlaylist) {
+      this.setPlaylist(this.selectedPlaylist);
+    }
+    this.cdr.detectChanges();
   }
 
   setTokenTimer() {
@@ -90,6 +105,20 @@ export class TracksComponent implements OnInit {
       this.sessionExp = true;
       window.scrollTo(0, 0);
     }, timeout);
+  }
+
+  getSelectedTab() {
+    const tab = sessionStorage.getItem('selectedTab');
+    if (tab) {
+      this.tabSelected = Number(tab);
+    }
+  }
+
+  setTabSelected(num: number) {
+    if (num !== this.tabSelected) {
+      this.tabSelected = num;
+      sessionStorage.setItem('selectedTab', num.toString());
+    }
   }
 
   setPlaylist(playlist: SpotifyApi.PlaylistObjectSimplified) {
@@ -133,7 +162,9 @@ export class TracksComponent implements OnInit {
           this.tracks.length < 1 &&
           this.trackOffset + 100 > this.selectedPlaylistTotal
         ) {
-          this.showDialog = true;
+          if (this.tabSelected != 1) {
+            this.showDialog = true;
+          }
         } else {
           this.findTrackMatches(this.tracks[this.trackPos]);
         }
@@ -151,7 +182,7 @@ export class TracksComponent implements OnInit {
   }
 
   findTrackMatches(track: SpotifyApi.PlaylistTrackObject) {
-    this.searchMatches = undefined;
+    this.searchComp.clear();
     if (track) {
       this.allPosition =
         this.allTracks!.indexOf(this.tracks![this.trackPos]) + this.trackOffset;
@@ -195,53 +226,35 @@ export class TracksComponent implements OnInit {
     );
   }
 
-  search(search: string) {
-    if (this.searchTimeout) {
-      clearTimeout(this.searchTimeout);
-    }
-    this.searchTimeout = setTimeout(() => {
-      this.searchLoading = true;
-      this.spotify
-        .searchTracks(search.trim(), {
-          limit: 5,
-        })
-        .then((resp) => {
-          this.searchMatches = resp.tracks;
-          this.searchLoading = false;
-        })
-        .catch((err: XMLHttpRequest) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Unable to complete search tracks',
-            detail: err.response.toString(),
-            life: 10000,
-          });
-          this.searchLoading = false;
-        });
-    }, 2000);
-  }
-
-  replaceTrack(track: SpotifyApi.TrackObjectFull) {
+  replaceTrack(track: SpotifyApi.TrackObjectFull, position: number) {
     this.loading = true;
-    this.trackMatches = this.searchMatches = undefined;
-    if (this.searchBox && this.searchBox.nativeElement.value) {
-      this.searchBox.nativeElement.value = '';
-    }
+    this.trackMatches = undefined;
+    this.searchComp.clear();
     this.spotify
       .removeTracksFromPlaylistInPositions(
         this.selectedPlaylist!.id,
-        [this.allPosition],
+        [position],
         this.selectedPlaylist!.snapshot_id,
       )
       .then(() => {
         this.spotify
           .addTracksToPlaylist(this.selectedPlaylist!.id, [track.uri], {
-            position: this.allPosition,
+            position,
           })
           .then(() => {
-            this.trackPos++;
-            this.findTrackMatches(this.tracks![this.trackPos]);
-            this.loading = false;
+            if (this.tabSelected < 1) {
+              this.trackPos++;
+              this.findTrackMatches(this.tracks![this.trackPos]);
+              this.loading = false;
+            } else {
+              this.loading = false;
+              this.setPlaylist(this.selectedPlaylist!);
+              this.messageService.add({
+                severity: 'info',
+                summary: 'Track successfully replaced.',
+                detail: `${track.name} has replaced the previous track at position ${position} in the playlist`,
+              });
+            }
           })
           .catch((err: XMLHttpRequest) => {
             this.messageService.add({

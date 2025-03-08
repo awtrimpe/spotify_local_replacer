@@ -1,59 +1,30 @@
-# PineEstimator
+# [Local Track Replacer](https://awtrimpe.github.io/spotify_local_replacer/)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.6.
+[https://awtrimpe.github.io/spotify_local_replacer/](https://awtrimpe.github.io/spotify_local_replacer/)
 
-## Development server
+This application allows you to edit your Spotify playlists that contain local tracks, and replace those tracks with Spotify's version.You can use this app to create a copy of your local tracks in a playlist and be able to take those tracks with you on the go. It puts you in control, allowing you to hand select each pair to ensure you have the perfect match to your preferences.
 
-To start a local development server, run:
+![Home Screenshot](/images/screenshot_home.png)
 
-```bash
-ng serve
-```
+## Features
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### Replacing Local Tracks
 
-## Code scaffolding
+You are able to take a playlist that contains local tracks and procedurally click through each one to select a copy of your choosing that Spotify hosts. It will swap out the link to your local file for Spotify's track. If you are not wanting to fully replace tracks in a playlist, it is suggested to make a copy of your playlist and use that clone instead. To find more information on Spotify's local files feature, [read more here](https://support.spotify.com/us/article/local-files/).
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+> **Example:** I wanted to take my iPod's old music with me on the go. Rather than self-hosting the music myself, and secretly because I wanted all listening to count towards my Spotify Wrapped (_they got me_), I:
+>
+> 1. Imported all of my old MP3 files as Local Tracks in the Spotify Desktop client
+> 1. Navigated to the Local Tracks folder and selected all tracks (CTRL + A on Windows/Linux, CMD + A on Mac)
+> 1. Created a new playlist and pasted all tracks (CTRL + P on Windows/Linux, CMD + P on Mac)
+> 1. Used Local Track Replacer to complete the work!
 
-```bash
-ng generate component component-name
-```
+![Local Tracks Screenshot](/images/screenshot_local.png)
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Replacing Any Playlist Track
 
-```bash
-ng generate --help
-```
+_Does not include Liked Songs at the moment_
 
-## Building
+This application can also replace any song in a playlist. This feature is designed for times when you accidentally saved the clean version instead of the explicit version, added the single but now want the album release, or actually prefer the remix to the original, and you want to preserve the order of addition.
 
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+![All Tracks Screenshot](/images/screenshot_all.png)

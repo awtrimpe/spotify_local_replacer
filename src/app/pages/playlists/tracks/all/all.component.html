@@ -1,0 +1,38 @@
+<div class="flex justify-content-center">
+  <p>
+    {{ offset + 1 }} -
+    {{ offset + 100 < totalLength ? offset + 100 : totalLength }} /
+    {{ totalLength }}
+  </p>
+</div>
+<p-scrollpanel [style]="{ height: '50vh' }">
+  <div class="flex align-items-center" *ngFor="let track of tracks">
+    <p-radiobutton
+      [value]="track.track"
+      [inputId]="track.track.id"
+      (onClick)="findSelectedIndex($event.value)"
+      [(ngModel)]="selectedTrackID"
+    />
+    <label [for]="track.track.id" class="ml-2 cursor-pointer">
+      {{ $any(track.track).artists[0].name }} - {{ track.track.name }}
+      <ng-container *ngIf="$any(track.track).artists.length > 1">
+        ft.
+        <ng-container
+          *ngFor="let artist of $any(track.track).artists; let i = index"
+        >
+          <ng-container *ngIf="i > 0">
+            <ng-container *ngIf="i > 1">, </ng-container>{{ artist.name }}
+          </ng-container>
+        </ng-container>
+      </ng-container>
+      <i
+        class="pi pi-info-circle"
+        (mouseenter)="hoveredTrack = $any(track.track); op.toggle($event)"
+        (mouseleave)="op.toggle($event); hoveredTrack = undefined"
+      ></i>
+    </label>
+  </div>
+</p-scrollpanel>
+<p-popover #op>
+  <app-track-card *ngIf="hoveredTrack" [track]="hoveredTrack"></app-track-card>
+</p-popover>
