@@ -182,14 +182,7 @@ export class TracksComponent implements OnInit, AfterViewInit {
   }
 
   findTrackMatches(track: SpotifyApi.PlaylistTrackObject) {
-    if (
-      this.searchComp &&
-      this.searchComp.searchBox &&
-      this.searchComp.searchBox.nativeElement
-    ) {
-      // TODO: Make this a common method. Maybe add to search component?
-      this.searchComp.searchBox.nativeElement.value = '';
-    }
+    this.searchComp.clear();
     if (track) {
       this.allPosition =
         this.allTracks!.indexOf(this.tracks![this.trackPos]) + this.trackOffset;
@@ -236,14 +229,7 @@ export class TracksComponent implements OnInit, AfterViewInit {
   replaceTrack(track: SpotifyApi.TrackObjectFull, position: number) {
     this.loading = true;
     this.trackMatches = undefined;
-    if (
-      this.searchComp &&
-      this.searchComp.searchBox &&
-      this.searchComp.searchBox.nativeElement
-    ) {
-      // TODO: Not resetting value now
-      this.searchComp.searchBox.nativeElement.value = '';
-    }
+    this.searchComp.clear();
     this.spotify
       .removeTracksFromPlaylistInPositions(
         this.selectedPlaylist!.id,
@@ -262,6 +248,7 @@ export class TracksComponent implements OnInit, AfterViewInit {
               this.loading = false;
             } else {
               this.loading = false;
+              this.setPlaylist(this.selectedPlaylist!);
               this.messageService.add({
                 severity: 'info',
                 summary: 'Track successfully replaced.',

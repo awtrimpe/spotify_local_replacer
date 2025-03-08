@@ -6,7 +6,7 @@
   </p>
 </div>
 <p-scrollpanel [style]="{ height: '50vh' }">
-  <div class="flex items-center" *ngFor="let track of tracks">
+  <div class="flex align-items-center" *ngFor="let track of tracks">
     <p-radiobutton
       [value]="track.track"
       [inputId]="track.track.id"
@@ -25,6 +25,14 @@
           </ng-container>
         </ng-container>
       </ng-container>
+      <i
+        class="pi pi-info-circle"
+        (mouseenter)="hoveredTrack = $any(track.track); op.toggle($event)"
+        (mouseleave)="op.toggle($event); hoveredTrack = undefined"
+      ></i>
     </label>
   </div>
 </p-scrollpanel>
+<p-popover #op>
+  <app-track-card *ngIf="hoveredTrack" [track]="hoveredTrack"></app-track-card>
+</p-popover>

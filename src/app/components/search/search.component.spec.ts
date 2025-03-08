@@ -75,4 +75,19 @@ describe('SearchComponent', () => {
       expect(component.searchLoading).toBeFalse();
     }));
   });
+
+  describe('clear()', () => {
+    it('should set searchMatches to undefined and reset value of box if exists', () => {
+      component.searchMatches = {} as any;
+      component.searchBox = {
+        nativeElement: {
+          value: 'Hello World!',
+        },
+      } as any;
+      expect(component.searchMatches).toBeDefined();
+      component.clear();
+      expect(component.searchMatches).toBeUndefined();
+      expect(component.searchBox.nativeElement.value).toBe('');
+    });
+  });
 });

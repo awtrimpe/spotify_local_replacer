@@ -116,6 +116,38 @@ describe('TracksComponent', () => {
     }));
   });
 
+  describe('getSelectedTab()', () => {
+    it('should call sessionStorage to get the last visited tab', () => {
+      sessionStorage.setItem('selectedTab', '1');
+      component.getSelectedTab();
+      expect(component.tabSelected).toBe(1);
+    });
+
+    it('should leave tabSelected if no value set in sessionStorage', () => {
+      component.tabSelected = 0;
+      sessionStorage.removeItem('selectedTab');
+      component.getSelectedTab();
+      expect(component.tabSelected).toBe(0);
+    });
+  });
+
+  describe('setTabSelected()', () => {
+    it('should set tabSelected and sessionStorage value', () => {
+      component.tabSelected = 0;
+      component.setTabSelected(1);
+      expect(component.tabSelected).toBe(1);
+      expect(sessionStorage.getItem('selectedTab')).toBe('1');
+    });
+
+    it('should not set either value if number already matches', () => {
+      component.tabSelected = 0;
+      spyOn(sessionStorage, 'setItem');
+      component.setTabSelected(0);
+      expect(component.tabSelected).toBe(0);
+      expect(sessionStorage.setItem).not.toHaveBeenCalled();
+    });
+  });
+
   describe('setPlaylist()', () => {
     it('should call getPlaylistTracks and set playlist', fakeAsync(() => {
       component.spotify = {
@@ -224,9 +256,7 @@ describe('TracksComponent', () => {
   describe('findTrackMatches()', () => {
     beforeEach(() => {
       component['searchComp'] = {
-        nativeElement: {
-          clear: () => {},
-        },
+        clear: () => {},
       } as any;
     });
 
@@ -234,10 +264,7 @@ describe('TracksComponent', () => {
       component.tracks = component.allTracks = tracks.items;
       component.trackPos = 2;
       component.trackOffset = 0;
-      const searchCompSpy = spyOn(
-        component['searchComp'].nativeElement,
-        'clear',
-      );
+      const searchCompSpy = spyOn(component['searchComp'], 'clear');
       component.findTrackMatches(tracks.items[2]);
       expect(component.allPosition).toBe(2);
       expect(component.loading).toBeTrue();
@@ -330,30 +357,30 @@ describe('TracksComponent', () => {
   describe('replaceTrack()', () => {
     beforeEach(() => {
       component['searchComp'] = {
-        nativeElement: {
-          clear: () => {},
-        },
+        clear: () => {},
       } as any;
     });
 
     it('should call to clear search box', () => {
+      component.tabSelected = 0;
       component.trackMatches = searchResp.tracks.items[0] as any;
       component.selectedPlaylist = playlists.items[0];
       spyOn(component, 'findTrackMatches');
-      const searchCompSpy = spyOn(
-        component['searchComp'].nativeElement,
-        'clear',
-      );
+      const searchCompSpy = spyOn(component['searchComp'], 'clear');
       component.spotify = {
         removeTracksFromPlaylistInPositions: () => Promise.resolve(),
       } as any;
-      component.replaceTrack(searchResp.tracks.items[0] as any);
+      component.replaceTrack(
+        searchResp.tracks.items[0] as any,
+        component.allPosition,
+      );
       expect(component.trackMatches).toBeUndefined();
       expect(component.loading).toBeTrue();
       expect(searchCompSpy).toHaveBeenCalled();
     });
 
     it('should call to remove and add track', fakeAsync(() => {
+      component.tabSelected = 0;
       component.trackMatches = searchResp.tracks.items[0] as any;
       component.selectedPlaylist = playlists.items[0];
       component.allPosition = 0;
@@ -388,7 +415,10 @@ describe('TracksComponent', () => {
         },
       } as any;
       spyOn(component, 'findTrackMatches');
-      component.replaceTrack(searchResp.tracks.items[0] as any);
+      component.replaceTrack(
+        searchResp.tracks.items[0] as any,
+        component.allPosition,
+      );
       tick(1000);
       expect(tracksInput).toEqual({
         id: '4bHJJit8d13R4tefdfjUfE',
@@ -406,6 +436,34 @@ describe('TracksComponent', () => {
       expect(component.loading).toBeFalse();
     }));
 
+    it('should not change trackPos and call setPlaylist for all replacement', fakeAsync(() => {
+      component.tabSelected = 1;
+      component.trackPos = 0;
+      component.spotify = {
+        removeTracksFromPlaylistInPositions: (
+          _id: string,
+          _pos: number[],
+          _trackssnap_id: string,
+        ) => {
+          return Promise.resolve();
+        },
+        addTracksToPlaylist: (_id: string, _uri: string[], _pos: {}) => {
+          return Promise.resolve();
+        },
+      } as any;
+      const msgSpy = spyOn(component['messageService'], 'add');
+      const setPlaylistSpy = spyOn(component, 'setPlaylist');
+      component.replaceTrack(searchResp.tracks.items[0] as any, 400);
+      tick(1000);
+      expect(component.trackPos).toBe(0);
+      expect(setPlaylistSpy).toHaveBeenCalledWith(component.selectedPlaylist);
+      expect(msgSpy).toHaveBeenCalledWith({
+        severity: 'info',
+        summary: 'Track successfully replaced.',
+        detail: `${searchResp.tracks.items[0].name} has replaced the previous track at position 400 in the playlist`,
+      });
+    }));
+
     it('should open error message if add tracks fails', fakeAsync(() => {
       component.trackMatches = searchResp.tracks.items[0] as any;
       component.selectedPlaylist = playlists.items[0];
@@ -420,7 +478,10 @@ describe('TracksComponent', () => {
           }),
       } as any;
       const msgSpy = spyOn(component['messageService'], 'add');
-      component.replaceTrack(searchResp.tracks.items[0] as any);
+      component.replaceTrack(
+        searchResp.tracks.items[0] as any,
+        component.allPosition,
+      );
       tick(1000);
       expect(msgSpy).toHaveBeenCalledWith({
         severity: 'error',
@@ -439,7 +500,10 @@ describe('TracksComponent', () => {
       } as any;
       component.selectedPlaylist = playlists.items[0];
       const msgSpy = spyOn(component['messageService'], 'add');
-      component.replaceTrack(searchResp.tracks.items[0] as any);
+      component.replaceTrack(
+        searchResp.tracks.items[0] as any,
+        component.allPosition,
+      );
       tick(1000);
       expect(msgSpy).toHaveBeenCalledWith({
         severity: 'error',
