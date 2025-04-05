@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
 import { HomeComponent } from './home.component';
@@ -8,6 +9,9 @@ class FakeAuthService {
     return '';
   }
   isLoggedIn() {
+    return true;
+  }
+  loggedInPreviously() {
     return true;
   }
 }
@@ -29,6 +33,7 @@ describe('HomeComponent', () => {
             },
           },
         },
+        provideAnimationsAsync(),
       ],
     }).compileComponents();
 
@@ -42,6 +47,7 @@ describe('HomeComponent', () => {
       component.loggedIn = false;
       component.ngOnInit();
       expect(component.loggedIn).toBe(true);
+      expect(component.previouslyLoggedIn).toBe(true);
     });
   });
 });

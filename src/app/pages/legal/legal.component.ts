@@ -3,6 +3,7 @@ import { TabsModule } from 'primeng/tabs';
 
 /**  Create the component */
 @Component({
+  selector: 'app-legal',
   template: `<p-tabs value="0">
     <p-tablist>
       <p-tab value="0">End User Agreement</p-tab>

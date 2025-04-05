@@ -52,4 +52,8 @@ export class AuthService {
   setUserDisplay(display_val: SpotifyApi.CurrentUsersProfileResponse) {
     this.userDisplay.next(display_val);
   }
+
+  loggedInPreviously(): boolean {
+    return localStorage.getItem('token') !== null;
+  }
 }
