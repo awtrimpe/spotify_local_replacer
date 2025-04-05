@@ -20,11 +20,46 @@
   <p-button
     label="Login"
     [rounded]="true"
-    routerLink="/login"
+    (click)="previouslyLoggedIn ? null : (openDialog = true)"
     icon="pi pi-sign-in"
     severity="info"
+    [routerLink]="previouslyLoggedIn ? ['/login'] : []"
     *ngIf="!loggedIn; else loggedInCont"
   />
+  <p-dialog
+    header="Edit Profile"
+    [modal]="true"
+    [(visible)]="openDialog"
+    [style]="{ 'max-width': '90%' }"
+  >
+    <div class="flex align-items-center flex-column">
+      <p>Have you read our End User Agreement & Privacy Policy?</p>
+      <p-button
+        label="Confirm & Login"
+        [rounded]="true"
+        routerLink="/login"
+        icon="pi pi-sign-in"
+        severity="info"
+      />
+    </div>
+    <p-accordion
+      expandIcon="pi pi-chevron-down"
+      collapseIcon="pi pi-chevron-up"
+    >
+      <p-accordion-panel value="0">
+        <p-accordion-header
+          >End User Agreement & Privacy Policy</p-accordion-header
+        >
+        <p-accordion-content>
+          <app-legal />
+        </p-accordion-content>
+      </p-accordion-panel>
+    </p-accordion>
+    <p class="text-sm text-center font-italic">
+      TL;DR: We will never retain any information about you outside of your own
+      browser
+    </p>
+  </p-dialog>
   <ng-template #loggedInCont>
     <p-button
       label="Select Playlist"

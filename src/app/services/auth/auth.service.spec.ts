@@ -101,4 +101,16 @@ describe('AuthService', () => {
       expect(service.userDisplay.next).toHaveBeenCalledWith(userInfo);
     });
   });
+
+  describe('loggedInPreviously()', () => {
+    it('should return true if a token is known', () => {
+      spyOn(window.localStorage, 'getItem').and.returnValue('abc123');
+      expect(service.loggedInPreviously()).toBeTrue();
+    });
+
+    it('should return false if no token', () => {
+      spyOn(window.localStorage, 'getItem').and.returnValue(null);
+      expect(service.loggedInPreviously()).toBeFalse();
+    });
+  });
 });
