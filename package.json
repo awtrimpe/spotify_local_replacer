@@ -30,11 +30,11 @@
     "@angular/platform-browser-dynamic": "^19.2.5",
     "@angular/router": "^19.2.5",
     "@primeng/themes": "^19.0.10",
-    "jspdf": "^3.0.0",
+    "jspdf": "^3.0.3",
     "primeflex": "^3.3.1",
     "primeicons": "^7.0.0",
     "primeng": "^19.0.2",
-    "rxjs": "~7.8.0",
+    "rxjs": "~7.8.2",
     "spotify-web-api-js": "^1.5.2",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
@@ -52,11 +52,11 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "pre-commit": "^1.0.10",
-    "prettier": "^3.4.2",
-    "prettier-plugin-organize-imports": "^4.1.0",
-    "typescript": "~5.6.2",
-    "typescript-eslint": "8.18.0"
+    "pre-commit": "^1.2.2",
+    "prettier": "^3.6.2",
+    "prettier-plugin-organize-imports": "^4.3.0",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "8.46.2"
   },
   "overrides": {
     "pre-commit": {
