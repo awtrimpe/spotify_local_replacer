@@ -270,7 +270,7 @@ export class TracksComponent implements OnInit, AfterViewInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Unable to remove track from playlist',
-          detail: err.response.toString(),
+          detail: err?.response?.toString(),
           life: 10000,
         });
         this.loading = false;

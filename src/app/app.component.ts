@@ -1,11 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  ElementRef,
-  HostListener,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { MenubarModule } from 'primeng/menubar';
@@ -53,20 +47,20 @@ export class AppComponent implements OnInit {
   @ViewChild('menuBar', { read: ElementRef }) menuBarRef!: ElementRef;
   userDisplay: SpotifyApi.CurrentUsersProfileResponse | undefined = undefined;
 
-  @HostListener('document:click', ['$event.target'])
-  onClick(targetElement: HTMLElement) {
-    if (
-      !this.menuBarRef.nativeElement.contains(targetElement) &&
-      this.menuBarRef.nativeElement.children[0] &&
-      this.menuBarRef.nativeElement.children[0].classList &&
-      Array.from(this.menuBarRef.nativeElement.children[0].classList).includes(
-        'p-menubar-mobile-active',
-      ) &&
-      this.menuBarRef.nativeElement.children[0].children[0]
-    ) {
-      this.menuBarRef.nativeElement.children[0].children[0].click();
-    }
-  }
+  // @HostListener('document:click', ['$event.target'])
+  // onClick(targetElement: HTMLElement) {
+  //   if (
+  //     !this.menuBarRef.nativeElement.contains(targetElement) &&
+  //     this.menuBarRef.nativeElement.children[0] &&
+  //     this.menuBarRef.nativeElement.children[0].classList &&
+  //     Array.from(this.menuBarRef.nativeElement.children[0].classList).includes(
+  //       'p-menubar-mobile-active',
+  //     ) &&
+  //     this.menuBarRef.nativeElement.children[0].children[0]
+  //   ) {
+  //     this.menuBarRef.nativeElement.children[0].children[0].click();
+  //   }
+  // }
 
   ngOnInit() {
     this.authService.userDisplay.subscribe((val) => {
