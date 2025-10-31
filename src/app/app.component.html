@@ -3,7 +3,7 @@
     <app-polished-pine routerLink="/"></app-polished-pine>
     <p-toast position="top-center"></p-toast>
   </div>
-  <p-menubar #menuBar class="lg:w-full" [model]="menuItems">
+  <p-menubar #menuBar class="lg:w-full md:flex-row-reverse" [model]="menuItems">
     <ng-template #end>
       <div class="flex align-items-center" *ngIf="userDisplay">
         <img

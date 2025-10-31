@@ -3,6 +3,7 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  inject,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -43,13 +44,11 @@ import { AllTracksComponent } from './all/all.component';
   templateUrl: `./tracks.component.html`,
 })
 export class TracksComponent implements OnInit, AfterViewInit {
-  constructor(
-    private authService: AuthService,
-    private cdr: ChangeDetectorRef,
-    private messageService: MessageService,
-    private route: ActivatedRoute,
-    private router: Router,
-  ) {}
+  private authService = inject(AuthService);
+  private cdr = inject(ChangeDetectorRef);
+  private messageService = inject(MessageService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
   sessionExp = false;
   spotify = new SpotifyWebApi();

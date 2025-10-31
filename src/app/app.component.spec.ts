@@ -37,39 +37,39 @@ describe('AppComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create the app', () => {
-    expect(component).toBeTruthy();
+  describe('@HostListener', () => {
+    it('should observe clicks', () => {
+      const event = new MouseEvent('click');
+      const spy = spyOn(component, 'onClick');
+      document.dispatchEvent(event);
+      expect(spy).toHaveBeenCalled();
+    });
   });
 
-  // it('should observe clicks', () => {
-  //   const event = new MouseEvent('click');
-  //   const spy = spyOn(component, 'onClick');
-  //   document.dispatchEvent(event);
-  //   expect(spy).toHaveBeenCalled();
-  // });
+  describe('onClick()', () => {
+    it('should not click menuBarRef if not in child of menu and on mobile', () => {
+      const event = new MouseEvent('click');
+      const spy = spyOn(
+        component.menuBarRef.nativeElement.children[0],
+        'click',
+      );
+      document.dispatchEvent(event);
+      expect(spy).not.toHaveBeenCalled();
+    });
 
-  // it('should not click menuBarRef if not in child of menu and on mobile', () => {
-  //   const event = new MouseEvent('click');
-  //   const spy = spyOn(
-  //     component.menuBarRef.nativeElement.children[0].children[0],
-  //     'click',
-  //   );
-  //   document.dispatchEvent(event);
-  //   expect(spy).not.toHaveBeenCalled();
-  // });
-
-  // it('should click menuBarRef if a child of menu and on mobile', () => {
-  //   const event = new MouseEvent('click');
-  //   component.menuBarRef.nativeElement.children[0].classList.add(
-  //     'p-menubar-mobile-active',
-  //   );
-  //   const spy = spyOn(
-  //     component.menuBarRef.nativeElement.children[0].children[0],
-  //     'click',
-  //   );
-  //   document.dispatchEvent(event);
-  //   expect(spy).toHaveBeenCalled();
-  // });
+    it('should click menuBarRef if a child of menu and on mobile', () => {
+      const event = new MouseEvent('click');
+      component.menuBarRef.nativeElement.classList.add(
+        'p-menubar-mobile-active',
+      );
+      const spy = spyOn(
+        component.menuBarRef.nativeElement.children[0],
+        'click',
+      );
+      document.dispatchEvent(event);
+      expect(spy).toHaveBeenCalled();
+    });
+  });
 
   describe('ngOnInit()', () => {
     it('should subscribe to userDisplay value changes and set userDisplay to the returned value', () => {

@@ -1,15 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
 
 /** this is a dummy component, set up to do nothing deliberately. see the app-routing.module for more details. */
 @Component({ template: '' })
 export class OAuthCallbackComponent implements OnInit {
-  constructor(
-    private authService: AuthService,
-    private route: ActivatedRoute,
-    private router: Router,
-  ) {}
+  private authService = inject(AuthService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
   ngOnInit(): void {
     const id = new URLSearchParams(this.route.snapshot.fragment as string).get(

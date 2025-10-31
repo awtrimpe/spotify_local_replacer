@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AccordionModule } from 'primeng/accordion';
 import { ButtonModule } from 'primeng/button';
@@ -21,7 +21,7 @@ import { LegalComponent } from '../legal/legal.component';
   templateUrl: `./home.component.html`,
 })
 export class HomeComponent implements OnInit {
-  constructor(private authService: AuthService) {}
+  private authService = inject(AuthService);
 
   loggedIn = false;
   previouslyLoggedIn = false;
