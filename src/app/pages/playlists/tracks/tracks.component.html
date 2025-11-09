@@ -53,6 +53,7 @@
   <p-button
     variant="outlined"
     severity="contrast"
+    class="m-1 p-1"
     (click)="menu.toggle($event)"
     icon="pi pi-angle-double-right"
   />
@@ -128,13 +129,15 @@
     </p-tabpanel>
     <p-tabpanel value="1">
       <!-- All Tracks -->
-      <app-all-tracks
-        *ngIf="allTracks && selectedPlaylistTotal"
-        [tracks]="allTracks"
-        [offset]="trackOffset"
-        [totalLength]="selectedPlaylistTotal"
-        (trackSelected)="allPosition = $event"
-      ></app-all-tracks>
+      @if (allTracks && selectedPlaylistTotal) {
+        <app-all-tracks
+          [playlistID]="selectedPlaylist.id"
+          [tracks]="allTracks"
+          [offset]="trackOffset"
+          [totalLength]="selectedPlaylistTotal"
+          (trackSelected)="allPosition = $event"
+        />
+      }
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>

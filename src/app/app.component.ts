@@ -58,12 +58,17 @@ export class AppComponent implements OnInit {
   @HostListener('document:click', ['$event.target'])
   onClick(targetElement: HTMLElement) {
     if (
+      this.menuBarRef.nativeElement.classList.contains(
+        'p-menubar-mobile-active',
+      ) &&
       !this.menuBarRef.nativeElement.contains(targetElement) &&
       Array.from(this.menuBarRef.nativeElement.classList).includes(
         'p-menubar-mobile-active',
       )
     ) {
       this.menuBarRef.nativeElement.children[0].click();
+    } else {
+      return;
     }
   }
 

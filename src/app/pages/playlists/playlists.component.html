@@ -1,6 +1,8 @@
 <div class="flex justify-content-center w-full">
-  <app-expiration></app-expiration>
-  <p-progress-spinner *ngIf="loading" ariaLabel="loading" />
+  <app-expiration />
+  @if (loading) {
+    <p-progress-spinner ariaLabel="loading" />
+  }
 </div>
 
 <!-- Playlists -->

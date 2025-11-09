@@ -252,6 +252,7 @@ export class TracksComponent implements OnInit, AfterViewInit {
                 severity: 'info',
                 summary: 'Track successfully replaced.',
                 detail: `${track.name} has replaced the previous track at position ${position} in the playlist`,
+                life: 5000,
               });
             }
           })
