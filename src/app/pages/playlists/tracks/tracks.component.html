@@ -1,6 +1,8 @@
 <div class="flex justify-content-center w-full mb-2">
   <app-expiration></app-expiration>
-  <p-progress-spinner *ngIf="loading" ariaLabel="loading" />
+  @if (loading) {
+    <p-progress-spinner ariaLabel="loading" />
+  }
 </div>
 
 <div class="card flex justify-center">
@@ -62,8 +64,8 @@
 <!-- Tabs -->
 <p-tabs [value]="tabSelected.toString()">
   <p-tablist>
-    <p-tab (click)="setTabSelected(0)">Local Tracks</p-tab>
-    <p-tab (click)="setTabSelected(1)">All Tracks</p-tab>
+    <p-tab value="0" (click)="setTabSelected(0)">Local Tracks</p-tab>
+    <p-tab value="1" (click)="setTabSelected(1)">All Tracks</p-tab>
   </p-tablist>
   <p-tabpanels
     class="shared-background border-left-1 border-right-1 border-bottom-1 border-200"
@@ -136,6 +138,9 @@
           [offset]="trackOffset"
           [totalLength]="selectedPlaylistTotal"
           (trackSelected)="allPosition = $event"
+          (selectedSearchOffset)="
+            trackOffset = $event; setPlaylist(selectedPlaylist)
+          "
         />
       }
     </p-tabpanel>

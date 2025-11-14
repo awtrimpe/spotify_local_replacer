@@ -1,39 +1,31 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import SpotifyWebApi from 'spotify-web-api-js';
-import { StorageService } from '../storage/storage.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SpotifyService {
   private readonly spotify = new SpotifyWebApi();
-  private readonly storageService = inject(StorageService);
 
-  playlistTracks: { [key: string]: SpotifyApi.PlaylistTrackObject[] } = {};
+  playlistTracks: Record<string, SpotifyApi.PlaylistTrackObject[]> = {};
   playlistTracksKey = 'playlistTracks';
 
+  /** Returns whether the tracks have already been  */
+  playlistTracksInMemory(playlistID: string): boolean {
+    return Object.keys(this.playlistTracks).includes(playlistID);
+  }
+
+  /** Retrieves all playlist tracks and returns once all have been fetched */
   getAllPlaylistTracks(
     playlistID: string,
   ): Promise<SpotifyApi.PlaylistTrackObject[]> {
-    // refactor: make the function async and handle storage JSON consistently
     return (async (): Promise<SpotifyApi.PlaylistTrackObject[]> => {
       const limit = 100;
       let offset = 0;
       let total = 0;
 
       try {
-        const storedTracks = this.storageService.getBrowser(
-          this.playlistTracksKey,
-        );
-        if (storedTracks) {
-          try {
-            this.playlistTracks = JSON.parse(storedTracks);
-          } catch {}
-        }
-
-        if (this.playlistTracks[playlistID]) {
-          console.log(playlistID);
-          console.log(this.playlistTracks);
+        if (this.playlistTracksInMemory(playlistID)) {
           return this.playlistTracks[playlistID];
         }
 
@@ -60,13 +52,9 @@ export class SpotifyService {
           offset += limit;
         }
 
-        this.storageService.saveBrowser(
-          this.playlistTracksKey,
-          this.playlistTracks,
-        );
-
         return this.playlistTracks[playlistID];
       } catch (err) {
+        delete this.playlistTracks[playlistID];
         throw new Error(
           `Failed to load tracks for ${playlistID} (offset ${offset}): ${String(
             err,

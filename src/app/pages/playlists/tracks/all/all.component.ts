@@ -8,7 +8,11 @@ import { PopoverModule } from 'primeng/popover';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { TrackCardComponent } from '../../../../components/track-card/track-card.component';
-import { PlaylistTrackSearchComponent } from './search/search.component';
+import { TrackLineTitlePipe } from '../../../../pipes/track-line-title.pipe';
+import {
+  PlaylistTrackSearchComponent,
+  SearchSelection,
+} from './search/search.component';
 
 @Component({
   selector: 'app-all-tracks',
@@ -21,6 +25,7 @@ import { PlaylistTrackSearchComponent } from './search/search.component';
     RadioButtonModule,
     ScrollPanelModule,
     TrackCardComponent,
+    TrackLineTitlePipe,
   ],
   templateUrl: `./all.component.html`,
   providers: [DialogService],
@@ -33,15 +38,16 @@ export class AllTracksComponent {
   @Input() offset!: number;
   @Input() totalLength!: number;
   @Output() trackSelected = new EventEmitter<number>();
+  @Output() selectedSearchOffset = new EventEmitter<number>();
   selectedTrackID?: string;
   hoveredTrack?: SpotifyApi.TrackObjectFull;
   dialogRef: DynamicDialogRef<PlaylistTrackSearchComponent> | null = null;
+  searchSelectionInterval?: NodeJS.Timeout;
 
-  findSelectedIndex(
-    track: SpotifyApi.TrackObjectFull | SpotifyApi.EpisodeObjectFull,
-  ) {
+  findSelectedIndex(trackID: string) {
     this.trackSelected.emit(
-      this.tracks.findIndex((trackA) => trackA.track === track) + this.offset,
+      this.tracks.findIndex((track) => track.track.id === trackID) +
+        this.offset,
     );
   }
 
@@ -51,6 +57,22 @@ export class AllTracksComponent {
       dismissableMask: true,
       style: { width: '80%' },
       inputValues: { playlistID: this.playlistID },
+    });
+
+    this.dialogRef!.onClose.subscribe((selected: SearchSelection) => {
+      if (selected) {
+        this.selectedSearchOffset.next(
+          Math.floor(selected.trackIndex / 100) * 100,
+        );
+        // It takes a moment for the track component to change the offset & provide the new tracks
+        this.searchSelectionInterval = setInterval(() => {
+          if (this.tracks.find((t) => t.track.id === selected.trackID)) {
+            this.selectedTrackID = selected.trackID;
+            this.findSelectedIndex(selected.trackID);
+            clearInterval(this.searchSelectionInterval);
+          }
+        }, 1000);
+      }
     });
   }
 }

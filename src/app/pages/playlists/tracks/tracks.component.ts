@@ -153,19 +153,21 @@ export class TracksComponent implements OnInit, AfterViewInit {
         this.trackPos = 0;
         if (
           this.tracks.length < 1 &&
-          this.trackOffset + 100 < this.selectedPlaylistTotal
+          this.trackOffset + 100 < this.selectedPlaylistTotal &&
+          this.tabSelected != 1
         ) {
           this.trackOffset += 100;
           this.setPlaylist(this.selectedPlaylist!);
         } else if (
           this.tracks.length < 1 &&
-          this.trackOffset + 100 > this.selectedPlaylistTotal
+          this.trackOffset + 100 > this.selectedPlaylistTotal &&
+          this.tabSelected != 1
         ) {
-          if (this.tabSelected != 1) {
-            this.showDialog = true;
-          }
+          this.showDialog = true;
         } else {
-          this.findTrackMatches(this.tracks[this.trackPos]);
+          if (this.tabSelected != 1) {
+            this.findTrackMatches(this.tracks[this.trackPos]);
+          }
         }
         this.loading = false;
       })

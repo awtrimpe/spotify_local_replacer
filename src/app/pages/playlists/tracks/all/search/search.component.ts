@@ -1,48 +1,65 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input, OnInit } from '@angular/core';
-import FuzzySearch from 'fuzzy-search';
+import {
+  ChangeDetectorRef,
+  Component,
+  inject,
+  Input,
+  OnInit,
+} from '@angular/core';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import Fuse from 'fuse.js';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
-import { DataViewModule } from 'primeng/dataview';
+import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { TableModule } from 'primeng/table';
+import { TrackLineTitlePipe } from '../../../../../pipes/track-line-title.pipe';
 import { SpotifyService } from '../../../../../services/spotify/spotify.service';
 
+export interface SearchSelection {
+  trackIndex: number;
+  trackID: string;
+}
+
 @Component({
-  selector: 'all-playlist-track-search',
   standalone: true,
   imports: [
     ButtonModule,
     CommonModule,
-    DataViewModule,
+    FormsModule,
     IconFieldModule,
     InputIconModule,
     InputTextModule,
     ProgressSpinnerModule,
+    ReactiveFormsModule,
+    TableModule,
+    TrackLineTitlePipe,
   ],
   providers: [MessageService],
   template: `
     @if (!confirmed && allTracks.length === 0) {
       <p class="text-center">
-        Loading tracks can take a while. Confirm you want to load all tracks to
-        start the process.
+        If you have a large playlist, loading tracks can take a while. Confirm
+        you want to load all tracks before beginning.
       </p>
       <div class="flex justify-content-center">
         <p-button label="Load All Tracks" (onClick)="loadAllTracks()" />
       </div>
     } @else {
       <div class="flex justify-content-center">
-        <div>
+        <div class="max-w-full">
           <p-iconfield>
             <p-inputicon class="pi pi-search" />
             <input
               #searchField
+              [formControl]="search"
               type="text"
               pInputText
               placeholder="Search"
-              (keydown)="filterTracks(searchField.value)"
+              class="max-w-full"
               [disabled]="loading"
             />
           </p-iconfield>
@@ -50,31 +67,50 @@ import { SpotifyService } from '../../../../../services/spotify/spotify.service'
       </div>
 
       <div class="flex justify-content-center">
-        <p-dataview #dv [value]="searchMatches">
-          <ng-template #list let-tracks>
-            @for (track of tracks; track track.track.id) {
-              <div
-                [ngClass]="{
-                  'border-none border-top-1 border-solid border-surface-200 dark:border-surface-700':
-                    !$first,
-                }"
-              >
-                <p>
-                  <b>{{ track.track.album.artists[0].name }}</b>
-                  - {{ track.track.name }}
-                </p>
-              </div>
-            }
-          </ng-template>
-        </p-dataview>
+        <!-- User search results -->
+        @if (
+          searchField.value.length > 0 &&
+          searchMatches &&
+          searchMatches.length > 1
+        ) {
+          <p-table [value]="searchMatches || []" [paginator]="true" [rows]="5">
+            <ng-template #body let-track>
+              <tr>
+                <td>
+                  {{ track | apptrackLineTitle }}
+                </td>
+                <td>
+                  <p-button
+                    label="Select"
+                    severity="info"
+                    rounded="true"
+                    (onClick)="findIndexOfSelected(track)"
+                  />
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        } @else if (
+          searchField.value.length > 0 &&
+          searchMatches &&
+          searchMatches.length < 1
+        ) {
+          <p>No results found</p>
+        } @else if (!loading) {
+          <p>Begin seaching to find matching tracks in your playlist</p>
+        }
       </div>
       @if (loading) {
-        <p-progress-spinner ariaLabel="loading" class="m-0 h-3rem w-3rem" />
+        <div class="flex justify-content-center">
+          <p-progress-spinner ariaLabel="loading" class="m-0 h-3rem w-3rem" />
+        </div>
       }
     }
   `,
 })
 export class PlaylistTrackSearchComponent implements OnInit {
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly ref = inject(DynamicDialogRef);
   private readonly messageService = inject(MessageService);
   private readonly spotifyService = inject(SpotifyService);
 
@@ -84,9 +120,15 @@ export class PlaylistTrackSearchComponent implements OnInit {
   loading = false;
   allTracks: SpotifyApi.PlaylistTrackObject[] = [];
   searchMatches?: SpotifyApi.PlaylistTrackObject[];
+  search = new FormControl('');
 
   ngOnInit() {
-    // TODO: Add auto-load if available
+    if (this.spotifyService.playlistTracksInMemory(this.playlistID)) {
+      this.loadAllTracks();
+    }
+    this.search.valueChanges.subscribe((val) => {
+      this.filterTracks(val);
+    });
   }
 
   loadAllTracks() {
@@ -110,20 +152,30 @@ export class PlaylistTrackSearchComponent implements OnInit {
       });
   }
 
-  filterTracks(val: string) {
+  filterTracks(val: string | null) {
     if (!val) {
       this.searchMatches = [];
       return;
     }
-    const searcher = new FuzzySearch(
-      this.allTracks,
-      ['track.name', 'track.album', 'track.album.name', 'track.artists.name'],
-      {
-        caseSensitive: false,
-        sort: true,
-      },
-    );
-    this.allTracks.filter((track) => track.track);
-    this.searchMatches = searcher.search(val);
+
+    const searcher = new Fuse(this.allTracks, {
+      keys: [
+        'track.name',
+        'track.album',
+        'track.album.name',
+        'track.artists.name',
+      ],
+    });
+    this.searchMatches = searcher
+      .search(val.trim().toLocaleLowerCase())
+      .map((m) => m.item);
+    this.cdr.detectChanges();
+  }
+
+  findIndexOfSelected(selected: SpotifyApi.PlaylistTrackObject) {
+    this.ref.close({
+      trackIndex: this.allTracks.indexOf(selected),
+      trackID: selected.track.id,
+    } as SearchSelection);
   }
 }
