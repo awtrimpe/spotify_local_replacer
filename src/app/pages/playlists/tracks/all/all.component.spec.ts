@@ -27,7 +27,7 @@ describe('AllTracksComponent', () => {
         expect(val).toBe(202);
         done();
       });
-      component.findSelectedIndex(tracks.items[2].track);
+      component.findSelectedIndex(tracks.items[2].track.id);
     });
   });
 });

@@ -20,6 +20,13 @@ describe('StorageService', () => {
       service.saveBrowser(key, val);
       expect(setItemSpy).toHaveBeenCalledWith(key, val);
     });
+
+    it('should log an error on failure to save', () => {
+      spyOn(service.localStorage, 'setItem').and.throwError('failed');
+      const conErr = spyOn(console, 'error');
+      service.saveBrowser('key', 'value');
+      expect(conErr).toHaveBeenCalled();
+    });
   });
 
   describe('getBrowser()', () => {
@@ -38,6 +45,13 @@ describe('StorageService', () => {
       const key = 'The Key';
       service.saveSession(key, val);
       expect(setItemSpy).toHaveBeenCalledWith(key, val);
+    });
+
+    it('should log an error on failure to save', () => {
+      spyOn(service.sessionStorage, 'setItem').and.throwError('failed');
+      const conErr = spyOn(console, 'error');
+      service.saveSession('key', 'value');
+      expect(conErr).toHaveBeenCalled();
     });
   });
 
