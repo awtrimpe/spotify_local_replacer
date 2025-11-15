@@ -63,4 +63,10 @@ export class SpotifyService {
       }
     })();
   }
+
+  // getAllLikedSongs() {
+  //   this.spotify.getMySavedTracks({
+  //     limit: 50
+  //   })
+  // }
 }

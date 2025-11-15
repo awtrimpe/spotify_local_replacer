@@ -84,7 +84,7 @@ export interface SearchSelection {
                     label="Select"
                     severity="info"
                     rounded="true"
-                    (onClick)="findIndexOfSelected(track)"
+                    (onClick)="selectTrack(track)"
                   />
                 </td>
               </tr>
@@ -172,7 +172,7 @@ export class PlaylistTrackSearchComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  findIndexOfSelected(selected: SpotifyApi.PlaylistTrackObject) {
+  selectTrack(selected: SpotifyApi.PlaylistTrackObject) {
     this.ref.close({
       trackIndex: this.allTracks.indexOf(selected),
       trackID: selected.track.id,

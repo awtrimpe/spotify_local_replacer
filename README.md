@@ -2,7 +2,7 @@
 
 [https://awtrimpe.github.io/spotify_local_replacer/](https://awtrimpe.github.io/spotify_local_replacer/)
 
-This application allows you to edit your Spotify playlists that contain local tracks, and replace those tracks with Spotify's version.You can use this app to create a copy of your local tracks in a playlist and be able to take those tracks with you on the go. It puts you in control, allowing you to hand select each pair to ensure you have the perfect match to your preferences.
+This application allows you to edit your Spotify playlists that contain local tracks, and replace those tracks with Spotify's version. You can use this app to create a copy of your local tracks in a playlist and be able to take those tracks with you on the go. It puts you in control, allowing you to hand select each pair to ensure you have the perfect match to your preferences.
 
 ![Home Screenshot](/images/screenshot_home.png)
 
