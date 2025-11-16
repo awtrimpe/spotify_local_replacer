@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import SpotifyWebApi from 'spotify-web-api-js';
+import { anyToString } from '../../core/utils';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,6 @@ export class SpotifyService {
     return (async (): Promise<SpotifyApi.PlaylistTrackObject[]> => {
       const limit = 100;
       let offset = 0;
-      let total = 0;
 
       try {
         if (this.playlistTracksInMemory(playlistID)) {
@@ -34,13 +34,12 @@ export class SpotifyService {
           limit,
           offset,
         });
-        total = firstResponse.total ?? firstResponse.items.length ?? 0;
         this.playlistTracks[playlistID] = [...firstResponse.items];
 
         offset += limit;
 
-        // Fetch remaining pages
-        while (offset < total) {
+        // Fetch remaining pages while lower than the total playlist length
+        while (offset < firstResponse.total) {
           const response = await this.spotify.getPlaylistTracks(playlistID, {
             limit,
             offset,
@@ -56,7 +55,7 @@ export class SpotifyService {
       } catch (err) {
         delete this.playlistTracks[playlistID];
         throw new Error(
-          `Failed to load tracks for ${playlistID} (offset ${offset}): ${String(
+          `Failed to load tracks for ${playlistID} (offset ${offset}): ${anyToString(
             err,
           )}`,
         );
