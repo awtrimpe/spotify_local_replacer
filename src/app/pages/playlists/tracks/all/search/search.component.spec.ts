@@ -14,6 +14,7 @@ import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TableModule } from 'primeng/table';
+import { tracks } from '../../../../../../test/tracks.spec';
 import { TrackLineTitlePipe } from '../../../../../pipes/track-line-title.pipe';
 import { PlaylistTrackSearchComponent } from './search.component';
 
@@ -62,5 +63,64 @@ describe('PlaylistTrackSearchComponent', () => {
       tick(1000);
       expect(filterTracksSpy).toHaveBeenCalledWith(searchStr);
     }));
+  });
+
+  describe('loadAllTracks()', () => {
+    it('should set all tracks to the returned value', fakeAsync(() => {
+      spyOn(component['spotifyService'], 'getAllPlaylistTracks').and.resolveTo(
+        tracks.items,
+      );
+      component.loadAllTracks();
+      tick(1000);
+      expect(component.allTracks).toEqual(tracks.items);
+      expect(component.loading).toBeFalse();
+    }));
+
+    it('should open a message on error', fakeAsync(() => {
+      const msgSpy = spyOn(component['messageService'], 'add');
+      const errMsg = 'Error!';
+      spyOn(component['spotifyService'], 'getAllPlaylistTracks').and.rejectWith(
+        errMsg,
+      );
+      component.loadAllTracks();
+      tick(1000);
+      expect(component.loading).toBeFalse();
+      expect(msgSpy).toHaveBeenCalledWith({
+        severity: 'error',
+        summary: 'Failed to Load Playlist Tracks',
+        detail: errMsg,
+        life: 100000,
+      });
+    }));
+  });
+
+  describe('filterTracks()', () => {
+    it('should not execute search if no value provided', () => {
+      const detectChangesSpy = spyOn(component['cdr'], 'detectChanges');
+      component.filterTracks('');
+      expect(detectChangesSpy).not.toHaveBeenCalled();
+    });
+
+    it('should reduce the track length to only matched items', () => {
+      const detectChangesSpy = spyOn(component['cdr'], 'detectChanges');
+      component.allTracks = tracks.items;
+      component.filterTracks(tracks.items[0].track.name);
+      expect(detectChangesSpy).toHaveBeenCalled();
+      expect(component.searchMatches!.length).toBeGreaterThan(0);
+      expect(component.searchMatches!.length).toBeLessThan(tracks.items.length);
+    });
+  });
+
+  describe('selectTrack', () => {
+    it('should call to close with the selected track', () => {
+      component.allTracks = tracks.items;
+      const index = 2;
+      const closeSpy = spyOn(component['ref'], 'close');
+      component.selectTrack(tracks.items[index]);
+      expect(closeSpy).toHaveBeenCalledWith({
+        trackIndex: index,
+        trackID: tracks.items[index].track.id,
+      });
+    });
   });
 });
