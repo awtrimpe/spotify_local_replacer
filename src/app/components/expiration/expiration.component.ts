@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
@@ -18,7 +18,7 @@ import { AuthService } from '../../services/auth/auth.service';
   `,
 })
 export class ExpirationComponent implements OnInit {
-  constructor(private authService: AuthService) {}
+  private authService = inject(AuthService);
 
   sessionExp = false;
   timeout?: NodeJS.Timeout;

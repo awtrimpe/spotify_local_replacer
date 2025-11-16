@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, Input, ViewChild } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { FloatLabelModule } from 'primeng/floatlabel';
@@ -23,7 +23,7 @@ import { TrackCardComponent } from '../track-card/track-card.component';
   templateUrl: `./search.component.html`,
 })
 export class SearchComponent {
-  constructor(private messageService: MessageService) {}
+  private messageService = inject(MessageService);
 
   @Input() replaceTrack!: (
     match: SpotifyApi.TrackObjectFull,

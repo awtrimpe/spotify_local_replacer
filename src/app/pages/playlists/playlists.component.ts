@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AccordionModule } from 'primeng/accordion';
 import { MessageService } from 'primeng/api';
@@ -27,10 +27,8 @@ import { AuthService } from '../../services/auth/auth.service';
   templateUrl: `./playlists.component.html`,
 })
 export class PlaylistComponent implements OnInit {
-  constructor(
-    private authService: AuthService,
-    private messageService: MessageService,
-  ) {}
+  private authService = inject(AuthService);
+  private messageService = inject(MessageService);
 
   sessionExp = false;
   spotify = new SpotifyWebApi();

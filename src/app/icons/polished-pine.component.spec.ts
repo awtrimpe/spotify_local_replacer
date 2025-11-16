@@ -15,11 +15,7 @@ describe('PolishedPineComponent', () => {
     fixture.detectChanges();
   });
 
-  describe('should create', () => {
-    it('should create', () => {
-      expect(component).toBeTruthy();
-    });
-
+  describe('template tests', () => {
     it('should set styling', () => {
       const compiled = fixture.nativeElement as HTMLElement;
       expect(

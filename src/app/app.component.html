@@ -1,20 +1,22 @@
 <div class="flex align-items-center gap-1 justify-content-between">
-  <div class="h-2rem w-2rem cursor-pointer" routerLink="/">
+  <div class="h-2rem w-2rem cursor-pointer">
     <app-polished-pine routerLink="/"></app-polished-pine>
     <p-toast position="top-center"></p-toast>
   </div>
-  <p-menubar #menuBar class="lg:w-full" [model]="menuItems">
-    <ng-template #end>
-      <div class="flex align-items-center" *ngIf="userDisplay">
-        <img
-          *ngIf="userDisplay.images && userDisplay.images.length > 0"
-          [src]="userDisplay.images[0].url"
-          alt="User profile picture"
-          class="h-2rem"
-        />
-        <p class="m-0">{{ userDisplay.display_name || userDisplay.id }}</p>
-      </div>
-    </ng-template>
+  <p-menubar #menuBar class="lg:w-full md:flex-row-reverse" [model]="menuItems">
+    @if (userDisplay) {
+      <ng-template #end>
+        <div class="flex align-items-center">
+          <img
+            *ngIf="userDisplay.images && userDisplay.images.length > 0"
+            [src]="userDisplay.images[0].url"
+            alt="User profile picture"
+            class="h-2rem"
+          />
+          <p class="m-0">{{ userDisplay.display_name || userDisplay.id }}</p>
+        </div>
+      </ng-template>
+    }
   </p-menubar>
 </div>
 <br />

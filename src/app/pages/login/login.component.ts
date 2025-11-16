@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../services/auth/auth.service';
@@ -8,10 +8,8 @@ import { AuthService } from '../../services/auth/auth.service';
   template: `<h3>Redirecting to Spotify login</h3>`,
 })
 export class LoginComponent implements OnInit {
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-  ) {}
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
   window = window;
 

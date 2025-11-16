@@ -103,6 +103,10 @@ app-root {
   }
 }
 
+div.p-dialog-mask {
+  pointer-events: auto !important;
+}
+
 // Dark Theme
 
 @media (prefers-color-scheme: dark) {

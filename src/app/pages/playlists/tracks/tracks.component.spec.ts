@@ -461,6 +461,7 @@ describe('TracksComponent', () => {
         severity: 'info',
         summary: 'Track successfully replaced.',
         detail: `${searchResp.tracks.items[0].name} has replaced the previous track at position 400 in the playlist`,
+        life: 5000,
       });
     }));
 

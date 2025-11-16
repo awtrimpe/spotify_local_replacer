@@ -3,6 +3,7 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  inject,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -43,13 +44,11 @@ import { AllTracksComponent } from './all/all.component';
   templateUrl: `./tracks.component.html`,
 })
 export class TracksComponent implements OnInit, AfterViewInit {
-  constructor(
-    private authService: AuthService,
-    private cdr: ChangeDetectorRef,
-    private messageService: MessageService,
-    private route: ActivatedRoute,
-    private router: Router,
-  ) {}
+  private authService = inject(AuthService);
+  private cdr = inject(ChangeDetectorRef);
+  private messageService = inject(MessageService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
   sessionExp = false;
   spotify = new SpotifyWebApi();
@@ -154,19 +153,21 @@ export class TracksComponent implements OnInit, AfterViewInit {
         this.trackPos = 0;
         if (
           this.tracks.length < 1 &&
-          this.trackOffset + 100 < this.selectedPlaylistTotal
+          this.trackOffset + 100 < this.selectedPlaylistTotal &&
+          this.tabSelected != 1
         ) {
           this.trackOffset += 100;
           this.setPlaylist(this.selectedPlaylist!);
         } else if (
           this.tracks.length < 1 &&
-          this.trackOffset + 100 > this.selectedPlaylistTotal
+          this.trackOffset + 100 > this.selectedPlaylistTotal &&
+          this.tabSelected != 1
         ) {
-          if (this.tabSelected != 1) {
-            this.showDialog = true;
-          }
+          this.showDialog = true;
         } else {
-          this.findTrackMatches(this.tracks[this.trackPos]);
+          if (this.tabSelected != 1) {
+            this.findTrackMatches(this.tracks[this.trackPos]);
+          }
         }
         this.loading = false;
       })
@@ -253,6 +254,7 @@ export class TracksComponent implements OnInit, AfterViewInit {
                 severity: 'info',
                 summary: 'Track successfully replaced.',
                 detail: `${track.name} has replaced the previous track at position ${position} in the playlist`,
+                life: 5000,
               });
             }
           })

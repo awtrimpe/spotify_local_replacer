@@ -50,14 +50,13 @@ import { VenmoComponent } from '../../icons/venmo.component';
     <br />
     <p-panel header="More Automation">
       <p class="m-0">
-        If you are looking for a more automated solution, I recommend taking a
-        look at
+        If you are looking for a more automated solution, take a look at
         <a
           href="https://dersimn.github.io/spotify_local_track_matcher/"
           target="_blank"
           >Spotify Local Track Matcher</a
-        >. I cannot vouch for its long-term support, but in my testing it
-        performed very well.
+        >. I cannot vouch for its long-term support, but in my testing it well
+        enough to save me time and then correct the few mistakes it made.
       </p>
     </p-panel>
 
