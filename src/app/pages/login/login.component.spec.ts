@@ -9,6 +9,9 @@ class FakeAuthService {
   getToken() {
     return '';
   }
+  getRedirectURI() {
+    return '';
+  }
 }
 
 describe('LoginComponent', () => {
