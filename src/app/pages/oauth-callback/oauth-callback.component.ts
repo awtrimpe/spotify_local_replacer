@@ -4,6 +4,7 @@ import { MessageService } from 'primeng/api';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { anyToString } from '../../core/utils';
 import { AuthService } from '../../services/auth/auth.service';
+import { StorageService } from '../../services/storage/storage.service';
 
 /** this is a dummy component, set up to do nothing deliberately. see the app-routing.module for more details. */
 @Component({
@@ -34,6 +35,7 @@ import { AuthService } from '../../services/auth/auth.service';
 export class OAuthCallbackComponent implements OnInit {
   private authService = inject(AuthService);
   private msgService = inject(MessageService);
+  private storageService = inject(StorageService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
@@ -42,7 +44,8 @@ export class OAuthCallbackComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams?.subscribe((params) => {
       const code = params['code'];
-      if (code) {
+      const state = this.storageService.getBrowser('state');
+      if (code && state === params['state']) {
         this.getAccessToken(code);
       } else {
         this.msgService.add({
@@ -57,21 +60,26 @@ export class OAuthCallbackComponent implements OnInit {
   }
 
   getAccessToken(code: string) {
-    this.authService.getAccessToken(code).subscribe({
-      next: (resp) => {
-        this.authService.setToken(resp.access_token);
-        this.authService.setExpiration(Number(resp.expires_in));
-        this.router.navigateByUrl(localStorage.getItem('redirect') || '/');
-      },
-      error: (err) => {
-        this.msgService.add({
-          severity: 'error',
-          summary: 'Unable get access token from Spotify',
-          detail: anyToString(err),
-          life: 10000,
-        });
-        this.loading = false;
-      },
-    });
+    this.authService
+      .getAccessToken(
+        code,
+        this.storageService.getBrowser('code_verifier') as string,
+      )
+      .subscribe({
+        next: (resp) => {
+          this.authService.setToken(resp.access_token);
+          this.authService.setExpiration(Number(resp.expires_in));
+          this.router.navigateByUrl(localStorage.getItem('redirect') || '/');
+        },
+        error: (err) => {
+          this.msgService.add({
+            severity: 'error',
+            summary: 'Unable get access token from Spotify',
+            detail: anyToString(err),
+            life: 10000,
+          });
+          this.loading = false;
+        },
+      });
   }
 }

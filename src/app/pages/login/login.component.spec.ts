@@ -12,6 +12,9 @@ class FakeAuthService {
   getRedirectURI() {
     return '';
   }
+  generateRandomString() {
+    return '';
+  }
 }
 
 describe('LoginComponent', () => {

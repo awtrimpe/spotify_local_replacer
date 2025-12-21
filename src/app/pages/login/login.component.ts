@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth/auth.service';
+import { AuthService, spotifyAppInfo } from '../../services/auth/auth.service';
+import { StorageService } from '../../services/storage/storage.service';
 
 /**  Create the component */
 @Component({
@@ -8,6 +9,7 @@ import { AuthService } from '../../services/auth/auth.service';
 })
 export class LoginComponent implements OnInit {
   private authService = inject(AuthService);
+  private storageService = inject(StorageService);
   private router = inject(Router);
 
   window = window;
@@ -15,14 +17,28 @@ export class LoginComponent implements OnInit {
   /** The function executed on initialization */
   ngOnInit() {
     if (!this.authService.isLoggedIn()) {
-      const _endPoint =
-        'https://accounts.spotify.com/authorize?' +
-        'client_id=ceeaa79289664376bb1a3c271d97508c' +
-        '&response_type=code' +
-        '&scope=playlist-modify-public playlist-modify-private playlist-read-private playlist-read-collaborative' +
-        '&redirect_uri=' +
-        encodeURIComponent(this.authService.getRedirectURI());
-      this.window.location.replace(_endPoint);
+      const verifier = this.authService.generateRandomString();
+      this.authService
+        .generateCodeChallenge(verifier)
+        .then((val) => {
+          this.storageService.saveBrowser('code_verifier', verifier);
+          const state = this.authService.generateRandomString();
+          this.storageService.saveBrowser('state', state);
+          const _endPoint =
+            'https://accounts.spotify.com/authorize?' +
+            `client_id=${spotifyAppInfo.clientID}` +
+            '&response_type=code' +
+            `&state=${state}` +
+            '&scope=playlist-modify-public playlist-modify-private playlist-read-private playlist-read-collaborative' +
+            '&code_challenge_method=S256' +
+            `&code_challenge=${val}` +
+            '&redirect_uri=' +
+            encodeURIComponent(this.authService.getRedirectURI());
+          this.window.location.replace(_endPoint);
+        })
+        .catch(() => {
+          // TODO: Something
+        });
     } else {
       this.router.navigate(['/oauth']);
     }

@@ -4,9 +4,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { SpotifyAccessTokenResp } from '../../models/auth.model';
 
-export const appInfo = {
-  id: 'ceeaa79289664376bb1a3c271d97508c',
-  secret: '82e354d6b067461fab2719fc00e8d48d',
+export const spotifyAppInfo = {
+  clientID: 'ceeaa79289664376bb1a3c271d97508c',
 };
 
 @Injectable({
@@ -21,17 +20,21 @@ export class AuthService {
     SpotifyApi.CurrentUsersProfileResponse | undefined
   >(undefined);
 
-  getAccessToken(code: string): Observable<SpotifyAccessTokenResp> {
+  getAccessToken(
+    code: string,
+    verifier: string,
+  ): Observable<SpotifyAccessTokenResp> {
     let body = new HttpParams();
     body = body.set('grant_type', 'authorization_code');
     body = body.set('code', code);
     body = body.set('redirect_uri', this.getRedirectURI());
+    body = body.set('client_id', spotifyAppInfo.clientID);
+    body = body.set('code_verifier', verifier);
     return this.http.post<SpotifyAccessTokenResp>(
       'https://accounts.spotify.com/api/token',
       body,
       {
         headers: {
-          Authorization: `Basic ${btoa(appInfo.id + ':' + appInfo.secret)}`,
           'Content-Type': 'application/x-www-form-urlencoded',
         },
       },
@@ -42,17 +45,37 @@ export class AuthService {
     let body = new HttpParams();
     body = body.set('grant_type', 'refresh_token');
     body = body.set('refresh_token', refreshToken);
-    body = body.set('client_id', appInfo.id);
+    body = body.set('client_id', spotifyAppInfo.clientID);
     return this.http.post<SpotifyAccessTokenResp>(
       'https://accounts.spotify.com/api/token',
       body,
       {
         headers: {
-          Authorization: `Basic ${btoa(appInfo.id + ':' + appInfo.secret)}`,
           'Content-Type': 'application/x-www-form-urlencoded',
         },
       },
     );
+  }
+
+  generateRandomString(): string {
+    const min = 43;
+    const max = 128;
+    const length = Math.floor(Math.random() * (max - min + 1) + min);
+    const possible =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const values = crypto.getRandomValues(new Uint8Array(length));
+    return values.reduce((acc, x) => acc + possible[x % possible.length], '');
+  }
+
+  generateCodeChallenge(plain: string): Promise<string> {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(plain);
+    return window.crypto.subtle.digest('SHA-256', data).then((val) => {
+      return btoa(String.fromCharCode(...new Uint8Array(val)))
+        .replace(/=/g, '')
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_');
+    });
   }
 
   isLoggedIn(): boolean {
