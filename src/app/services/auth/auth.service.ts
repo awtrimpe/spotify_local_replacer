@@ -15,7 +15,7 @@ export class AuthService {
   private readonly http = inject(HttpClient);
 
   private token!: string;
-  window = window;
+  private window = window;
   userDisplay = new BehaviorSubject<
     SpotifyApi.CurrentUsersProfileResponse | undefined
   >(undefined);
