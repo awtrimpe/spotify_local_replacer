@@ -1,16 +1,113 @@
+import { HttpParams, provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
+import { environment } from '../../../environments/environment';
 import { userInfo } from '../../../test/user.spec';
-import { AuthService } from './auth.service';
+import { AuthService, spotifyAppInfo } from './auth.service';
 
 describe('AuthService', () => {
   let service: AuthService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [AuthService],
+      providers: [AuthService, provideHttpClient(), provideHttpClientTesting()],
     });
 
     service = TestBed.inject(AuthService);
+  });
+
+  describe('getAccesToken()', () => {
+    it('should call the Spotify API to retrieve an access token with the proper payload', (done) => {
+      const resp = {
+        access_token: 'abc123',
+        token_type: 'Bearer',
+        scope: 'read',
+        expires_in: 2100,
+        refresh_token: 'def456',
+      };
+      const httpSpy = spyOn(service['http'], 'post').and.returnValue(of(resp));
+      const code = 'abc1213';
+      const verifier = '09sjdfu9sf8';
+      let body = new HttpParams();
+      body = body.set('grant_type', 'authorization_code');
+      body = body.set('code', code);
+      body = body.set('redirect_uri', service.getRedirectURI());
+      body = body.set('client_id', spotifyAppInfo.clientID);
+      body = body.set('code_verifier', verifier);
+
+      service.getAccessToken(code, verifier).subscribe({
+        next: (val) => {
+          expect(httpSpy).toHaveBeenCalledWith(
+            'https://accounts.spotify.com/api/token',
+            body,
+            {
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+              },
+            },
+          );
+          expect(val).toBe(resp);
+          done();
+        },
+      });
+    });
+  });
+
+  describe('refreshAccessToken()', () => {
+    it('should call the Spotify API to retrieve a refresh token with the proper payload', (done) => {
+      const resp = {
+        access_token: 'abc123',
+        token_type: 'Bearer',
+        scope: 'read',
+        expires_in: 2100,
+        refresh_token: 'def456',
+      };
+      const httpSpy = spyOn(service['http'], 'post').and.returnValue(of(resp));
+      const token = 'ey09adi09j';
+      let body = new HttpParams();
+      body = body.set('grant_type', 'refresh_token');
+      body = body.set('refresh_token', token);
+      body = body.set('client_id', spotifyAppInfo.clientID);
+
+      service.refreshAccessToken(token).subscribe({
+        next: (val) => {
+          expect(httpSpy).toHaveBeenCalledWith(
+            'https://accounts.spotify.com/api/token',
+            body,
+            {
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+              },
+            },
+          );
+          expect(val).toBe(resp);
+          done();
+        },
+      });
+    });
+  });
+
+  describe('generateRandomString()', () => {
+    it('should generate a string of ', () => {
+      const str = service.generateRandomString();
+
+      expect(str.length).toBeLessThanOrEqual(128);
+      expect(str.length).toBeGreaterThanOrEqual(43);
+      expect(new RegExp('^[a-zA-Z0-9]+$').test(str)).toBeTrue();
+    });
+  });
+
+  describe('generateCodeChallenge()', () => {
+    it('should return a base64 encoded string', (done) => {
+      const a = 'My secret random string';
+
+      service.generateCodeChallenge(a).then((val) => {
+        expect(val).not.toEqual(a);
+        expect(val).toBe('KqxS9TbT4z0G_b7LgGNCzX4ZXs4idSrdWiAoLOAMOrs');
+        done();
+      });
+    });
   });
 
   describe('isLoggedIn()', () => {
@@ -111,6 +208,21 @@ describe('AuthService', () => {
     it('should return false if no token', () => {
       spyOn(window.localStorage, 'getItem').and.returnValue(null);
       expect(service.loggedInPreviously()).toBeFalse();
+    });
+  });
+
+  describe('getRedirectURI()', () => {
+    it('should return a proper return URI based on the window location and environment', () => {
+      const origin = 'https://mydomain.co';
+      service['window'] = {
+        location: {
+          origin,
+        },
+      } as any;
+
+      expect(service.getRedirectURI()).toEqual(
+        `${origin}${environment.basepath}/oauth-callback`,
+      );
     });
   });
 });
