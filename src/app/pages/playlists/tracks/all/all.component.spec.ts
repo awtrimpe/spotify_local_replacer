@@ -4,7 +4,6 @@ import {
   TestBed,
   tick,
 } from '@angular/core/testing';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MessageService } from 'primeng/api';
 import { of } from 'rxjs';
 import { tracks } from '../../../../../test/tracks.spec';
@@ -20,7 +19,7 @@ describe('AllTracksComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, AllTracksComponent],
+      imports: [AllTracksComponent],
       providers: [MessageService],
     }).compileComponents();
 

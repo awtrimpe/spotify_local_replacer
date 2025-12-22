@@ -66,7 +66,7 @@ export class AllTracksComponent {
         );
         // It takes a moment for the track component to change the offset & provide the new tracks
         this.searchSelectionInterval = setInterval(() => {
-          if (this.tracks.find((t) => t.track.id === selected.trackID)) {
+          if (this.tracks?.find((t) => t.track.id === selected.trackID)) {
             this.selectedTrackID = selected.trackID;
             this.findSelectedIndex(selected.trackID);
             clearInterval(this.searchSelectionInterval);
