@@ -69,7 +69,9 @@ export class OAuthCallbackComponent implements OnInit {
         next: (resp) => {
           this.authService.setToken(resp.access_token);
           this.authService.setExpiration(Number(resp.expires_in));
-          this.router.navigateByUrl(localStorage.getItem('redirect') || '/');
+          this.router.navigateByUrl(
+            this.storageService.getBrowser('redirect') || '/',
+          );
         },
         error: (err) => {
           this.msgService.add({
