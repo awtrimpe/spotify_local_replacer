@@ -15,88 +15,94 @@ import { SpotifyComponent } from '../../icons/spotify.component';
     SpotifyComponent,
   ],
   template: `
-    <p-card class="w-20rem align-items-stretch full-height-card" *ngIf="track">
-      <ng-template #header>
-        <div class="w-4 mt-3 m-auto">
-          <app-spotify />
-        </div>
-        <a
-          class="p-card-title mx-3 text-primary"
-          [ngClass]="{
-            disabledLink: !track.external_urls.spotify,
-          }"
-          [href]="track.external_urls.spotify"
-          target="_blank"
-          >{{ track.name }}</a
-        >
-      </ng-template>
-      <div class="flex justify-content-between flex-column h-full">
-        <div>
-          @if (track.album && track.album.images && track.album.images[0]) {
-            <div class="m-auto" style="width: 10rem">
-              <img
-                [src]="track.album.images[0].url"
-                (load)="imgLoaded = true"
-                (error)="imgFailed = true"
-                class="w-full"
-                alt="{{ track.album.name }} image"
-              />
-              @if (!imgLoaded && !imgFailed) {
-                <p-skeleton size="10rem" />
-              }
-              @if (imgFailed) {
-                <i class="pi pi-stop" style="font-size: 10rem"></i>
-              }
+    @if (track) {
+      <p-card
+        class="w-20rem flex flex-column align-items-stretch full-height-card"
+      >
+        <ng-template #header>
+          <div class="pt-3 px-3">
+            <div class="w-4 mt-3 m-auto">
+              <app-spotify />
             </div>
-          }
-          <p>
-            <b>Artist:</b>
             <a
-              class="text-primary"
+              class="p-card-title mx-3 text-primary"
               [ngClass]="{
-                disabledLink: !track.artists[0].external_urls.spotify,
+                disabledLink: !track.external_urls.spotify,
               }"
-              [href]="track.artists[0].external_urls.spotify"
+              [href]="track.external_urls.spotify"
               target="_blank"
-              >{{ track.artists[0].name }}</a
+              >{{ track.name }}</a
             >
-            <ng-container *ngIf="track.artists.length > 1">
-              ft.
-              <ng-container
-                *ngFor="let artist of track.artists; first as isFirst"
+          </div>
+        </ng-template>
+        <div class="flex justify-content-between flex-column h-full">
+          <div>
+            @if (track.album && track.album.images && track.album.images[0]) {
+              <div class="m-auto" style="width: 10rem">
+                <img
+                  [src]="track.album.images[0].url"
+                  (load)="imgLoaded = true"
+                  (error)="imgFailed = true"
+                  class="w-full"
+                  alt="{{ track.album.name }} image"
+                />
+                @if (!imgLoaded && !imgFailed) {
+                  <p-skeleton size="10rem" />
+                }
+                @if (imgFailed) {
+                  <i class="pi pi-stop" style="font-size: 10rem"></i>
+                }
+              </div>
+            }
+            <p>
+              <b>Artist:</b>
+              <a
+                class="text-primary"
+                [ngClass]="{
+                  disabledLink: !track.artists[0].external_urls.spotify,
+                }"
+                [href]="track.artists[0].external_urls.spotify"
+                target="_blank"
+                >{{ track.artists[0].name }}</a
               >
-                <ng-container *ngIf="!isFirst">
-                  {{ artist.name }}
+              <ng-container *ngIf="track.artists.length > 1">
+                ft.
+                <ng-container
+                  *ngFor="let artist of track.artists; first as isFirst"
+                >
+                  <ng-container *ngIf="!isFirst">
+                    {{ artist.name }}
+                  </ng-container>
                 </ng-container>
               </ng-container>
-            </ng-container>
-          </p>
-          <p>
-            <b>Album:</b
-            ><a
-              class="text-primary"
-              [ngClass]="{
-                disabledLink: !track.album.external_urls.spotify,
-              }"
-              [href]="track.album.external_urls.spotify"
-              target="_blank"
-            >
-              {{ track.album.name }}</a
-            >
-          </p>
-          <p><b>Year:</b> {{ $any(track.album).release_date }}</p>
-          <p><b>Explicit:</b> {{ $any(track).explicit }}</p>
-        </div>
-        @if (replaceable) {
-          <div class="flex flex-column align-items-center mt-2">
-            <hr class="w-full" />
-            <p-button [rounded]="true" (click)="selectedTrack.next(track)">
-              Select
-            </p-button>
+            </p>
+            <p>
+              <b>Album:</b
+              ><a
+                class="text-primary"
+                [ngClass]="{
+                  disabledLink: !track.album.external_urls.spotify,
+                }"
+                [href]="track.album.external_urls.spotify"
+                target="_blank"
+              >
+                {{ track.album.name }}</a
+              >
+            </p>
+            <p><b>Year:</b> {{ $any(track.album).release_date }}</p>
+            <p><b>Explicit:</b> {{ $any(track).explicit }}</p>
           </div>
-        }
-      </div>
-    </p-card>
+          @if (replaceable) {
+            <div class="flex flex-column align-items-center mt-2">
+              <hr class="w-full" />
+              <p-button [rounded]="true" (click)="selectedTrack.next(track)">
+                Select
+              </p-button>
+            </div>
+          }
+        </div>
+      </p-card>
+    }
   `,
 })
 export class TrackCardComponent {

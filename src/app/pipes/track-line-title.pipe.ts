@@ -17,7 +17,9 @@ export class TrackLineTitlePipe implements PipeTransform {
         JSON.parse(JSON.stringify(track.track.artists)) as Artist[]
       ).filter((artist) => !track.track.name.includes(artist.name));
       artists.shift();
-      title += ' ft. ' + artists.map((a) => a.name).join(', ');
+      title +=
+        (artists.length > 0 ? ' ft. ' : '') +
+        artists.map((a) => a.name).join(', ');
     }
     return title;
   }

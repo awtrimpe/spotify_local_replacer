@@ -31,7 +31,6 @@
     "@angular/router": "^20.3.15",
     "@primeng/themes": "^20.2.0",
     "fuse.js": "^7.1.0",
-    "jspdf": "^3.0.3",
     "primeflex": "^4.0.0",
     "primeicons": "^7.0.0",
     "primeng": "^20.2.0",

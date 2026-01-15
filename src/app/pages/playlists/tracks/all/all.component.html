@@ -13,6 +13,7 @@
       [id]="track.track.id"
       [value]="track.track.id"
       [inputId]="track.track.id"
+      [disabled]="!track.track.id"
       (onClick)="findSelectedIndex($event.value)"
       [(ngModel)]="selectedTrackID"
     />
