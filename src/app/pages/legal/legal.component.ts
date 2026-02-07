@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { TabsModule } from 'primeng/tabs';
 
-/**  Create the component */
 @Component({
   selector: 'app-legal',
   template: `<p-tabs value="0">

@@ -16,7 +16,7 @@ import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TableModule } from 'primeng/table';
-import { TrackLineTitlePipe } from '../../../../../pipes/track-line-title.pipe';
+import { TrackLineTitlePipe } from '../../../../../pipes/track-line-title/track-line-title.pipe';
 import { SpotifyService } from '../../../../../services/spotify/spotify.service';
 
 export interface SearchSelection {
