@@ -8,7 +8,7 @@ import { PopoverModule } from 'primeng/popover';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { TrackCardComponent } from '../../../../components/track-card/track-card.component';
-import { TrackLineTitlePipe } from '../../../../pipes/track-line-title.pipe';
+import { TrackLineTitlePipe } from '../../../../pipes/track-line-title/track-line-title.pipe';
 import {
   PlaylistTrackSearchComponent,
   SearchSelection,

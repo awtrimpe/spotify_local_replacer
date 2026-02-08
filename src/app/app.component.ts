@@ -40,9 +40,9 @@ export class AppComponent implements OnInit {
       routerLink: '/',
     },
     {
-      label: 'Playlists',
-      icon: 'pi pi-headphones',
-      routerLink: '/playlists',
+      label: 'Tools',
+      icon: 'pi pi-wrench',
+      routerLink: '/tools',
     },
     {
       label: 'Guide',
@@ -56,7 +56,7 @@ export class AppComponent implements OnInit {
 
   // Automatically closes the menubar in mobile when the user clicks outside of the menu component
   @HostListener('document:click', ['$event.target'])
-  onClick(targetElement: HTMLElement) {
+  onClick(targetElement: EventTarget | null) {
     if (
       this.menuBarRef.nativeElement.classList.contains(
         'p-menubar-mobile-active',
