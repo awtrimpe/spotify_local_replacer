@@ -6,6 +6,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { OAuthCallbackComponent } from './pages/oauth-callback/oauth-callback.component';
 import { PlaylistComponent } from './pages/playlists/playlists.component';
 import { TracksComponent } from './pages/playlists/tracks/tracks.component';
+import { LikedComponent } from './pages/tools/liked/liked.component';
 import { ToolsComponent } from './pages/tools/tools.component';
 import { AuthGuard } from './services/auth/auth.guard';
 
@@ -21,6 +22,10 @@ export const routes: Routes = [
   {
     path: 'legal',
     component: LegalComponent,
+  },
+  {
+    path: 'liked',
+    component: LikedComponent,
   },
   {
     path: 'login',

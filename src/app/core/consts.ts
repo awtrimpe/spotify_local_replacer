@@ -2,9 +2,7 @@ export const tools = [
   {
     title: 'Local Track Replacer',
     overview: 'Swap a local file with a Spotify-hosted track',
-    description: `### Replacing Local Tracks
-
-You are able to take a playlist that contains local tracks and procedurally click through each one to select a copy of your choosing that Spotify hosts. It will swap out the link to your local file for Spotify's track. If you are not wanting to fully replace tracks in a playlist, it is suggested to make a copy of your playlist and use that clone instead. To find more information on Spotify's local files feature, [read more here](https://support.spotify.com/us/article/local-files/).
+    description: `You are able to take a playlist that contains local tracks and procedurally click through each one to select a copy of your choosing that Spotify hosts. It will swap out the link to your local file for Spotify's track. If you are not wanting to fully replace tracks in a playlist, it is suggested to make a copy of your playlist and use that clone instead. To find more information on Spotify's local files feature, [read more here](https://support.spotify.com/us/article/local-files/).
 > **Example:** I wanted to take my iPod's old music with me on the go. Rather than self-hosting the music, and secretly because I wanted all listening to count towards my Spotify Wrapped (_they got me_), I:
 >
 > 1. Imported all of my old MP3 files as Local Tracks in the Spotify Desktop client

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { AccordionModule } from 'primeng/accordion';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -14,7 +15,12 @@ import { MarkdownPipe } from '../../pipes/markdown/markdown.pipe';
         <p-card [header]="tool.title">
           <div class="flex justify-content-between align-items-center gap-3 ">
             <p>{{ tool.overview }}</p>
-            <p-button label="Select" icon="pi pi-arrow-right" iconPos="right" />
+            <p-button
+              label="Select"
+              icon="pi pi-arrow-right"
+              iconPos="right"
+              [routerLink]="tool.routerLink"
+            />
           </div>
           <p-accordion>
             <p-accordion-panel value="0">
@@ -28,7 +34,13 @@ import { MarkdownPipe } from '../../pipes/markdown/markdown.pipe';
       }
     </div>
   `,
-  imports: [AccordionModule, ButtonModule, CardModule, MarkdownPipe],
+  imports: [
+    AccordionModule,
+    ButtonModule,
+    CardModule,
+    MarkdownPipe,
+    RouterLink,
+  ],
 })
 export class ToolsComponent {
   readonly tools = tools;

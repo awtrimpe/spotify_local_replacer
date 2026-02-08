@@ -4,6 +4,7 @@ import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
 import { CoffeeComponent } from '../../icons/coffee.component';
 import { VenmoComponent } from '../../icons/venmo.component';
+import { ToolsComponent } from '../tools/tools.component';
 
 @Component({
   imports: [
@@ -11,42 +12,17 @@ import { VenmoComponent } from '../../icons/venmo.component';
     ButtonModule,
     PanelModule,
     RouterModule,
+    ToolsComponent,
     VenmoComponent,
   ],
   template: `
     <h1>Welcome to Local Track Replacer</h1>
     <p>
-      This tool is designed to give full control to you in finding and replacing
-      a playlist's local tracks within Spotify with a relevant match of your
-      choosing. This application works as follows:
+      This tool was initially designed to replace only local tracks. Since that
+      inception spark, I have built out additional capabilities for various
+      needs I have had. Hopefully one will be benefitial to you!
     </p>
-    <ol>
-      <li>
-        Login to the application and grant permission to Local Spotify Replacer
-      </li>
-      <li>
-        Select the playlist you would like to replace the local tracks inside
-      </li>
-      <li>
-        One-by-One, access the recommendations for each track or search for a
-        better match
-      </li>
-      <li>
-        Replace the local track with a match of your choosing, or skip to the
-        next track if there is not a Spotify match
-      </li>
-    </ol>
-    <p>
-      This tool is great for people who want to have full control of their
-      playlists and ensure that each track is paired correctly.
-    </p>
-    <div class="w-full flex justify-content-center">
-      <p-button
-        label="Select Playlist"
-        [rounded]="true"
-        routerLink="/playlists"
-      />
-    </div>
+    <app-tools />
     <br />
     <p-panel header="More Automation">
       <p class="m-0">
