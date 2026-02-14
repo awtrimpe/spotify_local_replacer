@@ -132,9 +132,14 @@ describe('AuthService', () => {
   describe('setToken()', () => {
     it('should set token with passed value', () => {
       const localSpy = spyOn(window.localStorage, 'setItem');
+      const setAccessTokenSpy = spyOn(
+        service['spotifyService'].spotify,
+        'setAccessToken',
+      );
       const value = 'abc123';
       service.setToken(value);
       expect(localSpy).toHaveBeenCalledWith('token', value);
+      expect(setAccessTokenSpy).toHaveBeenCalledWith(value);
     });
   });
 

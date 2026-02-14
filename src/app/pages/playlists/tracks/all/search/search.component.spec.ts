@@ -15,7 +15,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TableModule } from 'primeng/table';
 import { tracks } from '../../../../../../test/tracks.spec';
-import { TrackLineTitlePipe } from '../../../../../pipes/track-line-title.pipe';
+import { TrackLineTitlePipe } from '../../../../../pipes/track-line-title/track-line-title.pipe';
 import { PlaylistTrackSearchComponent } from './search.component';
 
 describe('PlaylistTrackSearchComponent', () => {

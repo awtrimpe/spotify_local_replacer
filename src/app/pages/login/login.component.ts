@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { AuthService, spotifyAppInfo } from '../../services/auth/auth.service';
 import { StorageService } from '../../services/storage/storage.service';
 
-/**  Create the component */
 @Component({
   template: `<h3>Redirecting to Spotify login</h3>`,
 })

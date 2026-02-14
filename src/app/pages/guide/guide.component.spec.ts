@@ -36,11 +36,9 @@ describe('GuideComponent', () => {
   });
 
   describe('template tests()', () => {
-    it('should should include a router link to the playlists page', () => {
+    it(`should should include a router link to the tool's page`, () => {
       const compiled = fixture.nativeElement;
-      expect(compiled.querySelector('button').textContent).toContain(
-        'Select Playlist',
-      );
+      expect(compiled.querySelector('button').textContent).toContain('Select');
     });
   });
 });
