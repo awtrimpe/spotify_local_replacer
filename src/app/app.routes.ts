@@ -25,6 +25,7 @@ export const routes: Routes = [
   },
   {
     path: 'liked',
+    canActivate: [AuthGuard],
     component: LikedComponent,
   },
   {

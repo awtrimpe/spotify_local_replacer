@@ -1,5 +1,7 @@
-export const tools = [
-  {
+import { MenuItem } from 'primeng/api';
+
+export const tools = {
+  local: {
     title: 'Local Track Replacer',
     overview: 'Swap a local file with a Spotify-hosted track',
     description: `You are able to take a playlist that contains local tracks and procedurally click through each one to select a copy of your choosing that Spotify hosts. It will swap out the link to your local file for Spotify's track. If you are not wanting to fully replace tracks in a playlist, it is suggested to make a copy of your playlist and use that clone instead. To find more information on Spotify's local files feature, [read more here](https://support.spotify.com/us/article/local-files/).
@@ -11,7 +13,7 @@ export const tools = [
 > 1. Used Local Track Replacer to complete the work!`,
     routerLink: '/playlists',
   },
-  {
+  replacer: {
     title: 'Playlist Track Replacer',
     overview: 'Swap a track with a new track in place',
     description: `_Does not include Liked Songs at the moment_
@@ -19,7 +21,7 @@ export const tools = [
 Find and replace any track inside of a playlist with another track from Spotify. This feature is designed for times when you accidentally saved the clean version instead of the explicit version, added the single but now want the album release, or actually prefer the remix to the original, and you want to preserve the order of addition.`,
     routerLink: '/playlists',
   },
-  {
+  liked: {
     title: 'Removed Liked Songs Finder',
     overview:
       'Discover which of your Liked Songs have been removed from Spotify',
@@ -27,4 +29,11 @@ Find and replace any track inside of a playlist with another track from Spotify.
       'Do you miss that favorite song which was removed from Spotify for unknown reasons? Find them back so you can look for the track again!',
     routerLink: '/liked',
   },
-];
+};
+
+export const homeBreadcrumb: MenuItem = {
+  icon: 'pi pi-home',
+  routerLink: '/',
+};
+
+// TODO: Add MSG times

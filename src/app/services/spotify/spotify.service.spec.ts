@@ -72,4 +72,19 @@ describe('SpotifyService', () => {
       });
     });
   });
+
+  describe('getLikedSongs()', () => {
+    it(`should call the Spotify to get the user's Liked Songs`, (done) => {
+      const getMySavedTracksSpy = spyOn(
+        service['spotify'],
+        'getMySavedTracks',
+      ).and.resolveTo();
+      service.getLikedSongs().then(() => {
+        expect(getMySavedTracksSpy).toHaveBeenCalledWith({
+          limit: 50,
+        });
+        done();
+      });
+    });
+  });
 });

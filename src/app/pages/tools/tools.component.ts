@@ -43,5 +43,5 @@ import { MarkdownPipe } from '../../pipes/markdown/markdown.pipe';
   ],
 })
 export class ToolsComponent {
-  readonly tools = tools;
+  readonly tools = Object.values(tools);
 }

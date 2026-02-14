@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { SpotifyAccessTokenResp } from '../../models/auth.model';
+import { SpotifyService } from '../spotify/spotify.service';
 
 export const spotifyAppInfo = {
   clientID: 'ceeaa79289664376bb1a3c271d97508c',
@@ -13,6 +14,7 @@ export const spotifyAppInfo = {
 })
 export class AuthService {
   private readonly http = inject(HttpClient);
+  private readonly spotifyService = inject(SpotifyService);
 
   private token!: string;
   private window = window;
@@ -88,6 +90,7 @@ export class AuthService {
 
   setToken(val: string) {
     localStorage.setItem('token', val);
+    this.spotifyService.spotify.setAccessToken(val);
     this.token = val;
   }
 
