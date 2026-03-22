@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -7,8 +14,9 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { PopoverModule } from 'primeng/popover';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
-import { TrackCardComponent } from '../../../../components/track-card/track-card.component';
-import { TrackLineTitlePipe } from '../../../../pipes/track-line-title/track-line-title.pipe';
+import { PlaylistComponent } from '../../../components/playlists/playlists.component';
+import { TrackCardComponent } from '../../../components/track-card/track-card.component';
+import { TrackLineTitlePipe } from '../../../pipes/track-line-title/track-line-title.pipe';
 import {
   PlaylistTrackSearchComponent,
   SearchSelection,
@@ -27,10 +35,10 @@ import {
     TrackCardComponent,
     TrackLineTitlePipe,
   ],
-  templateUrl: `./all.component.html`,
+  templateUrl: `./playlist-tracks.component.html`,
   providers: [DialogService],
 })
-export class AllTracksComponent {
+export class PlaylistTracksComponent implements OnInit {
   private readonly dialogService = inject(DialogService);
 
   @Input() playlistID!: string;
@@ -43,6 +51,12 @@ export class AllTracksComponent {
   hoveredTrack?: SpotifyApi.TrackObjectFull;
   dialogRef: DynamicDialogRef<PlaylistTrackSearchComponent> | null = null;
   searchSelectionInterval?: NodeJS.Timeout;
+
+  ngOnInit() {
+    this.dialogService.open(PlaylistComponent, {
+      width: '90vw',
+    });
+  }
 
   findSelectedIndex(trackID: string) {
     this.trackSelected.emit(

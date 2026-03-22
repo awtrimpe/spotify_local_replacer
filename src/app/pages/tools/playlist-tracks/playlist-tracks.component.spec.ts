@@ -6,24 +6,24 @@ import {
 } from '@angular/core/testing';
 import { MessageService } from 'primeng/api';
 import { of } from 'rxjs';
-import { tracks } from '../../../../../test/tracks.spec';
-import { AllTracksComponent } from './all.component';
+import { tracks } from '../../../../test/tracks.spec';
+import { PlaylistTracksComponent } from './playlist-tracks.component';
 import {
   PlaylistTrackSearchComponent,
   SearchSelection,
 } from './search/search.component';
 
-describe('AllTracksComponent', () => {
-  let component: AllTracksComponent;
-  let fixture: ComponentFixture<AllTracksComponent>;
+describe('PlaylistTracksComponent', () => {
+  let component: PlaylistTracksComponent;
+  let fixture: ComponentFixture<PlaylistTracksComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AllTracksComponent],
+      imports: [PlaylistTracksComponent],
       providers: [MessageService],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(AllTracksComponent);
+    fixture = TestBed.createComponent(PlaylistTracksComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

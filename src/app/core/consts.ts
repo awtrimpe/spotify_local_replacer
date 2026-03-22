@@ -11,7 +11,7 @@ export const tools = {
 > 1. Navigated to the Local Tracks folder and selected all tracks (CTRL + A on Windows/Linux, CMD + A on Mac)
 > 1. Created a new playlist and pasted all tracks (CTRL + P on Windows/Linux, CMD + P on Mac)
 > 1. Used Local Track Replacer to complete the work!`,
-    routerLink: '/playlists',
+    routerLink: '/tools/local-tracks',
   },
   replacer: {
     title: 'Playlist Track Replacer',
@@ -19,7 +19,7 @@ export const tools = {
     description: `_Does not include Liked Songs at the moment_
 
 Find and replace any track inside of a playlist with another track from Spotify. This feature is designed for times when you accidentally saved the clean version instead of the explicit version, added the single but now want the album release, or actually prefer the remix to the original, and you want to preserve the order of addition.`,
-    routerLink: '/playlists',
+    routerLink: '/tools/playlist-tracks',
   },
   liked: {
     title: 'Removed Liked Songs Finder',
@@ -27,13 +27,18 @@ Find and replace any track inside of a playlist with another track from Spotify.
       'Discover which of your Liked Songs have been removed from Spotify',
     description:
       'Do you miss that favorite song which was removed from Spotify for unknown reasons? Find them back so you can look for the track again!',
-    routerLink: '/liked',
+    routerLink: '/tools/liked',
   },
 };
 
 export const homeBreadcrumb: MenuItem = {
   icon: 'pi pi-home',
   routerLink: '/',
+};
+
+export const toolsBreadcrumb: MenuItem = {
+  label: 'Tools',
+  routerLink: '/tools',
 };
 
 // TODO: Add MSG times

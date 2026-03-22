@@ -4,13 +4,12 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { ButtonModule } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TableModule } from 'primeng/table';
-import { homeBreadcrumb, tools } from '../../../core/consts';
+import { homeBreadcrumb, tools, toolsBreadcrumb } from '../../../core/consts';
 import { SpotifyService } from '../../../services/spotify/spotify.service';
 
 @Component({
   selector: 'app-liked',
   template: `<p-breadcrumb [model]="crumbs" [home]="homeBreadcrumb" />
-
     <br />
     <div class="flex flex-column align-items-center">
       <p-button
@@ -49,6 +48,7 @@ export class LikedComponent {
   private readonly spotifyService = inject(SpotifyService);
 
   crumbs: MenuItem[] = [
+    toolsBreadcrumb,
     {
       label: tools.liked.title,
     },

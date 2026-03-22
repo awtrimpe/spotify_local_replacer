@@ -1,15 +1,17 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AccordionModule } from 'primeng/accordion';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
-import { tools } from '../../core/consts';
+import { homeBreadcrumb, tools, toolsBreadcrumb } from '../../core/consts';
 import { MarkdownPipe } from '../../pipes/markdown/markdown.pipe';
 
 @Component({
   selector: 'app-tools',
   template: `
-    <h3>Tools</h3>
+    <p-breadcrumb [model]="toolsBreadcrumb" [home]="homeBreadcrumb" />
+    <br />
     <div class="flex flex-column gap-3">
       @for (tool of tools; track tool) {
         <p-card [header]="tool.title">
@@ -36,6 +38,7 @@ import { MarkdownPipe } from '../../pipes/markdown/markdown.pipe';
   `,
   imports: [
     AccordionModule,
+    BreadcrumbModule,
     ButtonModule,
     CardModule,
     MarkdownPipe,
@@ -44,4 +47,6 @@ import { MarkdownPipe } from '../../pipes/markdown/markdown.pipe';
 })
 export class ToolsComponent {
   readonly tools = Object.values(tools);
+  readonly homeBreadcrumb = homeBreadcrumb;
+  readonly toolsBreadcrumb = [toolsBreadcrumb];
 }

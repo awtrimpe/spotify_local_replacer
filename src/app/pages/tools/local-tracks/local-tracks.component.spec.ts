@@ -12,7 +12,7 @@ import { playlists } from '../../../../test/playlist.spec';
 import { searchResp, tracks } from '../../../../test/tracks.spec';
 import { SearchComponent } from '../../../components/search/search.component';
 import { AuthService } from '../../../services/auth/auth.service';
-import { TracksComponent } from './tracks.component';
+import { TracksComponent } from './local-tracks.component';
 
 class FakeAuthService {
   getToken() {
