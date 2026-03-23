@@ -755,3 +755,299 @@ export const searchResp = {
     ],
   },
 };
+
+export const likedSongs: SpotifyApi.UsersSavedTracksResponse = {
+  href: 'https://api.spotify.com/v1/me/shows?offset=0&limit=20',
+  limit: 20,
+  next: 'https://api.spotify.com/v1/me/shows?offset=1&limit=1',
+  offset: 0,
+  previous: 'https://api.spotify.com/v1/me/shows?offset=1&limit=1',
+  total: 5,
+  items: [
+    {
+      added_at: '2024-03-01T12:00:00Z',
+      track: {
+        album: {
+          album_type: 'album',
+          available_markets: ['US', 'CA', 'GB'],
+          external_urls: {
+            spotify: 'https://open.spotify.com/album/6kZDoBvgecsnwc7PvnO6iG',
+          },
+          href: 'https://api.spotify.com/v1/albums/6kZDoBvgecsnwc7PvnO6iG',
+          id: '6kZDoBvgecsnwc7PvnO6iG',
+          images: [
+            {
+              url: 'https://i.scdn.co/image/ab67616d00001e02bb2d30678d2e999ebcfdf28c',
+              height: 300,
+              width: 300,
+            },
+          ],
+          name: 'Midnights',
+          type: 'album',
+          uri: 'spotify:album:6kZDoBvgecsnwc7PvnO6iG',
+        },
+        artists: [
+          {
+            external_urls: {
+              spotify: 'https://open.spotify.com/artist/06HL4zM2S2ZpXmC4L3pI3p',
+            },
+            href: 'https://api.spotify.com/v1/artists/06HL4zM2S2ZpXmC4L3pI3p',
+            id: '06HL4zM2S2ZpXmC4L3pI3p',
+            name: 'Taylor Swift',
+            type: 'artist',
+            uri: 'spotify:artist:06HL4zM2S2ZpXmC4L3pI3p',
+          },
+        ],
+        available_markets: ['US', 'CA', 'GB'],
+        disc_number: 1,
+        duration_ms: 200690,
+        explicit: false,
+        external_ids: {
+          isrc: 'USCJY2231003',
+          ean: 'string',
+          upc: 'string',
+        },
+        external_urls: {
+          spotify: 'https://open.spotify.com/track/0V3wPSX9ygBnCm8psDIegu',
+        },
+        href: 'https://api.spotify.com/v1/tracks/0V3wPSX9ygBnCm8psDIegu',
+        id: '0V3wPSX9ygBnCm8psDIegu',
+        is_playable: true,
+        name: 'Anti-Hero',
+        popularity: 92,
+        preview_url: 'https://p.scdn.co/mp3-preview/12345',
+        track_number: 3,
+        type: 'track',
+        uri: 'spotify:track:0V3wPSX9ygBnCm8psDIegu',
+      },
+    },
+    {
+      added_at: '2024-03-02T14:30:00Z',
+      track: {
+        album: {
+          album_type: 'album',
+          available_markets: ['US', 'CA'],
+          external_urls: {
+            spotify: 'https://open.spotify.com/album/5P9V80z9T6vU7e7qX6S5r6',
+          },
+          href: 'https://api.spotify.com/v1/albums/5P9V80z9T6vU7e7qX6S5r6',
+          id: '5P9V80z9T6vU7e7qX6S5r6',
+          images: [
+            {
+              url: 'https://i.scdn.co/image/ab67616d00001e02e811a7687d0c614ef44f51cd',
+              height: 300,
+              width: 300,
+            },
+          ],
+          name: 'Justice',
+          type: 'album',
+          uri: 'spotify:album:5P9V80z9T6vU7e7qX6S5r6',
+        },
+        artists: [
+          {
+            external_urls: {
+              spotify: 'https://open.spotify.com/artist/1uNFoWOzWveC4fCIjSTnRq',
+            },
+            href: 'https://api.spotify.com/v1/artists/1uNFoWOzWveC4fCIjSTnRq',
+            id: '1uNFoWOzWveC4fCIjSTnRq',
+            name: 'Justin Bieber',
+            type: 'artist',
+            uri: 'spotify:artist:1uNFoWOzWveC4fCIjSTnRq',
+          },
+        ],
+        available_markets: ['US', 'CA'],
+        disc_number: 1,
+        duration_ms: 198081,
+        explicit: true,
+        external_ids: {
+          isrc: 'USUM72105936',
+          ean: 'string',
+          upc: 'string',
+        },
+        external_urls: {
+          spotify: 'https://open.spotify.com/track/4iJyoBOLtHqaGxP12qzhQI',
+        },
+        href: 'https://api.spotify.com/v1/tracks/4iJyoBOLtHqaGxP12qzhQI',
+        id: '4iJyoBOLtHqaGxP12qzhQI',
+        is_playable: true,
+        name: 'Peaches',
+        popularity: 88,
+        preview_url: 'https://p.scdn.co/mp3-preview/67890',
+        track_number: 12,
+        type: 'track',
+        uri: 'spotify:track:4iJyoBOLtHqaGxP12qzhQI',
+      },
+    },
+    {
+      added_at: '2024-03-03T09:15:00Z',
+      track: {
+        album: {
+          album_type: 'album',
+          available_markets: ['US', 'CA', 'IT'],
+          external_urls: {
+            spotify: 'https://open.spotify.com/album/4m2880jivVYhC1q9Cg9Jp6',
+          },
+          href: 'https://api.spotify.com/v1/albums/4m2880jivVYhC1q9Cg9Jp6',
+          id: '4m2880jivVYhC1q9Cg9Jp6',
+          images: [
+            {
+              url: 'https://i.scdn.co/image/ab67616d00001e02f068832677610e3047b19641',
+              height: 300,
+              width: 300,
+            },
+          ],
+          name: 'The Fame Monster',
+          type: 'album',
+          uri: 'spotify:album:4m2880jivVYhC1q9Cg9Jp6',
+        },
+        artists: [
+          {
+            external_urls: {
+              spotify: 'https://open.spotify.com/artist/1HY2JtFsYpDwwv61ccq7Xz',
+            },
+            href: 'https://api.spotify.com/v1/artists/1HY2JtFsYpDwwv61ccq7Xz',
+            id: '1HY2JtFsYpDwwv61ccq7Xz',
+            name: 'Lady Gaga',
+            type: 'artist',
+            uri: 'spotify:artist:1HY2JtFsYpDwwv61ccq7Xz',
+          },
+        ],
+        available_markets: ['US', 'CA', 'IT'],
+        disc_number: 1,
+        duration_ms: 294000,
+        explicit: false,
+        external_ids: {
+          isrc: 'USUM70982548',
+          ean: 'string',
+          upc: 'string',
+        },
+        external_urls: {
+          spotify: 'https://open.spotify.com/track/0SiyN4glFeYWo2Zunp596C',
+        },
+        href: 'https://api.spotify.com/v1/tracks/0SiyN4glFeYWo2Zunp596C',
+        id: '0SiyN4glFeYWo2Zunp596C',
+        is_playable: true,
+        name: 'Bad Romance',
+        popularity: 85,
+        preview_url: 'https://p.scdn.co/mp3-preview/13579',
+        track_number: 1,
+        type: 'track',
+        uri: 'spotify:track:0SiyN4glFeYWo2Zunp596C',
+      },
+    },
+    {
+      added_at: '2024-03-04T18:45:00Z',
+      track: {
+        album: {
+          album_type: 'album',
+          available_markets: ['US', 'CA'],
+          external_urls: {
+            spotify: 'https://open.spotify.com/album/097775676b664746467657',
+          },
+          href: 'https://api.spotify.com/v1/albums/097775676b664746467657',
+          id: '097775676b664746467657',
+          images: [
+            {
+              url: 'https://i.scdn.co/image/ab67616d00001e0274296766763476476567',
+              height: 300,
+              width: 300,
+            },
+          ],
+          name: 'Dark Sky Paradise',
+          type: 'album',
+          uri: 'spotify:album:097775676b664746467657',
+        },
+        artists: [
+          {
+            external_urls: {
+              spotify: 'https://open.spotify.com/artist/0Y5tJX1_Big_Sean_ID',
+            },
+            href: 'https://api.spotify.com/v1/artists/0Y5tJX1_Big_Sean_ID',
+            id: '0Y5tJX1_Big_Sean_ID',
+            name: 'Big Sean',
+            type: 'artist',
+            uri: 'spotify:artist:0Y5tJX1_Big_Sean_ID',
+          },
+        ],
+        available_markets: ['US', 'CA'],
+        disc_number: 1,
+        duration_ms: 284000,
+        explicit: true,
+        external_ids: {
+          isrc: 'USUM71416073',
+          ean: 'string',
+          upc: 'string',
+        },
+        external_urls: {
+          spotify: 'https://open.spotify.com/track/764536251436',
+        },
+        href: 'https://api.spotify.com/v1/tracks/764536251436',
+        id: '764536251436',
+        is_playable: true,
+        name: "I Don't F*** With You",
+        popularity: 80,
+        preview_url: 'https://p.scdn.co/mp3-preview/24680',
+        track_number: 2,
+        type: 'track',
+        uri: 'spotify:track:764536251436',
+      },
+    },
+    {
+      added_at: '2024-03-05T20:10:00Z',
+      track: {
+        album: {
+          album_type: 'album',
+          available_markets: ['US', 'CA', 'GB'],
+          external_urls: {
+            spotify: 'https://open.spotify.com/album/4jox37IRfwRZZZ78vYnH7T',
+          },
+          href: 'https://api.spotify.com/v1/albums/4jox37IRfwRZZZ78vYnH7T',
+          id: '4jox37IRfwRZZZ78vYnH7T',
+          images: [
+            {
+              url: 'https://i.scdn.co/image/ab67616d00001e0288edc795664701759c2445d9',
+              height: 300,
+              width: 300,
+            },
+          ],
+          name: 'After Hours',
+          type: 'album',
+          uri: 'spotify:album:4jox37IRfwRZZZ78vYnH7T',
+        },
+        artists: [
+          {
+            external_urls: {
+              spotify: 'https://open.spotify.com/artist/1Xyo4u3uXC1ZmMpatF0t4g',
+            },
+            href: 'https://api.spotify.com/v1/artists/1Xyo4u3uXC1ZmMpatF0t4g',
+            id: '1Xyo4u3uXC1ZmMpatF0t4g',
+            name: 'The Weeknd',
+            type: 'artist',
+            uri: 'spotify:artist:1Xyo4u3uXC1ZmMpatF0t4g',
+          },
+        ],
+        available_markets: ['US', 'CA', 'GB'],
+        disc_number: 1,
+        duration_ms: 200040,
+        explicit: false,
+        external_ids: {
+          isrc: 'USUM71922435',
+          ean: 'string',
+          upc: 'string',
+        },
+        external_urls: {
+          spotify: 'https://open.spotify.com/track/0VjIjW4GlUZAMYd2vXMi3b',
+        },
+        href: 'https://api.spotify.com/v1/tracks/0VjIjW4GlUZAMYd2vXMi3b',
+        id: '0VjIjW4GlUZAMYd2vXMi3b',
+        is_playable: true,
+        name: 'Blinding Lights',
+        popularity: 96,
+        preview_url: 'https://p.scdn.co/mp3-preview/11223',
+        track_number: 9,
+        type: 'track',
+        uri: 'spotify:track:0VjIjW4GlUZAMYd2vXMi3b',
+      },
+    },
+  ],
+};

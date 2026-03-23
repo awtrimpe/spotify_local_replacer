@@ -5,6 +5,7 @@ import { AccordionModule } from 'primeng/accordion';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { MessageModule } from 'primeng/message';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import SpotifyWebApi from 'spotify-web-api-js';
@@ -28,6 +29,7 @@ import { AuthService } from '../../services/auth/auth.service';
 })
 export class PlaylistComponent implements OnInit {
   private authService = inject(AuthService);
+  private readonly dialogRef = inject(DynamicDialogRef);
   private messageService = inject(MessageService);
 
   sessionExp = false;
@@ -73,5 +75,9 @@ export class PlaylistComponent implements OnInit {
         this.authService.setUserDisplay(usr);
       });
     }
+  }
+
+  selectPlayist(playlistID: string) {
+    this.dialogRef.close(playlistID);
   }
 }

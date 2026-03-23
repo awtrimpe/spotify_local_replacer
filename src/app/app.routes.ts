@@ -4,8 +4,10 @@ import { HomeComponent } from './pages/home/home.component';
 import { LegalComponent } from './pages/legal/legal.component';
 import { LoginComponent } from './pages/login/login.component';
 import { OAuthCallbackComponent } from './pages/oauth-callback/oauth-callback.component';
-import { PlaylistComponent } from './pages/playlists/playlists.component';
-import { TracksComponent } from './pages/playlists/tracks/tracks.component';
+import { LikedComponent } from './pages/tools/liked/liked.component';
+import { LocalTracksComponent } from './pages/tools/local-tracks/local-tracks.component';
+import { PlaylistTracksComponent } from './pages/tools/playlist-tracks/playlist-tracks.component';
+import { ToolsComponent } from './pages/tools/tools.component';
 import { AuthGuard } from './services/auth/auth.guard';
 
 export const routes: Routes = [
@@ -34,12 +36,48 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
+        path: ':id/tracks',
+        component: LocalTracksComponent,
+      },
+    ],
+  },
+  {
+    path: 'tools',
+    canActivate: [AuthGuard],
+    children: [
+      {
         path: '',
-        component: PlaylistComponent,
+        component: ToolsComponent,
       },
       {
-        path: ':id/tracks',
-        component: TracksComponent,
+        path: 'local-tracks',
+        children: [
+          {
+            path: '',
+            component: LocalTracksComponent,
+          },
+          {
+            path: ':id',
+            component: LocalTracksComponent,
+          },
+        ],
+      },
+      {
+        path: 'playlist-tracks',
+        children: [
+          {
+            path: '',
+            component: PlaylistTracksComponent,
+          },
+          {
+            path: ':id',
+            component: PlaylistTracksComponent,
+          },
+        ],
+      },
+      {
+        path: 'liked',
+        component: LikedComponent,
       },
     ],
   },

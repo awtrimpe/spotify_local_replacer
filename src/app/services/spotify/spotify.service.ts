@@ -6,7 +6,7 @@ import { anyToString } from '../../core/utils';
   providedIn: 'root',
 })
 export class SpotifyService {
-  private readonly spotify = new SpotifyWebApi();
+  public readonly spotify = new SpotifyWebApi();
 
   playlistTracks: Record<string, SpotifyApi.PlaylistTrackObject[]> = {};
   playlistTracksKey = 'playlistTracks';
@@ -63,9 +63,9 @@ export class SpotifyService {
     })();
   }
 
-  // getAllLikedSongs() {
-  //   this.spotify.getMySavedTracks({
-  //     limit: 50
-  //   })
-  // }
+  getLikedSongs(): Promise<SpotifyApi.UsersSavedTracksResponse> {
+    return this.spotify.getMySavedTracks({
+      limit: 50,
+    });
+  }
 }

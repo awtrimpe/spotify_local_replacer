@@ -7,27 +7,27 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { AccordionModule } from 'primeng/accordion';
 import { MenuItem, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { DialogModule } from 'primeng/dialog';
+import { DialogService } from 'primeng/dynamicdialog';
 import { MenuModule } from 'primeng/menu';
 import { MessageModule } from 'primeng/message';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TabsModule } from 'primeng/tabs';
 import SpotifyWebApi from 'spotify-web-api-js';
 import { ExpirationComponent } from '../../../components/expiration/expiration.component';
+import { PlaylistComponent } from '../../../components/playlists/playlists.component';
 import { SearchComponent } from '../../../components/search/search.component';
 import { TrackCardComponent } from '../../../components/track-card/track-card.component';
 import { AuthService } from '../../../services/auth/auth.service';
-import { AllTracksComponent } from './all/all.component';
 
 @Component({
   imports: [
     AccordionModule,
-    AllTracksComponent,
     ButtonModule,
     CardModule,
     CommonModule,
@@ -41,14 +41,15 @@ import { AllTracksComponent } from './all/all.component';
     TabsModule,
     TrackCardComponent,
   ],
-  templateUrl: `./tracks.component.html`,
+  providers: [DialogService],
+  templateUrl: `./local-tracks.component.html`,
 })
-export class TracksComponent implements OnInit, AfterViewInit {
-  private authService = inject(AuthService);
-  private cdr = inject(ChangeDetectorRef);
-  private messageService = inject(MessageService);
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
+export class LocalTracksComponent implements OnInit, AfterViewInit {
+  private readonly authService = inject(AuthService);
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly dialogService = inject(DialogService);
+  private readonly messageService = inject(MessageService);
+  private readonly route = inject(ActivatedRoute);
 
   sessionExp = false;
   spotify = new SpotifyWebApi();
@@ -77,9 +78,11 @@ export class TracksComponent implements OnInit, AfterViewInit {
     this.getSelectedTab();
     const playlists: SpotifyApi.ListOfUsersPlaylistsResponse = JSON.parse(
       sessionStorage.getItem('playlists') as string,
-    ); // TODO: Make this pull from sessionStorage only if not passed from playlist component
+    );
     if (!playlists) {
-      this.router.navigate(['/playlists']);
+      this.dialogService.open(PlaylistComponent, {
+        width: '90vw',
+      });
     } else {
       this.route.params.subscribe((params) => {
         const id = params['id'];
