@@ -8,6 +8,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -40,21 +41,32 @@ import {
 })
 export class PlaylistTracksComponent implements OnInit {
   private readonly dialogService = inject(DialogService);
+  private readonly route = inject(ActivatedRoute);
 
-  @Input() playlistID!: string;
-  @Input() tracks!: SpotifyApi.PlaylistTrackObject[];
-  @Input() offset!: number;
-  @Input() totalLength!: number;
-  @Output() trackSelected = new EventEmitter<number>();
-  @Output() selectedSearchOffset = new EventEmitter<number>();
-  selectedTrackID?: string;
-  hoveredTrack?: SpotifyApi.TrackObjectFull;
-  dialogRef: DynamicDialogRef<PlaylistTrackSearchComponent> | null = null;
-  searchSelectionInterval?: NodeJS.Timeout;
+  @Input() private readonly playlistID!: string;
+  @Input() private readonly tracks!: SpotifyApi.PlaylistTrackObject[];
+  @Input() private readonly offset!: number;
+  @Input() private readonly totalLength!: number;
+  @Output() private readonly trackSelected = new EventEmitter<number>();
+  @Output() private readonly selectedSearchOffset = new EventEmitter<number>();
+  private selectedTrackID?: string;
+  private hoveredTrack?: SpotifyApi.TrackObjectFull;
+  private dialogRef: DynamicDialogRef<PlaylistTrackSearchComponent> | null =
+    null;
+  private searchSelectionInterval?: NodeJS.Timeout;
 
   ngOnInit() {
-    this.dialogService.open(PlaylistComponent, {
+    this.route.params.subscribe((params) => {
+      const id = params['id'];
+      this.selectedPlaylist = playlists.items.find((playlist) => {
+        return playlist.id === id;
+      }) as SpotifyApi.PlaylistObjectSimplified;
+    });
+    const ref = this.dialogService.open(PlaylistComponent, {
       width: '90vw',
+    })!;
+    ref.onClose.subscribe((playlistID: string) => {
+      console.log('You selected playlist: ', playlistID);
     });
   }
 

@@ -45,11 +45,11 @@ import { AuthService } from '../../../services/auth/auth.service';
   templateUrl: `./local-tracks.component.html`,
 })
 export class LocalTracksComponent implements OnInit, AfterViewInit {
-  private authService = inject(AuthService);
-  private cdr = inject(ChangeDetectorRef);
+  private readonly authService = inject(AuthService);
+  private readonly cdr = inject(ChangeDetectorRef);
   private readonly dialogService = inject(DialogService);
-  private messageService = inject(MessageService);
-  private route = inject(ActivatedRoute);
+  private readonly messageService = inject(MessageService);
+  private readonly route = inject(ActivatedRoute);
 
   sessionExp = false;
   spotify = new SpotifyWebApi();
